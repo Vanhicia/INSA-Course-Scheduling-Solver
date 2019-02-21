@@ -1,0 +1,28 @@
+Mini projet
+
+10 semaines (numérotées de 1 à 10),
+2 groupe d'élèves,
+2 salles de classes,
+1 salles info,
+avec 20 créneaux par semaines,
+5 cours:
+cours 1: 40 creneaux, maths
+cours 2: 60 créneaux, info, uniquement sur salle info
+ (les cours d'infos sont 30 cours individuels et 15 TP de 2 séances à la suite)
+cours 3: 10 créneaux, chimie
+cours 4: 20 créneaux, anglais
+cours 5: 10 créneaux,  ppi
+
+au départ, pour se faciliter la tache:
+_les créneaux sont tous indépendants, pas de TP avec 2 créneaux à la suite,
+
+implementer les contraintes une à unes:
+
+_pas plus de 17 créneaux par semaines,
+
+_implementer les TP avec 2 créneaux à la suite
+
+_implementer les salles
+
+
+
