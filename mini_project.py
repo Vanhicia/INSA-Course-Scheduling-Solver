@@ -20,17 +20,22 @@ def mini_project():
     #Definition of variables : courses
 
     course_1 = VarArray(40,weeks)  # Maths
-    course_2 = VarArray(60,weeks)  # CS, in cs_rooms
+    course_2 = VarArray(30,weeks)  # CS, in cs_rooms
     course_3 = VarArray(10,weeks)  # Chemistry
     course_4 = VarArray(20,weeks)  # English
     course_5 = VarArray(10,weeks)  # ppi
+    pw_1 = VarArray(30,weeks)  # computer science practical works
 
-    course_list = [course_1, course_2, course_3, course_4, course_5]
-
+    course_list = [course_1, course_2, course_3, course_4, course_5, pw_1]
     #Definition of constraints
     model = Model()
     for i in range(10): #Constraint on number of courses in a week : slots
         model += card_sum(course_list,i) <= slots
+        model += Cardinality(course_list[5], i) <= 6  #Constraint on number of (the same) pw in a week : 3 * 2 hours
+        #load_balancing = card_sum(course_list,i)
+    for j in range (0, 30, 2):
+        model += course_list[5][j] == course_list[5][j+1]
+
 
 
     #Solver parameters
