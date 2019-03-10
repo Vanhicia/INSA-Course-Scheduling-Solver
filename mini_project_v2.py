@@ -25,6 +25,8 @@ def get_model (N):
         # Courses
         [Sum(row) == hours[0] for (row, hours) in zip(planning_course.row, course_list)],
         [Sum(col) < slots for col in planning_course.col],
+
+        # TP
         [Sum(j > 1 for j in row) >= hours[1] for (row, hours) in zip(planning_course.row, course_list)],
 
         # Labs
