@@ -33,6 +33,8 @@ def mini_project():
 
     course_list = [course_1, course_2, course_3, course_4, course_5]
     lab_list =[lab_1]
+
+
     #Definition of constraints
     model = Model()
     for i in range(weeks): #Constraint on number of courses in a week : slots
@@ -41,12 +43,9 @@ def mini_project():
         model += card_sum_lab(lab_list, i) <= (slots//2)
 
 
-
-
     #Solver parameters
     solver = model.load("Mistral2")
     solver.setVerbosity(0)
-
     #Solve and print
     solver.solve()
     print("Solved")
@@ -66,10 +65,9 @@ def mini_project():
     print()
 
     print("number of courses/week :")
-    print()
     sol = solver.get_solution()
     print(dict(sorted(Counter(sol).items())))
-
+    print()
 if __name__ == '__main__':
     #param = input(default)
     #print(solve(param))
