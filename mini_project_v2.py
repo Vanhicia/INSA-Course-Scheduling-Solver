@@ -6,19 +6,19 @@ def get_model (N):
     number_of_weeks = N
     limit_hours_course = 5  # leveling factor
 
-    #  Format : [Total hours, Number of labs (TP) ]
+    #  Format : [Total hours, Number of Experiments]
     course_1 = [40, 5]  # Maths
     course_2 = [30, 1]  # CS, in cs_rooms
     course_3 = [10, 5]  # Chemistry
     course_4 = [20, 0]  # English
     course_5 = [10, 0]  # ppi
-    lab_1 = 15  # CS labs
+    experiment_1 = 15  # CS classroom experiments
 
     course_list = [course_1, course_2, course_3, course_4, course_5]
-    lab_list = [lab_1]
+    experiment_list = [experiment_1]
 
     planning_course = Matrix(len(course_list), number_of_weeks, 0, limit_hours_course)
-    planning_labs = Matrix(len(lab_list), number_of_weeks, 1, limit_hours_course)
+    planning_experiments = Matrix(len(experiment_list), number_of_weeks, 1, limit_hours_course)
 
     model = Model(
 
@@ -29,16 +29,16 @@ def get_model (N):
         # TP
         [Sum(j > 1 for j in row) >= hours[1] for (row, hours) in zip(planning_course.row, course_list)],
 
-        # Labs
-        [Sum(row) == hours for (row, hours) in zip(planning_labs.row, lab_list)],
-        [Sum(col) < slots // 2 for col in planning_labs.col]
+        # experiments
+        [Sum(row) == hours for (row, hours) in zip(planning_experiments.row, experiment_list)],
+        [Sum(col) < slots // 2 for col in planning_experiments.col]
     )
 
-    return planning_course, planning_labs, model
+    return planning_course, planning_experiments, model
 
 
 def solve(param):
-    planning_course, planning_labs, model = get_model(param['N'])
+    planning_course, planning_experiments, model = get_model(param['N'])
     solver = model.load(param['solver'])
     solver.setVerbosity(param['verbose'])
     solver.setHeuristic(param['var'], param['val'], param['rand'])
@@ -52,7 +52,7 @@ def solve(param):
     out = ''
     if solver.is_sat():
         out = '\nCourses: \n' + str(planning_course)
-        out += '\n\nLabs: \n' + str(planning_labs)
+        out += '\n\nClassroom Experiments: \n' + str(planning_experiments)
     out += ('\n\nNodes: ' + str(solver.getNodes()))
     return out
 
