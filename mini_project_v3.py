@@ -35,8 +35,6 @@ def get_model (N):
     planning_tutorials = Matrix(len(tutorial_list), number_of_weeks, 0, limit_hours_course)
     planning_experiments = Matrix(len(experiment_list), number_of_weeks, 0, limit_hours_course)
 
-    total_week_group = VarArray(number_of_weeks)
-
     model = Model(
         # Lectures
         # On the matrix, each row represents a lecture, and each column represent a week.
@@ -52,6 +50,7 @@ def get_model (N):
 
         # Sum of hours per week
         [(Sum(lect) + Sum(exp)*2 + Sum(tuto)) < slots for (lect, exp, tuto) in zip(planning_lectures.col, planning_experiments.col, planning_tutorials.col)],
+
     )
 
     return planning_lectures, planning_experiments, planning_tutorials, model
@@ -74,8 +73,15 @@ def solve(param):
         out = '\nLectures: \n' + str(planning_lectures)
         out += '\n\nClassroom Experiments: \n' + str(planning_experiments)
         out += '\n\nTutorials: \n' + str(planning_tutorials)
-        # out += '\n\nTotal for each group: \n' + str(total_week_group)
-    out += ('\n\nNodes: ' + str(solver.getNodes()))
+
+        total_week_group = [(sum(lect) + sum(exp) * 2 + sum(tuto)) for (lect, exp, tuto) in zip(Solution(planning_lectures.col), Solution(planning_experiments.col), Solution(planning_tutorials.col))]
+        # total_week_group = [0,0,0,0,0,0,0,0,0,0]
+        # for i in range(len(planning_lectures.col)):
+        #     for j in range(len(planning_lectures.row)):
+        #         total_week_group[i] += (planning_lectures[j][i].get_value())
+
+        out += ('\n\nTotal for each group: \n' + str(total_week_group))
+        out += ('\n\nNodes: ' + str(solver.getNodes()))
     return out
 
 
