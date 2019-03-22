@@ -8,7 +8,7 @@ def get_model (N):
 
     # Format : {name:bla, lecture : 0, tutorial:0, experiment:0}
     course_1 = {'name': 'math', 'lecture': 40, 'tutorial':0, 'experiment': 0}
-    course_2 = {'name': 'Computer Science', 'lecture': 30, 'tutorial':0, 'experiment': 15}
+    course_2 = {'name': 'Computer Science', 'lecture': 30, 'tutorial': 10, 'experiment': 15}
     course_3 = {'name': 'Chemistry', 'lecture': 10, 'tutorial':0, 'experiment': 0}
     course_4 = {'name': 'English', 'lecture': 20, 'tutorial':0, 'experiment': 0}
     course_5 = {'name': 'PPI', 'lecture': 10, 'tutorial':0, 'experiment': 0}
@@ -18,40 +18,47 @@ def get_model (N):
     tutorial_list = []
     experiment_list = []
 
-    for course in course_list:
-        if course['lecture']>0:
-            lecture_list += [[course['name'],course['lecture']]]
-        if course['tutorial'] > 0:
-            tutorial_list += [[course['name'],course['tutorial']]]
-        if course['experiment'] > 0:
-            experiment_list += [[course['name'],course['experiment']]]
+    group_1 = {'name': '4IR-A'}
+    group_2 = {'name': '4IR-B'}
+    group_3 = {'name': '4IR-C'}
+    group_list = [group_1, group_2, group_3]
 
-    planning_lecture = Matrix(len(lecture_list), number_of_weeks, 0, limit_hours_course)
-    planning_tutorial = Matrix(len(tutorial_list), number_of_weeks, 0, limit_hours_course)
+    for course in course_list:
+        if course['lecture'] > 0:
+            lecture_list += [[course['name'], course['lecture']]]
+        if course['tutorial'] > 0:
+            tutorial_list += [[course['name'], course['tutorial']]]
+        if course['experiment'] > 0:
+            experiment_list += [[course['name'], course['experiment']]]
+
+    planning_lectures = Matrix(len(lecture_list), number_of_weeks, 0, limit_hours_course)
+    planning_tutorials = Matrix(len(tutorial_list), number_of_weeks, 0, limit_hours_course)
     planning_experiments = Matrix(len(experiment_list), number_of_weeks, 0, limit_hours_course)
 
+    total_week_group = VarArray(number_of_weeks)
 
     model = Model(
-
-        # Courses
-        # On the matrix, each row represents a course, and each column represent a week.
-        # We then want the sum of a row to be equal to the corresponding course's total hours
+        # Lectures
+        # On the matrix, each row represents a lecture, and each column represent a week.
+        # We then want the sum of a row to be equal to the corresponding lecture total hours,
         # and the sum of a column to be less than the max hours of class per week
-        [Sum(row) == hours[1] for (row, hours) in zip(planning_lecture.row, lecture_list)],
-
+        [Sum(row) == hours[1] for (row, hours) in zip(planning_lectures.row, lecture_list)],
 
         # experiments
         [Sum(row) == hours[1] for (row, hours) in zip(planning_experiments.row, experiment_list)],
 
+        # tutorials
+        [Sum(row) == hours[1] for (row, hours) in zip(planning_tutorials.row, tutorial_list)],
 
-        # Sum of hours
-        [(Sum(cou) + Sum(exp)*2) < slots for (cou,exp) in zip(planning_lecture.col,planning_experiments.col)]
+        # Sum of hours per week
+        [(Sum(lect) + Sum(exp)*2 + Sum(tuto)) < slots for (lect, exp, tuto) in zip(planning_lectures.col, planning_experiments.col, planning_tutorials.col)],
     )
-    return planning_lecture, planning_experiments, model
+
+    return planning_lectures, planning_experiments, planning_tutorials, model
 
 
 def solve(param):
-    planning_lecture, planning_experiments, model = get_model(param['N'])
+    planning_lectures, planning_experiments, planning_tutorials, model = get_model(param['N'])
     solver = model.load(param['solver'])
     solver.setVerbosity(param['verbose'])
     solver.setHeuristic(param['var'], param['val'], param['rand'])
@@ -64,8 +71,10 @@ def solve(param):
 
     out = ''
     if solver.is_sat():
-        out = '\nCourses: \n' + str(planning_lecture)
+        out = '\nLectures: \n' + str(planning_lectures)
         out += '\n\nClassroom Experiments: \n' + str(planning_experiments)
+        out += '\n\nTutorials: \n' + str(planning_tutorials)
+        # out += '\n\nTotal for each group: \n' + str(total_week_group)
     out += ('\n\nNodes: ' + str(solver.getNodes()))
     return out
 
