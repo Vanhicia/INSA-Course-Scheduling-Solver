@@ -58,12 +58,16 @@ def get_model(N):
     # Teachers
     # They are represented by the list of the courses which they teach
     # Format [{course:course_n , lecture_gp_nb: 0, tutorial_gp_nb: 0, experiment_gp_nb: 0},...]
-    teacher1 = [{'course': course_1, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]
-    teacher2 = [{'course': course_2, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 0}]
-    teacher3 = [{'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 2},
-                {'course': course_3, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]
-    teacher_list = [teacher1, teacher2, teacher3]
-    teacher_max_hours = 15  # maximum slot number for a teacher per week
+    teacher_1 = [{'course': course_1, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0},
+                {'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 1}]
+    teacher_2 = [{'course': course_2, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 0}]
+    teacher_3 = [{'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 2}]
+    teacher_4 = [{'course': course_3, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]
+    teacher_5 = [{'course': course_4, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]
+    teacher_6 = [{'course': course_5, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]
+
+    teacher_list = [teacher_1, teacher_2, teacher_3, teacher_4, teacher_5, teacher_6]
+    teacher_max_hours = 12  # maximum slot number for a teacher per week
 
     for course in course_list:
         if course['lecture'] > 0:
@@ -84,15 +88,15 @@ def get_model(N):
         # and the sum of a column to be less than the max hours of class per week
         [Sum(row) == hours[1] for (row, hours) in zip(planning_lectures.row, lecture_list)],
 
-        # experiments
-        [Sum(row) == hours[1] for (row, hours) in zip(planning_experiments.row, experiment_list)],
-
         # tutorials
         [Sum(row) == hours[1] for (row, hours) in zip(planning_tutorials.row, tutorial_list)],
 
+        # experiments
+        [Sum(row) == hours[1] for (row, hours) in zip(planning_experiments.row, experiment_list)],
+
         # Sum of hours per week
-        [(Sum(lect) + Sum(exp)*2 + Sum(tuto)) < slots for (lect, exp, tuto)
-            in zip(planning_lectures.col, planning_experiments.col, planning_tutorials.col)],
+        [(Sum(lect) + Sum(tuto) + Sum(exp)*2) < slots for (lect, tuto, exp)
+            in zip(planning_lectures.col, planning_tutorials.col, planning_experiments.col)],
 
     )
 
@@ -132,8 +136,8 @@ def solve(param):
     out = ''
     if solver.is_sat():
         out = '\nLectures: \n' + str(planning_lectures)
-        out += '\n\nClassroom Experiments: \n' + str(planning_experiments)
         out += '\n\nTutorials: \n' + str(planning_tutorials)
+        out += '\n\nClassroom Experiments: \n' + str(planning_experiments)
 
         total_week_group = [(sum(lect) + sum(exp) * 2 + sum(tuto)) for (lect, exp, tuto) in zip(Solution(planning_lectures.col), Solution(planning_experiments.col), Solution(planning_tutorials.col))]
         # total_week_group = [0,0,0,0,0,0,0,0,0,0]
@@ -143,6 +147,10 @@ def solve(param):
 
         out += ('\n\nTotal for each group: \n' + str(total_week_group))
         out += ('\n\nNodes: ' + str(solver.getNodes()))
+
+    else:
+        print("No solution has been found !")
+
     return out
 
 
