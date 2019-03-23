@@ -8,7 +8,7 @@ def find_index_lesson_list(lesson_list, course):
     for lesson in lesson_list:
         if lesson[0] == course['name']:
             return k
-        k = k+1
+        k += 1
 
 
 # parameters: teacher, 'lecture'/'tutorial'/'experiment', course list
@@ -148,11 +148,11 @@ def get_model(N):
                               planning_experiments)
     model += (hours <= max_hours)
 
-    return planning_lectures, planning_experiments, planning_tutorials, model
+    return planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, model
 
 
 def solve(param):
-    planning_lectures, planning_experiments, planning_tutorials, model = get_model(param['N'])
+    planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, model = get_model(param['N'])
     solver = model.load(param['solver'])
     solver.setVerbosity(param['verbose'])
     solver.setHeuristic(param['var'], param['val'], param['rand'])
@@ -178,8 +178,17 @@ def solve(param):
         out += ('\n\nTotal for each group: \n' + str(total_week_group))
         out += ('\n\nNodes: ' + str(solver.getNodes()))
 
+        # print teachers' hours
+        for teacher_index in range(len(index_teacher_list)):
+            out += ('\n\nTeacher ' + str(teacher_index+1) + ': \n')
+            total_teacher_hours = []
+            for week in range(len(planning_lectures.col)):
+                hours = get_teacher_hours(teacher_index, index_teacher_list, week, Solution(planning_lectures),
+                                          Solution(planning_tutorials), Solution(planning_experiments))
+                total_teacher_hours.append(hours)
+            out += str(total_teacher_hours)
     else:
-        print("No solution has been found !")
+        out = "No solution has been found !"
 
     return out
 
