@@ -33,10 +33,27 @@ def list_index_lesson(teacher, lesson_type, lesson_list):
     return index_list
 
 
+# get teacher hours for a specific week
+def get_teacher_hours(teacher_index, index_teacher_list, week, planning_lectures, planning_tutorials, planning_experiments):
+    hours = 0
+    teacher = index_teacher_list[teacher_index]
+
+    for lecture in teacher['index_lecture_list']:
+        hours += lecture['gp_nb'] * planning_lectures[lecture['index']][week]
+    for tutorial in teacher['index_tutorial_list']:
+        hours += tutorial['gp_nb'] * planning_tutorials[tutorial['index']][week]
+    for experiment in teacher['index_experiment_list']:
+        hours += experiment['gp_nb'] * 2 * planning_experiments[experiment['index']][week]
+
+    return hours
+
+
 def get_model(N):
     slots = 17  # Max number of hours per week
     number_of_weeks = N
     limit_hours_course = 5  # leveling factor
+
+    # Courses #
 
     # Format : {name:bla, lecture : 0, tutorial:0, experiment:0}
     course_1 = {'name': 'math', 'lecture': 40, 'tutorial': 0, 'experiment': 0}
@@ -50,12 +67,27 @@ def get_model(N):
     tutorial_list = []
     experiment_list = []
 
+    for course in course_list:
+        if course['lecture'] > 0:
+            lecture_list += [[course['name'], course['lecture']]]
+        if course['tutorial'] > 0:
+            tutorial_list += [[course['name'], course['tutorial']]]
+        if course['experiment'] > 0:
+            experiment_list += [[course['name'], course['experiment']]]
+
+    planning_lectures = Matrix(len(lecture_list), number_of_weeks, 0, limit_hours_course)
+    planning_tutorials = Matrix(len(tutorial_list), number_of_weeks, 0, limit_hours_course)
+    planning_experiments = Matrix(len(experiment_list), number_of_weeks, 0, limit_hours_course)
+
+    # Groups #
+
     group_1 = {'name': '4IR-A'}
     group_2 = {'name': '4IR-B'}
     group_3 = {'name': '4IR-C'}
     group_list = [group_1, group_2, group_3]
 
-    # Teachers
+    # Teachers #
+
     # They are represented by the list of the courses which they teach
     # Format [{course:course_n , lecture_gp_nb: 0, tutorial_gp_nb: 0, experiment_gp_nb: 0},...]
     teacher_1 = [{'course': course_1, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0},
@@ -69,17 +101,11 @@ def get_model(N):
     teacher_list = [teacher_1, teacher_2, teacher_3, teacher_4, teacher_5, teacher_6]
     teacher_max_hours = 12  # maximum slot number for a teacher per week
 
-    for course in course_list:
-        if course['lecture'] > 0:
-            lecture_list += [[course['name'], course['lecture']]]
-        if course['tutorial'] > 0:
-            tutorial_list += [[course['name'], course['tutorial']]]
-        if course['experiment'] > 0:
-            experiment_list += [[course['name'], course['experiment']]]
-
-    planning_lectures = Matrix(len(lecture_list), number_of_weeks, 0, limit_hours_course)
-    planning_tutorials = Matrix(len(tutorial_list), number_of_weeks, 0, limit_hours_course)
-    planning_experiments = Matrix(len(experiment_list), number_of_weeks, 0, limit_hours_course)
+    index_teacher_list = []
+    for teacher in teacher_list:
+        index_teacher_list.append({'index_lecture_list': list_index_lesson(teacher, 'lecture', lecture_list),
+                                  'index_tutorial_list': list_index_lesson(teacher, 'tutorial', tutorial_list),
+                                   'index_experiment_list': list_index_lesson(teacher, 'experiment', experiment_list)})
 
     model = Model(
         # Lectures
@@ -101,22 +127,26 @@ def get_model(N):
     )
 
     # add teacher constraints
-    for teacher in teacher_list:
-
-        index_lecture_list = list_index_lesson(teacher, 'lecture', lecture_list)
-        index_tutorial_list = list_index_lesson(teacher, 'tutorial', tutorial_list)
-        index_experiment_list = list_index_lesson(teacher, 'experiment', experiment_list)
-
+    for teacher_index in range(len(teacher_list)):
         for week in range(number_of_weeks):
-            hours = 0
-            for lecture in index_lecture_list:
-                hours += lecture['gp_nb'] * planning_lectures[lecture['index']][week]
-            for tutorial in index_tutorial_list:
-                hours += tutorial['gp_nb'] * planning_tutorials[tutorial['index']][week]
-            for experiment in index_experiment_list:
-                hours += experiment['gp_nb'] * 2 * planning_experiments[experiment['index']][week]
-
+            hours = get_teacher_hours(teacher_index, index_teacher_list, week, planning_lectures, planning_tutorials, planning_experiments)
             model += (hours <= teacher_max_hours)
+
+    # add specific teacher constraints
+
+    # teacher_1 is not available the first week
+    teacher_index = teacher_list.index(teacher_1)
+    max_hours = 0
+    hours = get_teacher_hours(teacher_index, index_teacher_list, 0, planning_lectures, planning_tutorials,
+                              planning_experiments)
+    model += (hours <= max_hours)
+
+    # teacher_6 is not available the fourth week
+    teacher_index = teacher_list.index(teacher_6)
+    max_hours = 0
+    hours = get_teacher_hours(teacher_index, index_teacher_list, 3, planning_lectures, planning_tutorials,
+                              planning_experiments)
+    model += (hours <= max_hours)
 
     return planning_lectures, planning_experiments, planning_tutorials, model
 
