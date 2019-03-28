@@ -50,21 +50,11 @@ def get_teacher_hours(teacher_index, index_teacher_list, week, planning_lectures
     return hours
 
 
-def list_index_lesson_group(group, lesson_type, lesson_list):
+def list_index_lesson_group(group, lesson_list):
     index_list = []
 
-    if lesson_type == 'lecture':
-        type_gp_nb = 'lecture_gp_nb'
-    elif lesson_type == 'tutorial':
-        type_gp_nb = 'tutorial_gp_nb'
-    elif lesson_type == 'experiment':
-        type_gp_nb = 'experiment_gp_nb'
-    else:
-        raise ValueError("'lesson_type' can only be either 'lecture','tutorial' or 'experiment'")
-
     for course in group:
-        index_list.append({'index': find_index_lesson_list(lesson_list, course['course']),
-                           'gp_nb': type_gp_nb})
+        index_list.append({'index': find_index_lesson_list(lesson_list, course['course'])})
 
     return index_list
 
@@ -75,11 +65,11 @@ def get_group_hours(group_index, index_group_list, week, planning_lectures, plan
     group = index_group_list[group_index]
 
     for lecture in group['index_lecture_list']:
-        hours += lecture['gp_nb'] * planning_lectures[lecture['index']][week]
+        hours += planning_lectures[lecture['index']][week]
     for tutorial in group['index_tutorial_list']:
-        hours += tutorial['gp_nb'] * planning_tutorials[tutorial['index']][week]
+        hours += planning_tutorials[tutorial['index']][week]
     for experiment in group['index_experiment_list']:
-        hours += experiment['gp_nb'] * 2 * planning_experiments[experiment['index']][week]
+        hours += 2 * planning_experiments[experiment['index']][week]
 
     return hours
 
@@ -124,10 +114,9 @@ def get_model(N):
 
     index_group_list = []
     for group in group_list:
-        index_group_list.append({'index_lecture_list': list_index_lesson_group(group, 'lecture', lecture_list),
-                                 'index_tutorial_list': list_index_lesson_group(group, 'tutorial', tutorial_list),
-                                 'index_experiment_list': list_index_lesson_group(group, 'experiment', experiment_list)}
-                                )
+        index_group_list.append({'index_lecture_list': list_index_lesson_group(group, lecture_list),
+                                 'index_tutorial_list': list_index_lesson_group(group, tutorial_list),
+                                 'index_experiment_list': list_index_lesson_group(group, experiment_list)})
 
     # Teachers #
 
@@ -164,7 +153,7 @@ def get_model(N):
         [Sum(row) == hours[1] for (row, hours) in zip(planning_experiments.row, experiment_list)],
 
         # Sum of hours per week
-        [(Sum(lect) + Sum(tuto) + Sum(exp)*2) <= slots for (lect, tuto, exp)
+        [(Sum(lect) + Sum(tuto) + Sum(exp)*2) < slots for (lect, tuto, exp)
             in zip(planning_lectures.col, planning_tutorials.col, planning_experiments.col)],
 
     )
@@ -198,11 +187,11 @@ def get_model(N):
                               planning_experiments)
     model += (hours <= max_hours)
 
-    return planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, model
+    return planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, index_group_list, model
 
 
 def solve(param):
-    planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, model = get_model(param['N'])
+    planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, index_group_list, model = get_model(param['N'])
     solver = model.load(param['solver'])
     solver.setVerbosity(param['verbose'])
     solver.setHeuristic(param['var'], param['val'], param['rand'])
@@ -237,6 +226,15 @@ def solve(param):
                                           Solution(planning_tutorials), Solution(planning_experiments))
                 total_teacher_hours.append(hours)
             out += str(total_teacher_hours)
+
+        for group_index in range(len(index_group_list)):
+            out += ('\n\nGroup ' + str(group_index+1) + ': \n')
+            total_group_hours = []
+            for week in range(len(planning_lectures.col)):
+                hours = get_group_hours(group_index, index_group_list, week, Solution(planning_lectures), Solution(planning_tutorials),
+                                Solution(planning_experiments))
+                total_group_hours.append(hours)
+            out += str(total_group_hours)
     else:
         out = "No solution has been found !"
 
