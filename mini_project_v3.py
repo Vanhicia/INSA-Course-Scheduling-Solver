@@ -12,7 +12,7 @@ def find_index_lesson_list(lesson_list, course):
 
 
 # parameters: teacher, 'lecture'/'tutorial'/'experiment', course list
-# return the index list
+# return the index list of ?
 def list_index_lesson(teacher, lesson_type, lesson_list):
     index_list = []
 
@@ -34,7 +34,9 @@ def list_index_lesson(teacher, lesson_type, lesson_list):
 
 
 # get teacher hours for a specific week
-def get_teacher_hours(teacher_index, index_teacher_list, week, planning_lectures, planning_tutorials, planning_experiments):
+# Format : get_teacher_hours( teacher id, list of teachers by id, week, plannings * 3 )
+def get_teacher_hours(teacher_index, index_teacher_list, week, planning_lectures, planning_tutorials,
+                      planning_experiments):
     hours = 0
     teacher = index_teacher_list[teacher_index]
 
@@ -43,6 +45,40 @@ def get_teacher_hours(teacher_index, index_teacher_list, week, planning_lectures
     for tutorial in teacher['index_tutorial_list']:
         hours += tutorial['gp_nb'] * planning_tutorials[tutorial['index']][week]
     for experiment in teacher['index_experiment_list']:
+        hours += experiment['gp_nb'] * 2 * planning_experiments[experiment['index']][week]
+
+    return hours
+
+
+def list_index_lesson_group(group, lesson_type, lesson_list):
+    index_list = []
+
+    if lesson_type == 'lecture':
+        type_gp_nb = 'lecture_gp_nb'
+    elif lesson_type == 'tutorial':
+        type_gp_nb = 'tutorial_gp_nb'
+    elif lesson_type == 'experiment':
+        type_gp_nb = 'experiment_gp_nb'
+    else:
+        raise ValueError("'lesson_type' can only be either 'lecture','tutorial' or 'experiment'")
+
+    for course in group:
+        index_list.append({'index': find_index_lesson_list(lesson_list, course['course']),
+                           'gp_nb': type_gp_nb})
+
+    return index_list
+
+
+def get_group_hours(group_index, index_group_list, week, planning_lectures, planning_tutorials,
+                    planning_experiments):
+    hours = 0
+    group = index_group_list[group_index]
+
+    for lecture in group['index_lecture_list']:
+        hours += lecture['gp_nb'] * planning_lectures[lecture['index']][week]
+    for tutorial in group['index_tutorial_list']:
+        hours += tutorial['gp_nb'] * planning_tutorials[tutorial['index']][week]
+    for experiment in group['index_experiment_list']:
         hours += experiment['gp_nb'] * 2 * planning_experiments[experiment['index']][week]
 
     return hours
@@ -81,10 +117,17 @@ def get_model(N):
 
     # Groups #
 
-    group_1 = {'name': '4IR-A'}
-    group_2 = {'name': '4IR-B'}
-    group_3 = {'name': '4IR-C'}
+    group_1 = [{'course': course_1}, {'course': course_2}]
+    group_2 = [{'course': course_2}, {'course': course_3}]
+    group_3 = [{'course': course_4}, {'course': course_5}]
     group_list = [group_1, group_2, group_3]
+
+    index_group_list = []
+    for group in group_list:
+        index_group_list.append({'index_lecture_list': list_index_lesson_group(group, 'lecture', lecture_list),
+                                 'index_tutorial_list': list_index_lesson_group(group, 'tutorial', tutorial_list),
+                                 'index_experiment_list': list_index_lesson_group(group, 'experiment', experiment_list)}
+                                )
 
     # Teachers #
 
@@ -121,18 +164,25 @@ def get_model(N):
         [Sum(row) == hours[1] for (row, hours) in zip(planning_experiments.row, experiment_list)],
 
         # Sum of hours per week
-        [(Sum(lect) + Sum(tuto) + Sum(exp)*2) < slots for (lect, tuto, exp)
+        [(Sum(lect) + Sum(tuto) + Sum(exp)*2) <= slots for (lect, tuto, exp)
             in zip(planning_lectures.col, planning_tutorials.col, planning_experiments.col)],
 
     )
 
-    # add teacher constraints
+    # group constraints
+
+    for group_index in range(len(group_list)):
+        for week in range(number_of_weeks):
+            hours = get_group_hours(group_index, index_group_list, week, planning_lectures, planning_tutorials, planning_experiments)
+            model += (hours <= slots)
+
+    # teacher constraints
     for teacher_index in range(len(teacher_list)):
         for week in range(number_of_weeks):
             hours = get_teacher_hours(teacher_index, index_teacher_list, week, planning_lectures, planning_tutorials, planning_experiments)
             model += (hours <= teacher_max_hours)
 
-    # add specific teacher constraints
+    # specific teacher constraints
 
     # teacher_1 is not available the first week
     teacher_index = teacher_list.index(teacher_1)
