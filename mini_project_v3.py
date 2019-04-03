@@ -50,11 +50,11 @@ def get_teacher_hours(teacher_index, index_teacher_list, week, planning_lectures
     return hours
 
 
-def list_index_lesson_group(group, lesson_list):
+def list_index_lesson_group(group, lesson_type, lesson_list):
     index_list = []
-
     for course in group:
-        index_list.append({'index': find_index_lesson_list(lesson_list, course['course'])})
+        if course[lesson_type] > 0:
+            index_list.append({'index': find_index_lesson_list(lesson_list, course['course']), 'number_of': course[lesson_type]})
 
     return index_list
 
@@ -65,11 +65,11 @@ def get_group_hours(group_index, index_group_list, week, planning_lectures, plan
     group = index_group_list[group_index]
 
     for lecture in group['index_lecture_list']:
-        hours += planning_lectures[lecture['index']][week]
+        hours += lecture['number_of'] * planning_lectures[lecture['index']][week]
     for tutorial in group['index_tutorial_list']:
-        hours += planning_tutorials[tutorial['index']][week]
+        hours += tutorial['number_of'] * planning_tutorials[tutorial['index']][week]
     for experiment in group['index_experiment_list']:
-        hours += 2 * planning_experiments[experiment['index']][week]
+        hours += experiment['number_of'] * 2 * planning_experiments[experiment['index']][week]
 
     return hours
 
@@ -114,9 +114,9 @@ def get_model(N):
 
     index_group_list = []
     for group in group_list:
-        index_group_list.append({'index_lecture_list': list_index_lesson_group(group, lecture_list),
-                                 'index_tutorial_list': list_index_lesson_group(group, tutorial_list),
-                                 'index_experiment_list': list_index_lesson_group(group, experiment_list)})
+        index_group_list.append({'index_lecture_list': list_index_lesson_group(group, 'lecture', lecture_list),
+                                 'index_tutorial_list': list_index_lesson_group(group, 'tutorial', tutorial_list),
+                                 'index_experiment_list': list_index_lesson_group(group, 'experiment', experiment_list)})
 
     # Teachers #
 
