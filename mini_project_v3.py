@@ -52,9 +52,10 @@ def get_teacher_hours(teacher_index, index_teacher_list, week, planning_lectures
 
 def list_index_lesson_group(group, lesson_type, lesson_list):
     index_list = []
-    for course in group:
+    for course1 in group:
+        course = course1['course']
         if course[lesson_type] > 0:
-            index_list.append({'index': find_index_lesson_list(lesson_list, course['course']), 'number_of': course[lesson_type]})
+            index_list.append({'index': find_index_lesson_list(lesson_list, course), 'number_of': course[lesson_type]})
 
     return index_list
 
