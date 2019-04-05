@@ -2,19 +2,23 @@ import json
 # Format
 # Course : {'name':'Sexage de poussin', 'lecture' : 0, 'tutorial':0, 'experiment':0}
 # Teacher : 'name':'Michael Jackson', 'course_list':[{'course': course_1, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}, {'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 1}]}
-# Group : ?
+# Group : {'name':'Group1', 'course_list':[coure1,course2]}
 
 # Class : DataFileManager(filename)
 # Attributes : courses, teachers, groups, filename
-# Methods :   - load_file()                                                     ==> Load data from filename
-#             - store_file()                                                    ==> Store data to filename
+# Methods :   - load_file()                                ==> Load data from filename
+#             - store_file()                               ==> Store data to filename
 #             - get_data()
 #             - add_course(name, lect, tut, exp)
 #             - add_teacher(name)
 #             - add_teacher_course(name, course_name, nb_lect, nb_tut, nb_exp)
-#             - rem_course(course)
-#             - rem_teacher(teacher)
-#             - rem_teacher_course(teacher, course)
+#             - add_group(name)
+#             - add_group_course(group, course)
+#             - rem_course(course_name)
+#             - rem_teacher(teacher_name)
+#             - rem_teacher_course(teacher_name, course_name)
+#             - rem_group(group_name)
+#             - rem_group_course(group, course)
 
 
 # Function : test_json() ==> Store default data to test.json
@@ -24,7 +28,7 @@ class DataFileManager:
 
     courses = []
     teachers = []
-    groups = []     #NOT IMPLEMENTED
+    groups = []
 
     filename = ""
 
@@ -105,6 +109,12 @@ class DataFileManager:
                 if j['course'] == cs :
                     return "Teacher "+i['name']+" has the course "+name
 
+        # Check if the group exists
+        for grp in self.groups:
+            for crs in grp['course_list']:
+                if crs==cs:
+                    return "Group " + grp['name'] + " has the course "+name
+
         del self.courses[self.courses.index(cs)]
 
     def rem_teacher(self, name):
@@ -144,10 +154,95 @@ class DataFileManager:
             return "Course " + course + " does not exist"
 
         # Check the teacher already has this course
-        if not any(i['course'] == cs for i in elem['course_list']):
+        i=0
+        tea_cou ={}
+        for tc in elem["course_list"]:
+            if tc['course']==cs:
+                i=1
+                tea_cou=tc
+        if i == 0:
             return "Teacher " + teacher + " does not have " + course + " course"
 
-        del self.teachers[self.teachers.index(elem)]['course_list'][self.courses.index(cs)]
+        del self.teachers[self.teachers.index(elem)]['course_list'][elem['course_list'].index(tea_cou)]
+
+
+    def add_group(self, name):
+        if any(grp['name'].casefold() == name.casefold() for grp in self.groups):
+            return name + " already exists"
+
+        self.groups.append({'name':name,'course_list':[]})
+
+    def rem_group(self,name):
+        # Check if the group exists
+        i = 0
+        elem = {}
+        for grp in self.groups:
+            if grp['name'].casefold() == name.casefold():
+                i = 1
+                elem = grp
+
+        if i == 0:
+            return "Group " + name + " does not exist"
+
+        del self.groups[self.groups.index(elem)]
+
+    def add_group_course(self, group, course):
+        # Check if the group exists
+        i = 0
+        grp = {}
+        for gp in self.groups:
+            if gp['name'].casefold() == group.casefold():
+                i = 1
+                grp = gp
+
+        if i == 0:
+            return "Group " + group + " does not exist"
+
+        # Check if the course exists
+        i = 0
+        cs = {}
+        for cou in self.courses:
+            if cou['name'].casefold() == course.casefold():
+                i = 1
+                cs = cou
+        if i == 0:
+            return "Course " + course + " does not exists"
+
+        # Check the group already has this course
+        if any(i == cs for i in grp['course_list']):
+            return "Group " + group + " already has " + course + " course"
+
+        self.groups[self.groups.index(grp)]['course_list'].append(cs)
+
+
+    def rem_group_course(self, group, course):
+        # Check if the grou exists
+        i = 0
+        grp = {}
+        for gp in self.groups:
+            if gp['name'].casefold() == group.casefold():
+                i = 1
+                grp = gp
+
+        if i == 0:
+            return "Group " + group + " does not exist"
+
+        # Check if the course exists
+        i = 0
+        cs = {}
+        for cou in self.courses:
+            if cou['name'].casefold() == course.casefold():
+                i = 1
+                cs = cou
+        if i == 0:
+            return "Course " + course + " does not exist"
+
+        # Check the group already has this course
+        if not any(i == cs for i in grp['course_list']):
+            return "Group " + group + " does not have " + course + " course"
+
+        del self.groups[self.groups.index(grp)]['course_list'][grp['course_list'].index(cs)]
+
 
 def  test_json():
     course_1 = {'name': 'Math', 'lecture': 40, 'tutorial': 0, 'experiment': 0}
@@ -168,9 +263,9 @@ def  test_json():
 
     teacher_list = [teacher_1, teacher_2, teacher_3, teacher_4, teacher_5, teacher_6]
 
-    group_1 = {'name': '4IR-A'}
-    group_2 = {'name': '4IR-B'}
-    group_3 = {'name': '4IR-C'}
+    group_1 = {'name': '4IR-A', 'course_list':[course_1,course_2]}
+    group_2 = {'name': '4IR-B', 'course_list':[course_1,course_3,course_5]}
+    group_3 = {'name': '4IR-C', 'course_list':[course_3,course_5,course_4]}
     group_list = [group_1, group_2, group_3]
 
     jfile = [course_list,teacher_list,group_list]
