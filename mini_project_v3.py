@@ -52,8 +52,7 @@ def get_teacher_hours(teacher_index, index_teacher_list, week, planning_lectures
 
 def list_index_lesson_group(group, lesson_type, lesson_list):
     index_list = []
-    for course1 in group:
-        course = course1['course']
+    for course in group['course_list']:
         if course[lesson_type] > 0:
             index_list.append({'index': find_index_lesson_list(lesson_list, course), 'number_of': course[lesson_type]})
 
@@ -108,9 +107,9 @@ def get_model(N):
 
     # Groups #
 
-    group_1 = [{'course': course_1}, {'course': course_2}]
-    group_2 = [{'course': course_2}, {'course': course_3}]
-    group_3 = [{'course': course_4}, {'course': course_5}]
+    group_1 = {'name': "4IR-A", 'course_list': [course_1, course_2]}
+    group_2 = {'name': "4IR-A", 'course_list': [course_2, course_3]}
+    group_3 = {'name': "4IR-A", 'course_list': [course_4, course_5]}
     group_list = [group_1, group_2, group_3]
 
     index_group_list = []
@@ -164,6 +163,7 @@ def get_model(N):
     for group_index in range(len(group_list)):
         for week in range(number_of_weeks):
             hours = get_group_hours(group_index, index_group_list, week, planning_lectures, planning_tutorials, planning_experiments)
+            print(hours)
             model += (hours <= slots)
 
     # teacher constraints
