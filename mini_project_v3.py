@@ -65,11 +65,11 @@ def get_group_hours(group_index, index_group_list, week, planning_lectures, plan
     group = index_group_list[group_index]
 
     for lecture in group['index_lecture_list']:
-        hours += lecture['number_of'] * planning_lectures[lecture['index']][week]
+        hours += planning_lectures[lecture['index']][week]
     for tutorial in group['index_tutorial_list']:
-        hours += tutorial['number_of'] * planning_tutorials[tutorial['index']][week]
+        hours += planning_tutorials[tutorial['index']][week]
     for experiment in group['index_experiment_list']:
-        hours += experiment['number_of'] * 2 * planning_experiments[experiment['index']][week]
+        hours += 2 * planning_experiments[experiment['index']][week]
 
     return hours
 
@@ -163,8 +163,9 @@ def get_model(N):
     for group_index in range(len(group_list)):
         for week in range(number_of_weeks):
             hours = get_group_hours(group_index, index_group_list, week, planning_lectures, planning_tutorials, planning_experiments)
-            print(hours)
             model += (hours <= slots)
+
+    print('\n')
 
     # teacher constraints
     for teacher_index in range(len(teacher_list)):
