@@ -49,6 +49,11 @@ def get_teacher_hours(teacher_index, index_teacher_list, week, planning_lectures
 
     return hours
 
+def sum_row_1_to_n(planning,row,n):
+    Sum =0
+    for k in range(n):
+        Sum += sum(planning[row][k])
+    return Sum
 
 def list_index_lesson_group(group, lesson_type, lesson_list):
     index_list = []
@@ -182,6 +187,10 @@ def get_model(N):
                               planning_experiments)
     model += (hours <= max_hours)
 
+    # for course_2, tutorials can start only after 3 lectures at least
+    for i in range(number_of_weeks):
+        model += (planning_tutorials[0][i]<= sum_row_1_to_n(planning_lectures,1,i+1)*3)
+        
     # teacher_6 is not available the fourth week
     teacher_index = teacher_list.index(teacher_6)
     max_hours = 0
