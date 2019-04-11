@@ -15,7 +15,8 @@ def list_index_lesson(teacher, lesson_type, lesson_list):
     else:
         raise ValueError("'lesson_type' can only be either 'lecture','tutorial' or 'experiment'")
 
-    for course in teacher:
+    course_list = teacher['course_list']
+    for course in course_list:
         if course[type_gp_nb] > 0:
             index_list.append({'index': find_index_lesson_list(lesson_list, course['course']),
                                'gp_nb': course[type_gp_nb]})

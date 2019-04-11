@@ -62,14 +62,14 @@ def get_model(N):
     # Teachers #
 
     # Teachers are represented by the list of the courses which they teach
-    # Format [{course:course_n , lecture_gp_nb: 0, tutorial_gp_nb: 0, experiment_gp_nb: 0},...]
-    teacher_1 = [{'course': course_1, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0},
-                 {'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 1}]
-    teacher_2 = [{'course': course_2, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 0}]
-    teacher_3 = [{'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 2}]
-    teacher_4 = [{'course': course_3, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]
-    teacher_5 = [{'course': course_4, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]
-    teacher_6 = [{'course': course_5, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]
+    # Format: {'name':"Michel Dumont", 'course_list' : [{course:course_n , lecture_gp_nb: 0, tutorial_gp_nb: 0, experiment_gp_nb: 0},...]}
+    teacher_1 = {'name': "Michel Dumont", 'course_list': [{'course': course_1, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0},
+                 {'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 1}]}
+    teacher_2 = {'name': "Hélène Michou", 'course_list': [{'course': course_2, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 0}]}
+    teacher_3 = {'name': "Benoit Jardin", 'course_list': [{'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 2}]}
+    teacher_4 = {'name': "Kate Stuart", 'course_list': [{'course': course_3, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]}
+    teacher_5 = {'name': "Hervé Vieux", 'course_list': [{'course': course_4, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]}
+    teacher_6 = {'name': "Christiane Colin", 'course_list': [{'course': course_5, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]}
 
     teacher_list = [teacher_1, teacher_2, teacher_3, teacher_4, teacher_5, teacher_6]
     teacher_max_hours = 12  # maximum slot number for a teacher per week
