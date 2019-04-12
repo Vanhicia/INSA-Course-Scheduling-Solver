@@ -13,8 +13,7 @@ def sum_row_1_to_n(planning, row, n):
 def get_model(N):
     slots = 17  # Max number of hours per week
     number_of_weeks = N
-    number_of_rooms = 10
-    resource_per_room = 2
+    resource_per_room = 3
     limit_hours_course = 5  # leveling factor
 
     # Courses #
@@ -58,15 +57,14 @@ def get_model(N):
     for group in group_list:
         index_group_list.append({'index_lecture_list': list_index_lesson_group(group, 'lecture', lecture_list),
                                  'index_tutorial_list': list_index_lesson_group(group, 'tutorial', tutorial_list),
-                                 'index_experiment_list': list_index_lesson_group(group, 'experiment',
-                                                                                  experiment_list)})
+                                 'index_experiment_list': list_index_lesson_group(group, 'experiment', experiment_list)})
 
     # Teachers #
 
     # Teachers are represented by the list of the courses which they teach
     # Format: {'name':"Michel Dumont", 'course_list' : [{course:course_n , lecture_gp_nb: 0, tutorial_gp_nb: 0, experiment_gp_nb: 0},...]}
     teacher_1 = {'name': "Michel Dumont", 'course_list': [{'course': course_1, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0},
-                 {'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 1}]}
+                                                          {'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 1}]}
     teacher_2 = {'name': "Hélène Michou", 'course_list': [{'course': course_2, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 0}]}
     teacher_3 = {'name': "Benoit Jardin", 'course_list': [{'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 2}]}
     teacher_4 = {'name': "Kate Stuart", 'course_list': [{'course': course_3, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]}
@@ -82,6 +80,16 @@ def get_model(N):
                                    'index_tutorial_list': list_index_lesson(teacher, 'tutorial', tutorial_list),
                                    'index_experiment_list': list_index_lesson(teacher, 'experiment', experiment_list)})
 
+    # Rooms #
+    room_1 = {'name': "GEI 15", 'is_CS_room': False}
+    room_2 = {'name': "GEI 13", 'is_CS_room': False}
+    room_3 = {'name': "GEI 111", 'is_CS_room': True}
+    room_4 = {'name': "GEI 109", 'is_CS_room': True}
+    room_5 = {'name': "GEI 213", 'is_CS_room': False}
+
+    rooms_list = [room_1, room_2, room_3, room_4, room_5]
+
+
     # Model : add all the constraints #
 
     model = Model()
@@ -96,9 +104,9 @@ def get_model(N):
 
     for group_index in range(len(group_list)):
         for week in range(number_of_weeks):
-            hours = get_group_hours(group_index, index_group_list, week, planning_lectures, planning_tutorials,
+            hours_lectures, hours_tutorials, hours_experiments, hours_total = get_group_hours(group_index, index_group_list, week, planning_lectures, planning_tutorials,
                                     planning_experiments)
-            model += (hours <= slots)
+            model += (hours_total <= slots)
 
     # Teacher constraints #
 
@@ -124,11 +132,11 @@ def get_model(N):
                               planning_experiments)
     model += (hours <= max_hours)
 
-    return planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, index_group_list, number_of_rooms, resource_per_room, model
+    return planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, index_group_list, rooms_list, resource_per_room, model
 
 
 def solve(param):
-    planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, index_group_list, number_of_rooms, resource_per_room, model = get_model(param['N'])
+    planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, index_group_list, rooms_list, resource_per_room, model = get_model(param['N'])
     solver = model.load(param['solver'])
     solver.setVerbosity(param['verbose'])
     solver.setHeuristic(param['var'], param['val'], param['rand'])
@@ -147,20 +155,32 @@ def solve(param):
         out += '\n\nTutorials: \n' + str(planning_tutorials)
         out += '\n\nClassroom Experiments: \n' + str(planning_experiments)
 
-        out += ('\n\nNodes: ' + str(solver.getNodes()))
+        # out += ('\n\nNodes: ' + str(solver.getNodes()))
 
         total_hours_group_list =[]
         # print groups' hours
         for group_index in range(len(index_group_list)):
             out += ('\n\nGroup ' + str(group_index + 1) + ': \n')
-            total_group_hours = []
+            total_group_hours_lectures = []
+            total_group_hours_tutorials = []
+            total_group_hours_experiments = []
+            total_group_hours_total = []
             for week in range(len(planning_lectures.col)):
-                hours = get_group_hours(group_index, index_group_list, week, Solution(planning_lectures),
+                hours_lectures, hours_tutorials, hours_experiments, hours_total = get_group_hours(group_index, index_group_list, week, Solution(planning_lectures),
                                         Solution(planning_tutorials),
                                         Solution(planning_experiments))
-                total_group_hours.append(hours)
-            out += str(total_group_hours)
-            total_hours_group_list.append(total_group_hours)
+                total_group_hours_lectures.append(hours_lectures)
+                total_group_hours_tutorials.append(hours_tutorials)
+                total_group_hours_experiments.append(hours_experiments)
+                total_group_hours_total.append(hours_total)
+
+            out += "Lecture" + str(total_group_hours_lectures)
+            out += "\nTutorial" + str(total_group_hours_tutorials)
+            out += "\nExperiments" + str(total_group_hours_experiments)
+            out += "\n\nTotal" + str(total_group_hours_total)
+            out += "\n\n"
+
+            total_hours_group_list.append(total_group_hours_total)
 
         # print teachers' hours
         for teacher_index in range(len(index_teacher_list)):
@@ -173,8 +193,7 @@ def solve(param):
             out += str(total_teacher_hours)
 
         out += '\n\nTotal hours per week:\n' + str(get_total_hours_week(total_hours_group_list))
-        out += '\n\nEnough resources ? :\n' + str(is_lesson_hours_lt_resources(get_total_hours_week(total_hours_group_list), number_of_rooms, resource_per_room))
-        out += '\n\n'+ str(index_group_list)
+        out += '\n\nEnough resources ? :\n' + str(is_lesson_hours_lt_resources(get_total_hours_week(total_hours_group_list), len(rooms_list), resource_per_room))
     else:
         out = "No solution has been found !"
 

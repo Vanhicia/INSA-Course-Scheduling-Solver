@@ -12,14 +12,17 @@ def list_index_lesson_group(group, lesson_type, lesson_list):
 
 def get_group_hours(group_index, index_group_list, week, planning_lectures, planning_tutorials,
                     planning_experiments):
-    hours = 0
+    hours_lectures = 0
+    hours_tutorials = 0
+    hours_experiments = 0
     group = index_group_list[group_index]
 
     for lecture in group['index_lecture_list']:
-        hours += planning_lectures[lecture['index']][week]
+        hours_lectures += planning_lectures[lecture['index']][week]
     for tutorial in group['index_tutorial_list']:
-        hours += planning_tutorials[tutorial['index']][week]
+        hours_tutorials += planning_tutorials[tutorial['index']][week]
     for experiment in group['index_experiment_list']:
-        hours += 2 * planning_experiments[experiment['index']][week]
+        hours_experiments += 2 * planning_experiments[experiment['index']][week]
 
-    return hours
+    hours_total = hours_lectures + hours_tutorials + hours_experiments
+    return hours_lectures, hours_tutorials, hours_experiments, hours_total
