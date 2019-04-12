@@ -1,7 +1,7 @@
 from Numberjack import *
 from teacher_functions import *
 from group_functions import *
-
+from room_functions import *
 
 def sum_row_1_to_n(planning, row, n):
     Sum = 0
@@ -13,6 +13,8 @@ def sum_row_1_to_n(planning, row, n):
 def get_model(N):
     slots = 17  # Max number of hours per week
     number_of_weeks = N
+    number_of_rooms = 10
+    resource_per_room = 2
     limit_hours_course = 5  # leveling factor
 
     # Courses #
@@ -122,11 +124,11 @@ def get_model(N):
                               planning_experiments)
     model += (hours <= max_hours)
 
-    return planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, index_group_list, model
+    return planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, index_group_list, number_of_rooms, resource_per_room, model
 
 
 def solve(param):
-    planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, index_group_list, model = get_model(
+    planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, index_group_list, number_of_rooms, resource_per_room, model = get_model(
         param['N'])
     solver = model.load(param['solver'])
     solver.setVerbosity(param['verbose'])
@@ -138,8 +140,6 @@ def solve(param):
     else:
         solver.solve()
 
-    out = ''
-
     # if a solution has been found
     if solver.is_sat():
 
@@ -150,6 +150,7 @@ def solve(param):
 
         out += ('\n\nNodes: ' + str(solver.getNodes()))
 
+        total_hours_group_list =[]
         # print groups' hours
         for group_index in range(len(index_group_list)):
             out += ('\n\nGroup ' + str(group_index + 1) + ': \n')
@@ -160,6 +161,7 @@ def solve(param):
                                         Solution(planning_experiments))
                 total_group_hours.append(hours)
             out += str(total_group_hours)
+            total_hours_group_list.append(total_group_hours)
 
         # print teachers' hours
         for teacher_index in range(len(index_teacher_list)):
@@ -171,6 +173,9 @@ def solve(param):
                 total_teacher_hours.append(hours)
             out += str(total_teacher_hours)
 
+        out += '\n\nTotal hours per week:\n' + str(get_total_hours_week(total_hours_group_list))
+        out += '\n\nEnough resources ? :\n' + str(is_lesson_hours_lt_resources(get_total_hours_week(total_hours_group_list), number_of_rooms, resource_per_room))
+        out += '\n\n'+ str(index_group_list)
     else:
         out = "No solution has been found !"
 

@@ -35,7 +35,7 @@ class DataFileManager:
     def __init__(self, filename):
         self.filename = filename
 
-    #Load data from a file
+    # Load data from a file
     def load_file(self):
         f = open(self.filename, "r")
         data = json.load(f)
@@ -43,7 +43,7 @@ class DataFileManager:
         self.teachers = data[1]
         self.groups = data[2]
 
-    #Generating file with object's data
+    # Generating file with object's data
     def store_file(self):
         py_object = [self.courses, self.teachers, self.groups]
         f = open(self.filename, "w")
@@ -65,7 +65,7 @@ class DataFileManager:
         self.teachers.append({'name':name, 'course_list':[]})
 
     def add_teacher_course(self, name, course_name, nb_lect, nb_tut, nb_exp):
-        #Check if the teacher exists
+        # Check if the teacher exists
         i=0
         elem ={}
         for tea in self.teachers:
@@ -76,7 +76,7 @@ class DataFileManager:
         if i==0:
             return "Teacher "+name+" does not exists"
 
-        #Check if the course exists
+        # Check if the course exists
         i=0
         cs={}
         for cou in self.courses:
@@ -86,7 +86,7 @@ class DataFileManager:
         if i==0:
             return "Course "+course_name+" does not exists"
 
-        #Check the teacher already has this course
+        # Check the teacher already has this course
         if any(i['course'] == cs for i in elem['course_list']):
             return "Teacher "+name+" already has "+course_name+" course"
 
