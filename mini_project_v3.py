@@ -128,8 +128,7 @@ def get_model(N):
 
 
 def solve(param):
-    planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, index_group_list, number_of_rooms, resource_per_room, model = get_model(
-        param['N'])
+    planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, index_group_list, number_of_rooms, resource_per_room, model = get_model(param['N'])
     solver = model.load(param['solver'])
     solver.setVerbosity(param['verbose'])
     solver.setHeuristic(param['var'], param['val'], param['rand'])
