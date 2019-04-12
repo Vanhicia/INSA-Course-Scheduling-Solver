@@ -1,8 +1,4 @@
 
-
-
-
-# return total hours of course for a given week
 def sum_column(planning):
     return [sum(x) for x in zip(*planning)]
 
