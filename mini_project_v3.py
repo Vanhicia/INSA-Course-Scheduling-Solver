@@ -82,7 +82,25 @@ def get_model(N):
 
     # Model : add all the constraints #
 
-    model = Model()
+    model = Model(
+        # Lectures
+        # On the matrix, each row represents a lecture, and each column represent a week.
+        # We then want the sum of a row to be equal to the corresponding lecture total hours,
+        # and the sum of a column to be less than the max hours of class per week
+        [Sum(row) == hours[1] for (row, hours) in zip(planning_lectures.row, lecture_list)],
+
+        # tutorials
+        [Sum(row) == hours[1] for (row, hours) in zip(planning_tutorials.row, tutorial_list)],
+
+        # experiments
+        [Sum(row) == hours[1] for (row, hours) in zip(planning_experiments.row, experiment_list)],
+
+        # Sum of hours per week
+        # should be deleted ???
+        [(Sum(lect) + Sum(tuto) + Sum(exp) * 2) < slots for (lect, tuto, exp)
+         in zip(planning_lectures.col, planning_tutorials.col, planning_experiments.col)],
+
+    )
 
     # Constraints between the different lesson types #
 
