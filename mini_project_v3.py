@@ -1,7 +1,9 @@
+import Test
 from Numberjack import *
-from teacher_functions import *
 from group_functions import *
 from room_functions import *
+from teacher_functions import *
+
 
 def sum_row_1_to_n(planning, row, n):
     Sum = 0
@@ -16,17 +18,9 @@ def get_model(N):
     resource_per_room = 3
     limit_hours_course = 5  # leveling factor
 
-    # Courses #
+    #Get a data set from Test.py
+    course_list,teacher_list,group_list = Test.data_set(2)
 
-    # Format : {name:bla, lecture : 0, tutorial:0, experiment:0}
-    course_1 = {'name': 'math', 'lecture': 40, 'tutorial': 0, 'experiment': 0}
-    course_2 = {'name': 'Computer Science', 'lecture': 30, 'tutorial': 10, 'experiment': 15}
-    course_3 = {'name': 'Chemistry', 'lecture': 10, 'tutorial': 0, 'experiment': 0}
-    course_4 = {'name': 'English', 'lecture': 20, 'tutorial': 0, 'experiment': 0}
-    course_5 = {'name': 'PPI', 'lecture': 10, 'tutorial': 0, 'experiment': 0}
-
-    # Course list and different lesson type lists
-    course_list = [course_1, course_2, course_3, course_4, course_5]
     lecture_list = []
     tutorial_list = []
     experiment_list = []
@@ -44,14 +38,6 @@ def get_model(N):
     planning_tutorials = Matrix(len(tutorial_list), number_of_weeks, 0, limit_hours_course)
     planning_experiments = Matrix(len(experiment_list), number_of_weeks, 0, limit_hours_course)
 
-    # Groups #
-
-    # Groups are represented by their name and their course list
-    # Format: {'name': "gpA", 'course_list': [course_1, course_2]}
-    group_1 = {'name': "4IR-A", 'course_list': [course_1, course_2]}
-    group_2 = {'name': "4IR-B", 'course_list': [course_2, course_3]}
-    group_3 = {'name': "4IR-C", 'course_list': [course_4, course_5]}
-    group_list = [group_1, group_2, group_3]
 
     index_group_list = []
     for group in group_list:
@@ -59,19 +45,6 @@ def get_model(N):
                                  'index_tutorial_list': list_index_lesson_group(group, 'tutorial', tutorial_list),
                                  'index_experiment_list': list_index_lesson_group(group, 'experiment', experiment_list)})
 
-    # Teachers #
-
-    # Teachers are represented by the list of the courses which they teach
-    # Format: {'name':"Michel Dumont", 'course_list' : [{course:course_n , lecture_gp_nb: 0, tutorial_gp_nb: 0, experiment_gp_nb: 0},...]}
-    teacher_1 = {'name': "Michel Dumont", 'course_list': [{'course': course_1, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0},
-                                                          {'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 1}]}
-    teacher_2 = {'name': "Hélène Michou", 'course_list': [{'course': course_2, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 0}]}
-    teacher_3 = {'name': "Benoit Jardin", 'course_list': [{'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 2}]}
-    teacher_4 = {'name': "Kate Stuart", 'course_list': [{'course': course_3, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]}
-    teacher_5 = {'name': "Hervé Vieux", 'course_list': [{'course': course_4, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]}
-    teacher_6 = {'name': "Christiane Colin", 'course_list': [{'course': course_5, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]}
-
-    teacher_list = [teacher_1, teacher_2, teacher_3, teacher_4, teacher_5, teacher_6]
     teacher_max_hours = 12  # maximum slot number for a teacher per week
 
     index_teacher_list = []
@@ -92,25 +65,24 @@ def get_model(N):
 
     # Model : add all the constraints #
 
-    model = Model(
-        # Lectures
-        # On the matrix, each row represents a lecture, and each column represent a week.
-        # We then want the sum of a row to be equal to the corresponding lecture total hours,
-        # and the sum of a column to be less than the max hours of class per week
-        [Sum(row) == hours[1] for (row, hours) in zip(planning_lectures.row, lecture_list)],
+    model = Model()
 
-        # tutorials
-        [Sum(row) == hours[1] for (row, hours) in zip(planning_tutorials.row, tutorial_list)],
+    # Lectures
+    # On the matrix, each row represents a lecture, and each column represent a week.
+    # We then want the sum of a row to be equal to the corresponding lecture total hours,
+    # and the sum of a column to be less than the max hours of class per week
+    model += [Sum(row) == hours[1] for (row, hours) in zip(planning_lectures.row, lecture_list)]
 
-        # experiments
-        [Sum(row) == hours[1] for (row, hours) in zip(planning_experiments.row, experiment_list)],
+    # tutorials
+    model += [Sum(row) == hours[1] for (row, hours) in zip(planning_tutorials.row, tutorial_list)]
 
-        # Sum of hours per week
-        # should be deleted ???
-        [(Sum(lect) + Sum(tuto) + Sum(exp) * 2) < slots for (lect, tuto, exp)
-         in zip(planning_lectures.col, planning_tutorials.col, planning_experiments.col)],
+    # experiments
+    model += [Sum(row) == hours[1] for (row, hours) in zip(planning_experiments.row, experiment_list)]
 
-    )
+    # Sum of hours per week
+    # should be deleted ???
+    model += [(Sum(lect) + Sum(tuto) + Sum(exp) * 2) < slots for (lect, tuto, exp)
+     in zip(planning_lectures.col, planning_tutorials.col, planning_experiments.col)]
 
     # Constraints between the different lesson types #
 
@@ -137,14 +109,14 @@ def get_model(N):
     # Specific teacher constraints #
 
     # teacher_1 is not available the first week
-    teacher_index = teacher_list.index(teacher_1)
+    teacher_index = 0
     max_hours = 0
     hours = get_teacher_hours(teacher_index, index_teacher_list, 0, planning_lectures, planning_tutorials,
                               planning_experiments)
     model += (hours <= max_hours)
 
     # teacher_6 is not available the fourth week
-    teacher_index = teacher_list.index(teacher_6)
+    teacher_index = 5
     max_hours = 0
     hours = get_teacher_hours(teacher_index, index_teacher_list, 3, planning_lectures, planning_tutorials,
                               planning_experiments)
