@@ -90,28 +90,40 @@ def get_model(N):
         model += (planning_tutorials[0][i] <= sum_row_1_to_n(planning_lectures, 1, i + 1) * 3)
 
     # Group constraints #
-    total_hours_group_list =[]
-    total_lecture_hours_group_list =[]
-    total_tutorial_hours_group_list =[]
-    total_experiment_hours_group_list =[]
+
+    # Instantiate lists containing total of lectures/tutorials/experiments hours per week and per group
+    total_hours_group_list = []
+    total_lecture_hours_group_list = []
+    total_tutorial_hours_group_list = []
+    total_experiment_hours_group_list = []
+
     for group_index in range(len(group_list)):
+
+        # Instantiate lists containing total of lectures/tutorials/experiments hours per week for one group
         total_lecture_hours_one_group = []
         total_tutorial_hours_one_group = []
         total_experiment_hours_one_group = []
         total_hours_one_group = []
+
         for week in range(number_of_weeks):
 
             hours_lectures, hours_tutorials, hours_experiments, hours_total = get_group_hours(group_index, index_group_list, week, planning_lectures, planning_tutorials,
                                     planning_experiments)
+
+            # Add total of lectures/tutorials/experiments hours for one week in the current group' lists
             total_lecture_hours_one_group.append(hours_lectures)
             total_tutorial_hours_one_group.append(hours_tutorials)
             total_experiment_hours_one_group.append(hours_experiments)
             total_hours_one_group.append(hours_total)
+
             model += (hours_total <= slots)
+
+        # Add details of one group in the groups' lists
         total_lecture_hours_group_list.append(total_lecture_hours_one_group)
         total_tutorial_hours_group_list.append(total_tutorial_hours_one_group)
         total_experiment_hours_group_list.append(total_experiment_hours_one_group)
         total_hours_group_list.append(total_hours_one_group)
+
     # Teacher constraints #
 
     for teacher_index in range(len(teacher_list)):
@@ -209,32 +221,41 @@ def solve(param):
 
         # out += ('\n\nNodes: ' + str(solver.getNodes()))
 
-        total_hours_group_list =[]
-        total_lecture_hours_group_list =[]
-        total_tutorial_hours_group_list =[]
-        total_experiment_hours_group_list =[]
+        # Instantiate lists containing total of lectures/tutorials/experiments hours per week and per group
+        total_hours_group_list = []
+        total_lecture_hours_group_list = []
+        total_tutorial_hours_group_list = []
+        total_experiment_hours_group_list = []
+
         # print groups' hours
         for group_index in range(len(index_group_list)):
             out += ('\n\nGroup ' + str(group_index + 1) + ': \n')
+
+            # Instantiate lists containing total of lectures/tutorials/experiments hours per week for one group
             total_lecture_hours_one_group = []
             total_tutorial_hours_one_group = []
             total_experiment_hours_one_group = []
             total_hours_one_group = []
+
             for week in range(len(planning_lectures.col)):
                 hours_lectures, hours_tutorials, hours_experiments, hours_total = get_group_hours(group_index, index_group_list, week, Solution(planning_lectures),
                                         Solution(planning_tutorials),
                                         Solution(planning_experiments))
+
+                # Add total of lectures/tutorials/experiments hours for one week in the current group' lists
                 total_lecture_hours_one_group.append(hours_lectures)
                 total_tutorial_hours_one_group.append(hours_tutorials)
                 total_experiment_hours_one_group .append(hours_experiments)
                 total_hours_one_group.append(hours_total)
 
+            # Print details of the current group
             out += "Lecture" + str(total_lecture_hours_one_group)
             out += "\nTutorial" + str(total_tutorial_hours_one_group)
             out += "\nExperiments" + str(total_experiment_hours_one_group )
             out += "\n\nTotal" + str(total_hours_one_group)
             out += "\n\n"
 
+            # Add details of one group in the groups' lists
             total_lecture_hours_group_list.append(total_lecture_hours_one_group)
             total_tutorial_hours_group_list.append(total_tutorial_hours_one_group)
             total_experiment_hours_group_list.append(total_experiment_hours_one_group)
@@ -253,14 +274,17 @@ def solve(param):
         # ---------------------- #
         # ----- Rooms Test ----- #
         # ---------------------- #
+
         rooms_lectures, rooms_tutorials, rooms_experiments = get_list_rooms_according_type_hours(rooms_list)
         # union_lectures_tutorials, union_lectures_experiments, union_tutorials_experiments =
         # get_union_list_rooms_according_type_hours(rooms_list)
 
+        # Lists containing total of lectures/tutorials/experiments hours per week
         total_hours_lecture = get_total_hours_week(total_lecture_hours_group_list)
         total_hours_tutorial = get_total_hours_week(total_tutorial_hours_group_list)
         total_hours_experiment = get_total_hours_week(total_experiment_hours_group_list)
 
+        # Lists containing sum total of lectures/tutorials/experiments per week
         total_hours_union_lecture_tutorial = get_total_hours_week([total_hours_lecture, total_hours_tutorial])
         total_hours_union_lecture_experiment = get_total_hours_week([total_hours_lecture, total_hours_experiment])
         total_hours_union_tutorial_experiment = get_total_hours_week([total_hours_tutorial, total_hours_experiment])
