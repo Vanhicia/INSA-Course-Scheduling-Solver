@@ -54,6 +54,8 @@ def get_model(N):
                                    'index_experiment_list': list_index_lesson(teacher, 'experiment', experiment_list)})
 
     # Rooms #
+    # TODO : need to know if experiment hours need CS_room -> precise it in course data ?
+    # TODO : need to know if groups are in the same promotion or not for lectures room -> make a list promotion ?
     room_1 = {'name': "GEI 15", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False, 'is_CS_room': False}
     room_2 = {'name': "GEI 13", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False, 'is_CS_room': False}
     room_3 = {'name': "GEI 111", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': True, 'is_CS_room': True}
