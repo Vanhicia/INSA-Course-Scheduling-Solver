@@ -3,6 +3,50 @@ def sum_column(planning):
     return [sum(x) for x in zip(*planning)]
 
 
+def get_total_hours_week(total_group):
+    return sum_column(total_group)
+
+
+def get_list_rooms_according_type_hours(all_rooms_list):
+    lectures = []
+    tutorials = []
+    experiments = []
+    for room in all_rooms_list:
+        if room['is_for_lecture']:
+            lectures.append(room)
+        if room['is_for_tutorial']:
+            tutorials.append(room)
+        if room['is_for_experiment']:
+            experiments.append(room)
+    return lectures, tutorials, experiments
+
+
+def get_union_list_rooms_according_type_hours(all_rooms_list):
+    lectures_tutorials = []
+    tutorials_experiments = []
+    lectures_experiments = []
+    for room in all_rooms_list:
+        if room['is_for_lecture']:
+            if room not in lectures_experiments:
+                lectures_experiments.append(room)
+            if room not in lectures_tutorials:
+                lectures_tutorials.append(room)
+        if room['is_for_tutorial']:
+            if room not in lectures_tutorials:
+                lectures_tutorials.append(room)
+            if room not in tutorials_experiments:
+                tutorials_experiments.append(room)
+        if room['is_for_experiment']:
+            if room not in lectures_experiments:
+                lectures_experiments.append(room)
+            if room not in tutorials_experiments:
+                tutorials_experiments.append(room)
+    return lectures_tutorials, lectures_experiments, tutorials_experiments
+
+
+def is_lesson_hours_lt_resources(total_hours, nb_rooms, nb_resources):
+    return [week <= (nb_rooms*nb_resources) for week in total_hours]
+
 # def get_total_hours_week(planning_lectures, planning_tutorials, planning_experiments, nb_weeks):
 #     res = [0]*nb_weeks
 #     hours_lectures = sum_column(planning_lectures)
@@ -13,9 +57,16 @@ def sum_column(planning):
 #         res[i] = hours_lectures[i] + hours_tutorials[i] + hours_experiments[i]
 #     return res
 
-def get_total_hours_week(total_group):
-    return sum_column(total_group)
-
-
-def is_lesson_hours_lt_resources(total_hours, nb_rooms, nb_resources):
-    return [week <= (nb_rooms*nb_resources) for week in total_hours]
+# def intersection(lst1, lst2):
+#     lst3 = [value for value in lst1 if value in lst2]
+#     return lst3
+#
+#
+# # Python program to illustrate union
+# # Without repetition
+# def union(lst1, lst2):
+#     key = frozenset(lst1[0].items())
+#     key2 = frozenset(lst2[0].items())
+#     final_list = list(set(key) | set(key2))
+#     return final_list
+# # def union(dict1, dict2): return dict(dict1.items() + dict2.items())

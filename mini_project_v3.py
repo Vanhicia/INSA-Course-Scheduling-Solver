@@ -13,13 +13,13 @@ def sum_row_1_to_n(planning, row, n):
 
 
 def get_model(N):
-    slots = 17  # Max number of hours per week
-    number_of_weeks = N
-    resource_per_room = 3
+    slots = 17              # Max number of hours per week
+    number_of_weeks = N     # Number of weeks in a year, for our test we put 10 weeks
+    resource_per_room = 6   # Number of slots per week a room could contained
     limit_hours_course = 5  # leveling factor
 
-    #Get a data set from Test.py
-    course_list,teacher_list,group_list = Test.data_set(2)
+    # Get a data set from Test.py
+    course_list, teacher_list, group_list = Test.data_set(2)
 
     lecture_list = []
     tutorial_list = []
@@ -54,14 +54,13 @@ def get_model(N):
                                    'index_experiment_list': list_index_lesson(teacher, 'experiment', experiment_list)})
 
     # Rooms #
-    room_1 = {'name': "GEI 15", 'is_CS_room': False}
-    room_2 = {'name': "GEI 13", 'is_CS_room': False}
-    room_3 = {'name': "GEI 111", 'is_CS_room': True}
-    room_4 = {'name': "GEI 109", 'is_CS_room': True}
-    room_5 = {'name': "GEI 213", 'is_CS_room': False}
+    room_1 = {'name': "GEI 15", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False, 'is_CS_room': False}
+    room_2 = {'name': "GEI 13", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False, 'is_CS_room': False}
+    room_3 = {'name': "GEI 111", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': True, 'is_CS_room': True}
+    room_4 = {'name': "GEI 109", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': True, 'is_CS_room': True}
+    room_5 = {'name': "GEI 213", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False, 'is_CS_room': False}
 
     rooms_list = [room_1, room_2, room_3, room_4, room_5]
-
 
     # Model : add all the constraints #
 
@@ -91,13 +90,28 @@ def get_model(N):
         model += (planning_tutorials[0][i] <= sum_row_1_to_n(planning_lectures, 1, i + 1) * 3)
 
     # Group constraints #
-
+    total_hours_group_list =[]
+    total_lecture_hours_group_list =[]
+    total_tutorial_hours_group_list =[]
+    total_experiment_hours_group_list =[]
     for group_index in range(len(group_list)):
+        total_lecture_hours_one_group = []
+        total_tutorial_hours_one_group = []
+        total_experiment_hours_one_group = []
+        total_hours_one_group = []
         for week in range(number_of_weeks):
+
             hours_lectures, hours_tutorials, hours_experiments, hours_total = get_group_hours(group_index, index_group_list, week, planning_lectures, planning_tutorials,
                                     planning_experiments)
+            total_lecture_hours_one_group.append(hours_lectures)
+            total_tutorial_hours_one_group.append(hours_tutorials)
+            total_experiment_hours_one_group.append(hours_experiments)
+            total_hours_one_group.append(hours_total)
             model += (hours_total <= slots)
-
+        total_lecture_hours_group_list.append(total_lecture_hours_one_group)
+        total_tutorial_hours_group_list.append(total_tutorial_hours_one_group)
+        total_experiment_hours_group_list.append(total_experiment_hours_one_group)
+        total_hours_group_list.append(total_hours_one_group)
     # Teacher constraints #
 
     for teacher_index in range(len(teacher_list)):
@@ -121,6 +135,54 @@ def get_model(N):
     hours = get_teacher_hours(teacher_index, index_teacher_list, 3, planning_lectures, planning_tutorials,
                               planning_experiments)
     model += (hours <= max_hours)
+
+    # ----------------- #
+    # ----- Rooms ----- #
+    # ----------------- #
+
+    # Instantiate lists to know what rooms could be use for lecture/tutorial/experiment
+    rooms_lectures, rooms_tutorials, rooms_experiments = get_list_rooms_according_type_hours(rooms_list)
+
+    # Instantiate union lists
+    # union_lectures_tutorials : rooms that could be use for lectures or/and tutorials
+    # union_lectures_experiments : rooms that could be use for lectures or/and experiments
+    # union_tutorials_experiments : rooms that could be use for tutorials or/and experiments
+    union_lectures_tutorials, union_lectures_experiments, union_tutorials_experiments = get_union_list_rooms_according_type_hours(rooms_list)
+
+    # Instantiate lists containing total of lectures/tutorials/experiments hours per week
+    total_hours_lecture = get_total_hours_week(total_lecture_hours_group_list) # total_lecture_hours_group_list should be modify, here, we don't take into account if groups are in the same promotion
+    total_hours_tutorial = get_total_hours_week(total_tutorial_hours_group_list)
+    total_hours_experiment = get_total_hours_week(total_experiment_hours_group_list)
+
+    # Instantiate sum total of lectures/tutorials/experiments per week
+    # total_hours_union_lecture_tutorial : sum total of lectures and tutorials
+    # total_hours_union_lecture_experiment : sum total of lectures and experiments
+    # total_hours_union_tutorial_experiment : sum total of tutorials and experiments
+    total_hours_union_lecture_tutorial = get_total_hours_week([total_hours_lecture, total_hours_tutorial])
+    total_hours_union_lecture_experiment = get_total_hours_week([total_hours_lecture, total_hours_experiment])
+    total_hours_union_tutorial_experiment = get_total_hours_week([total_hours_tutorial, total_hours_experiment])
+
+    # Constraint : Lecture should be done in a room that is for lectures
+    model += is_lesson_hours_lt_resources(total_hours_lecture, len(rooms_lectures), resource_per_room)
+
+    # Constraint : Tutorial should be done in a room that is for tutorials
+    model += is_lesson_hours_lt_resources(total_hours_tutorial, len(rooms_tutorials), resource_per_room)
+
+    # Constraint : Experiment should be done in a room that is for experiments
+    model += is_lesson_hours_lt_resources(total_hours_experiment, len(rooms_experiments), resource_per_room)
+
+    # Constraint : Lecture and tutorial should not be done in the same room at the same time
+    model += is_lesson_hours_lt_resources(total_hours_union_lecture_tutorial, len(union_lectures_tutorials), resource_per_room)
+
+    # Constraint : Lecture and experiment should not be done in the same room at the same time
+    model += is_lesson_hours_lt_resources(total_hours_union_lecture_experiment, len(union_lectures_experiments), resource_per_room)
+
+    # Constraint : Tutorial and experiment should not be done in the same room at the same time
+    model += is_lesson_hours_lt_resources(total_hours_union_tutorial_experiment, len(union_tutorials_experiments), resource_per_room)
+
+    # Constraint : They should not have more lectures,tutorials and experiments than available rooms
+    model += is_lesson_hours_lt_resources(get_total_hours_week(total_hours_group_list), len(rooms_list), resource_per_room)
+
 
     return planning_lectures, planning_experiments, planning_tutorials, index_teacher_list, index_group_list, rooms_list, resource_per_room, model
 
@@ -148,29 +210,35 @@ def solve(param):
         # out += ('\n\nNodes: ' + str(solver.getNodes()))
 
         total_hours_group_list =[]
+        total_lecture_hours_group_list =[]
+        total_tutorial_hours_group_list =[]
+        total_experiment_hours_group_list =[]
         # print groups' hours
         for group_index in range(len(index_group_list)):
             out += ('\n\nGroup ' + str(group_index + 1) + ': \n')
-            total_group_hours_lectures = []
-            total_group_hours_tutorials = []
-            total_group_hours_experiments = []
-            total_group_hours_total = []
+            total_lecture_hours_one_group = []
+            total_tutorial_hours_one_group = []
+            total_experiment_hours_one_group = []
+            total_hours_one_group = []
             for week in range(len(planning_lectures.col)):
                 hours_lectures, hours_tutorials, hours_experiments, hours_total = get_group_hours(group_index, index_group_list, week, Solution(planning_lectures),
                                         Solution(planning_tutorials),
                                         Solution(planning_experiments))
-                total_group_hours_lectures.append(hours_lectures)
-                total_group_hours_tutorials.append(hours_tutorials)
-                total_group_hours_experiments.append(hours_experiments)
-                total_group_hours_total.append(hours_total)
+                total_lecture_hours_one_group.append(hours_lectures)
+                total_tutorial_hours_one_group.append(hours_tutorials)
+                total_experiment_hours_one_group .append(hours_experiments)
+                total_hours_one_group.append(hours_total)
 
-            out += "Lecture" + str(total_group_hours_lectures)
-            out += "\nTutorial" + str(total_group_hours_tutorials)
-            out += "\nExperiments" + str(total_group_hours_experiments)
-            out += "\n\nTotal" + str(total_group_hours_total)
+            out += "Lecture" + str(total_lecture_hours_one_group)
+            out += "\nTutorial" + str(total_tutorial_hours_one_group)
+            out += "\nExperiments" + str(total_experiment_hours_one_group )
+            out += "\n\nTotal" + str(total_hours_one_group)
             out += "\n\n"
 
-            total_hours_group_list.append(total_group_hours_total)
+            total_lecture_hours_group_list.append(total_lecture_hours_one_group)
+            total_tutorial_hours_group_list.append(total_tutorial_hours_one_group)
+            total_experiment_hours_group_list.append(total_experiment_hours_one_group)
+            total_hours_group_list.append(total_hours_one_group)
 
         # print teachers' hours
         for teacher_index in range(len(index_teacher_list)):
@@ -182,8 +250,37 @@ def solve(param):
                 total_teacher_hours.append(hours)
             out += str(total_teacher_hours)
 
-        out += '\n\nTotal hours per week:\n' + str(get_total_hours_week(total_hours_group_list))
-        out += '\n\nEnough resources ? :\n' + str(is_lesson_hours_lt_resources(get_total_hours_week(total_hours_group_list), len(rooms_list), resource_per_room))
+        # ---------------------- #
+        # ----- Rooms Test ----- #
+        # ---------------------- #
+        rooms_lectures, rooms_tutorials, rooms_experiments = get_list_rooms_according_type_hours(rooms_list)
+        # union_lectures_tutorials, union_lectures_experiments, union_tutorials_experiments =
+        # get_union_list_rooms_according_type_hours(rooms_list)
+
+        total_hours_lecture = get_total_hours_week(total_lecture_hours_group_list)
+        total_hours_tutorial = get_total_hours_week(total_tutorial_hours_group_list)
+        total_hours_experiment = get_total_hours_week(total_experiment_hours_group_list)
+
+        total_hours_union_lecture_tutorial = get_total_hours_week([total_hours_lecture, total_hours_tutorial])
+        total_hours_union_lecture_experiment = get_total_hours_week([total_hours_lecture, total_hours_experiment])
+        total_hours_union_tutorial_experiment = get_total_hours_week([total_hours_tutorial, total_hours_experiment])
+
+        out += "\n\n"
+        out += "\n\n        # ---------------- ----- #"
+        out += "\n\n        # ----- Rooms Test ----- #"
+        out += "\n\n        # ---------------- ----- #"
+        out += "\n\nTotal hours lecture: " + str(total_hours_lecture)
+        out += "\nTotal hours tutorial: " + str(total_hours_tutorial)
+        out += "\nTotal hours experiment: " + str(total_hours_experiment)
+        out += "\n"
+        out += "\n\nTotal hours lecture+tutorial: " + str(total_hours_union_lecture_tutorial)
+        out += "\nTotal hours lecture+experiment: " + str(total_hours_union_lecture_experiment)
+        out += "\nTotal hours tutorial+experiment: " + str(total_hours_union_tutorial_experiment)
+        out += "\n"
+        out += "\nResources max for lectures per week: " + str(resource_per_room*len(rooms_lectures))
+        out += "\nResources max for tutorials per week: " + str(resource_per_room*len(rooms_tutorials))
+        out += "\nResources max for experiments per week: " + str(resource_per_room*len(rooms_experiments))
+
     else:
         out = "No solution has been found !"
 
