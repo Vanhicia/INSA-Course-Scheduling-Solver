@@ -342,14 +342,14 @@ class Planning:
             # get_union_list_rooms_according_type_hours(rooms_list)
 
             # Lists containing total of lectures/tutorials/experiments hours per week
-            total_hours_lecture = get_total_hours_week(total_lecture_hours_group_list)
-            total_hours_tutorial = get_total_hours_week(total_tutorial_hours_group_list)
-            total_hours_experiment = get_total_hours_week(total_experiment_hours_group_list)
+            total_hours_lecture = Solution(get_total_hours_week(total_lecture_hours_group_list))
+            total_hours_tutorial = Solution(get_total_hours_week(total_tutorial_hours_group_list))
+            total_hours_experiment = Solution(get_total_hours_week(total_experiment_hours_group_list))
 
             # Lists containing sum total of lectures/tutorials/experiments per week
-            total_hours_union_lecture_tutorial = get_total_hours_week([total_hours_lecture, total_hours_tutorial])
-            total_hours_union_lecture_experiment = get_total_hours_week([total_hours_lecture, total_hours_experiment])
-            total_hours_union_tutorial_experiment = get_total_hours_week([total_hours_tutorial, total_hours_experiment])
+            total_hours_union_lecture_tutorial = Solution(get_total_hours_week([total_hours_lecture, total_hours_tutorial]))
+            total_hours_union_lecture_experiment = Solution(get_total_hours_week([total_hours_lecture, total_hours_experiment]))
+            total_hours_union_tutorial_experiment = Solution(get_total_hours_week([total_hours_tutorial, total_hours_experiment]))
 
             out += "\n\n"
             out += "\n\n        # ---------------- ----- #"

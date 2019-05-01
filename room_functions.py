@@ -1,8 +1,8 @@
-
+from Numberjack import *
 
 # Sum column of a matrix
 def sum_column(matrix):
-    return [sum(x) for x in zip(*matrix)]
+    return [Sum(x) for x in zip(*matrix)]
 
 
 # Return a list containing total of hours per week
