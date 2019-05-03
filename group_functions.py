@@ -28,4 +28,4 @@ def get_group_hours(group_index, index_group_list, week, planning_lectures, plan
         hours_experiments += 2 * planning_experiments[experiment['index']][week]
 
     hours_total = hours_lectures + hours_tutorials + hours_experiments
-    return hours_lectures, hours_tutorials, hours_experiments, hours_total, checked_promo_list, unduplicated_lecture_hours
+    return hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours

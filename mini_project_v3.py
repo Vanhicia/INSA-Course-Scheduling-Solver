@@ -78,7 +78,8 @@ class Planning:
 
         index_group_list = []
         for group in group_list:
-            index_group_list.append({'index_lecture_list': list_index_lesson_group(group, 'lecture', lecture_list),
+            index_group_list.append({'promo':group['promo'],
+                                     'index_lecture_list': list_index_lesson_group(group, 'lecture', lecture_list),
                                      'index_tutorial_list': list_index_lesson_group(group, 'tutorial', tutorial_list),
                                      'index_experiment_list': list_index_lesson_group(group, 'experiment', experiment_list)})
 
@@ -179,7 +180,7 @@ class Planning:
             total_hours_one_group = []
 
             for week in range(number_of_weeks):
-                hours_lectures, hours_tutorials, hours_experiments, hours_total, checked_promo_list, \
+                hours_lectures, hours_tutorials, hours_experiments, hours_total, \
                     unduplicated_lecture_hours = get_group_hours(group_index,
                                                                  index_group_list,
                                                                  week,
@@ -203,7 +204,7 @@ class Planning:
             total_experiment_hours_group_list.append(total_experiment_hours_one_group)
             total_hours_group_list.append(total_hours_one_group)
 
-            checked_promo_list.append(group_index['promo'])
+            checked_promo_list.append(index_group_list[group_index]['promo'])
 
         # -------------------------------------- Teacher constraints -------------------------------------- #
 
@@ -311,6 +312,7 @@ class Planning:
             total_lecture_hours_group_list = []
             total_tutorial_hours_group_list = []
             total_experiment_hours_group_list = []
+            checked_promo_list = []
 
             # print groups' hours
             for group_index in range(len(self.index_group_list)):
@@ -323,15 +325,17 @@ class Planning:
                 total_hours_one_group = []
 
                 for week in range(len(self.planning_lectures.col)):
-                    hours_lectures, hours_tutorials, hours_experiments, hours_total = get_group_hours(group_index, self.index_group_list, week, Solution(self.planning_lectures),
+                    hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours = get_group_hours(group_index, self.index_group_list, week, Solution(self.planning_lectures),
                                             Solution(self.planning_tutorials),
-                                            Solution(self.planning_experiments))
+                                            Solution(self.planning_experiments), checked_promo_list)
 
                     # Add total of lectures/tutorials/experiments hours for one week in the current group' lists
                     total_lecture_hours_one_group.append(hours_lectures)
                     total_tutorial_hours_one_group.append(hours_tutorials)
                     total_experiment_hours_one_group .append(hours_experiments)
                     total_hours_one_group.append(hours_total)
+
+                    self.total_lecture_hours.append(unduplicated_lecture_hours)
 
                 # Print details of the current group
                 out += "Lecture" + str(total_lecture_hours_one_group)
@@ -345,6 +349,8 @@ class Planning:
                 total_tutorial_hours_group_list.append(total_tutorial_hours_one_group)
                 total_experiment_hours_group_list.append(total_experiment_hours_one_group)
                 total_hours_group_list.append(total_hours_one_group)
+
+                checked_promo_list.append(self.index_group_list[group_index]['promo'])
 
             # print teachers' hours
             for teacher_index in range(len(self.index_teacher_list)):
@@ -391,7 +397,7 @@ class Planning:
             out += "\nResources max for experiments per week: " + str(self.resource_per_room*len(rooms_experiments))
 
 
-            out += "\n TEST GROUPE PROMO" + self.total_lecture_hours
+            out += "\n TEST GROUPE PROMO" + str(self.total_lecture_hours)
         else:
             out = "No solution has been found !"
 
