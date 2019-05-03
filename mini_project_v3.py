@@ -408,6 +408,6 @@ default = {'solver': 'Mistral2', 'N': 10, 'var': 'MinDomain',
            'val': 'RandomMinMax', 'restart': 'yes', 'rand': 2, 'verbose': 0, 'cutoff': 20}
 
 if __name__ == '__main__':
-    param = input(default)
+    params = input(default)
     planning = Planning()
-    print(planning.solve(param))
+    print(planning.solve(params))
