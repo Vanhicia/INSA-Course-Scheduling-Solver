@@ -38,6 +38,7 @@ class Planning:
         z = find_index_lesson_list(exercise_list, course)
         return x, y, z, nb_lec
 
+
     def get_model(self, N):
 
         # --------------------------------------------------------------------------------------------------- #
@@ -167,7 +168,6 @@ class Planning:
         total_lecture_hours_group_list = []
         total_tutorial_hours_group_list = []
         total_experiment_hours_group_list = []
-        total_lecture_hours = []
         checked_promo_list = []
 
         for group_index in range(len(group_list)):
@@ -194,7 +194,9 @@ class Planning:
                 total_tutorial_hours_one_group.append(hours_tutorials)
                 total_experiment_hours_one_group.append(hours_experiments)
                 total_hours_one_group.append(hours_total)
+
                 unduplicated_one_group.append(unduplicated_lecture_hours)
+
 
                 model += (hours_total <= slots)
 
@@ -203,7 +205,7 @@ class Planning:
             total_tutorial_hours_group_list.append(total_tutorial_hours_one_group)
             total_experiment_hours_group_list.append(total_experiment_hours_one_group)
             total_hours_group_list.append(total_hours_one_group)
-            total_lecture_hours.append(unduplicated_one_group)
+
 
             checked_promo_list.append(index_group_list[group_index]['promo'])
 
@@ -400,8 +402,8 @@ class Planning:
             out += "\nResources max for experiments per week: " + str(self.resource_per_room*len(rooms_experiments))
 
 
-            out += "\n TEST GROUPE PROMO" + str(total_lecture_hours)
-            out += "\n TEST GROUPE PROMO" + str(len(total_lecture_hours))
+            out += "\n TEST GROUPE PROMO" + str([sum(x) for x in zip(*total_lecture_hours)])
+            out += "\n TEST GROUPE PROMO " + str(len(total_lecture_hours))
 
         else:
             out = "No solution has been found !"
