@@ -15,6 +15,7 @@ class Planning:
         self.index_group_list = None
         self.rooms_list = None
         self.resource_per_room = None
+        self.total_lecture_hours = None
 
     @staticmethod
     # useless for the moment #
@@ -29,7 +30,7 @@ class Planning:
     def sum_forced_lectures(n, limit):
         mod = n % limit
         nbr = (n-mod)/limit
-        return mod,int(nbr)
+        return mod, int(nbr)
 
     @staticmethod
     # for course_y, tutorials/experiments can start only after x lectures at least
@@ -39,14 +40,23 @@ class Planning:
         return x, y, z, nb_lec
 
     def get_model(self, N):
+
+        # --------------------------------------------------------------------------------------------------- #
+        # ------------------------------------------ Initialization ----------------------------------------- #
+        # --------------------------------------------------------------------------------------------------- #
+
         slots = 17              # Max number of hours per week
         number_of_weeks = N     # Number of weeks in a year, for our test we put 10 weeks
-        resource_per_room = 6   # Number of slots per week a room could contained
+        resource_per_room = 5   # Number of slots per week a room could contained
         limit_hours_course = 5  # leveling factor
 
         # Get a data set from Test.py
         course_list, teacher_list, group_list = Test.data_set(2)
 
+        # -------------------------------------- Course initialization -------------------------------------- #
+
+        # Create lecture/tutorial/experiment list
+        # One element contains the name of the subject + the number of lectures/tutorials/experiments
         lecture_list = []
         tutorial_list = []
         experiment_list = []
@@ -59,12 +69,12 @@ class Planning:
             if course['experiment'] > 0:
                 experiment_list += [[course['name'], course['experiment']]]
 
-        # planning for each lesson type, represented by a matrix
+        # Matrix representing planning for each lesson type
         planning_lectures = Matrix(len(lecture_list), number_of_weeks, 0, limit_hours_course)
         planning_tutorials = Matrix(len(tutorial_list), number_of_weeks, 0, limit_hours_course)
         planning_experiments = Matrix(len(experiment_list), number_of_weeks, 0, limit_hours_course)
 
-
+        # -------------------------------------- Group initialization --------------------------------------- #
 
         index_group_list = []
         for group in group_list:
@@ -72,6 +82,7 @@ class Planning:
                                      'index_tutorial_list': list_index_lesson_group(group, 'tutorial', tutorial_list),
                                      'index_experiment_list': list_index_lesson_group(group, 'experiment', experiment_list)})
 
+        # ------------------------------------- Teacher initialization ------------------------------------- #
 
         # TODO : implement a function that gives the option of being absent only some days in a week, and
         #  the function computes the numbers of periods corresponding to these days of absence
@@ -84,7 +95,8 @@ class Planning:
                                        'index_tutorial_list': list_index_lesson(teacher, 'tutorial', tutorial_list),
                                        'index_experiment_list': list_index_lesson(teacher, 'experiment', experiment_list)})
 
-        # Rooms #
+        # ------------------------------------- Room initialization --------------------------------------- #
+
         # TODO : need to know if experiment hours need CS_room -> precise it in course data ?
         # TODO : need to know if groups are in the same promotion or not for lectures room -> make a list promotion ?
         room_1 = {'name': "GEI 15", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False, 'is_CS_room': False}
@@ -95,20 +107,25 @@ class Planning:
 
         rooms_list = [room_1, room_2, room_3, room_4, room_5]
 
-        # Model : add all the constraints #
+        # ------------------------------------------------------------------------------------------------- #
+        # ----------------------------------- Model : add all the constraints ----------------------------- #
+        # ------------------------------------------------------------------------------------------------- #
 
         model = Model()
 
+        # --------------------------------------- Course constraints -------------------------------------- #
+
         # Lectures
         # On the matrix, each row represents a lecture, and each column represent a week.
-        # We then want the sum of a row to be equal to the corresponding lecture total hours,
-        # and the sum of a column to be less than the max hours of class per week
+        # Constraint : The sum of a row should be equal to the corresponding lecture total hours.
         model += [Sum(row) == hours[1] for (row, hours) in zip(planning_lectures.row, lecture_list)]
 
-        # tutorials
+        # Tutorials
+        # Constraint : The sum of a row should be equal to the corresponding tutorial total hours,
         model += [Sum(row) == hours[1] for (row, hours) in zip(planning_tutorials.row, tutorial_list)]
 
-        # experiments
+        # Experiments
+        # Constraint : The sum of a row should be equal to the corresponding experiment total hours,
         model += [Sum(row) == hours[1] for (row, hours) in zip(planning_experiments.row, experiment_list)]
 
         # Sum of hours per week
@@ -150,7 +167,7 @@ class Planning:
             for i in range(int(number_of_weeks * 0.5),number_of_weeks):
                 model += (planning_lectures[b][i] <= int((nb_lec-a)/(number_of_weeks*0.5)))
 
-        # Group constraints #
+        # ---------------------------------------- Group constraints ------------------------------------------- #
 
         # Instantiate lists containing total of lectures/tutorials/experiments hours per week and per group
         total_hours_group_list = []
@@ -274,7 +291,7 @@ class Planning:
         self.index_group_list = index_group_list
         self.rooms_list = rooms_list
         self.resource_per_room = resource_per_room
-
+        self.total_lecture_hours = total_lecture_hours
         return model
 
     def solve(self, param):
@@ -383,6 +400,8 @@ class Planning:
             out += "\nResources max for tutorials per week: " + str(self.resource_per_room*len(rooms_tutorials))
             out += "\nResources max for experiments per week: " + str(self.resource_per_room*len(rooms_experiments))
 
+
+            out += "\n TEST GROUPE PROMO" + self.total_lecture_hours
         else:
             out = "No solution has been found !"
 

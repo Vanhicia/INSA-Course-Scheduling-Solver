@@ -1,5 +1,6 @@
 from Numberjack import *
 
+
 # Sum column of a matrix
 def sum_column(matrix):
     return [Sum(x) for x in zip(*matrix)]
