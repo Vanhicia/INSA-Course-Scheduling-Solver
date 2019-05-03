@@ -177,6 +177,7 @@ class Planning:
             total_tutorial_hours_one_group = []
             total_experiment_hours_one_group = []
             total_hours_one_group = []
+            unduplicated_one_group = []
 
             for week in range(number_of_weeks):
                 hours_lectures, hours_tutorials, hours_experiments, hours_total, \
@@ -193,7 +194,7 @@ class Planning:
                 total_tutorial_hours_one_group.append(hours_tutorials)
                 total_experiment_hours_one_group.append(hours_experiments)
                 total_hours_one_group.append(hours_total)
-                total_lecture_hours.append(unduplicated_lecture_hours)
+                unduplicated_one_group.append(unduplicated_lecture_hours)
 
                 model += (hours_total <= slots)
 
@@ -202,6 +203,7 @@ class Planning:
             total_tutorial_hours_group_list.append(total_tutorial_hours_one_group)
             total_experiment_hours_group_list.append(total_experiment_hours_one_group)
             total_hours_group_list.append(total_hours_one_group)
+            total_lecture_hours.append(unduplicated_one_group)
 
             checked_promo_list.append(index_group_list[group_index]['promo'])
 
@@ -322,7 +324,7 @@ class Planning:
                 total_tutorial_hours_one_group = []
                 total_experiment_hours_one_group = []
                 total_hours_one_group = []
-
+                unduplicated_one_group = []
 
                 for week in range(len(self.planning_lectures.col)):
                     hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours = get_group_hours(group_index, self.index_group_list, week, Solution(self.planning_lectures),
@@ -335,7 +337,7 @@ class Planning:
                     total_experiment_hours_one_group .append(hours_experiments)
                     total_hours_one_group.append(hours_total)
 
-                    total_lecture_hours.append(unduplicated_lecture_hours)
+                    unduplicated_one_group.append(unduplicated_lecture_hours)
 
                 # Print details of the current group
                 out += "Lecture" + str(total_lecture_hours_one_group)
@@ -349,6 +351,7 @@ class Planning:
                 total_tutorial_hours_group_list.append(total_tutorial_hours_one_group)
                 total_experiment_hours_group_list.append(total_experiment_hours_one_group)
                 total_hours_group_list.append(total_hours_one_group)
+                total_lecture_hours.append(unduplicated_one_group)
 
                 checked_promo_list.append(self.index_group_list[group_index]['promo'])
 
