@@ -15,7 +15,6 @@ class Planning:
         self.index_group_list = None
         self.rooms_list = None
         self.resource_per_room = None
-        self.total_lecture_hours = None
 
     @staticmethod
     # useless for the moment #
@@ -282,7 +281,7 @@ class Planning:
         self.index_group_list = index_group_list
         self.rooms_list = rooms_list
         self.resource_per_room = resource_per_room
-        self.total_lecture_hours = total_lecture_hours
+
         return model
 
     def solve(self, param):
@@ -313,7 +312,7 @@ class Planning:
             total_tutorial_hours_group_list = []
             total_experiment_hours_group_list = []
             checked_promo_list = []
-
+            total_lecture_hours = []
             # print groups' hours
             for group_index in range(len(self.index_group_list)):
                 out += ('\n\nGroup ' + str(group_index + 1) + ': \n')
@@ -323,6 +322,7 @@ class Planning:
                 total_tutorial_hours_one_group = []
                 total_experiment_hours_one_group = []
                 total_hours_one_group = []
+
 
                 for week in range(len(self.planning_lectures.col)):
                     hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours = get_group_hours(group_index, self.index_group_list, week, Solution(self.planning_lectures),
@@ -335,7 +335,7 @@ class Planning:
                     total_experiment_hours_one_group .append(hours_experiments)
                     total_hours_one_group.append(hours_total)
 
-                    self.total_lecture_hours.append(unduplicated_lecture_hours)
+                    total_lecture_hours.append(unduplicated_lecture_hours)
 
                 # Print details of the current group
                 out += "Lecture" + str(total_lecture_hours_one_group)
@@ -397,7 +397,9 @@ class Planning:
             out += "\nResources max for experiments per week: " + str(self.resource_per_room*len(rooms_experiments))
 
 
-            out += "\n TEST GROUPE PROMO" + str(self.total_lecture_hours)
+            out += "\n TEST GROUPE PROMO" + str(total_lecture_hours)
+            out += "\n TEST GROUPE PROMO" + str(len(total_lecture_hours))
+
         else:
             out = "No solution has been found !"
 
