@@ -213,8 +213,12 @@ class Planning:
 
         for teacher_index in range(len(teacher_list)):
             for week in range(number_of_weeks):
-                hours = get_teacher_hours(teacher_index, index_teacher_list, week, planning_lectures,
-                                          planning_tutorials, planning_experiments)
+                hours = get_teacher_hours(teacher_index,
+                                          index_teacher_list,
+                                          week,
+                                          planning_lectures,
+                                          planning_tutorials,
+                                          planning_experiments)
                 model += (hours <= teacher_max_hours)
 
         # Specific teacher constraints #
