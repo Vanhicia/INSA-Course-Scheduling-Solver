@@ -51,9 +51,9 @@ class Planning:
         limit_hours_course = 5  # leveling factor
 
         # Get a data set from Test.py
-        course_list, teacher_list, group_list = Test.data_set(2)
+        course_list, teacher_list, group_list, rooms_list = Test.data_set(2)
 
-        # -------------------------------------- Course initialization -------------------------------------- #
+        # ----------------------------------- Additional course initialization ------------------------------------ #
 
         # Create lecture/tutorial/experiment list
         # One element contains the name of the subject + the number of lectures/tutorials/experiments
@@ -74,7 +74,7 @@ class Planning:
         planning_tutorials = Matrix(len(tutorial_list), number_of_weeks, 0, limit_hours_course)
         planning_experiments = Matrix(len(experiment_list), number_of_weeks, 0, limit_hours_course)
 
-        # -------------------------------------- Group initialization --------------------------------------- #
+        # ----------------------------------- Additional group initialization -------------------------------------- #
 
         index_group_list = []
         for group in group_list:
@@ -82,7 +82,7 @@ class Planning:
                                      'index_tutorial_list': list_index_lesson_group(group, 'tutorial', tutorial_list),
                                      'index_experiment_list': list_index_lesson_group(group, 'experiment', experiment_list)})
 
-        # ------------------------------------- Teacher initialization ------------------------------------- #
+        # ---------------------------------- Additional teacher initialization ------------------------------------- #
 
         # TODO : implement a function that gives the option of being absent only some days in a week, and
         #  the function computes the numbers of periods corresponding to these days of absence
@@ -99,13 +99,6 @@ class Planning:
 
         # TODO : need to know if experiment hours need CS_room -> precise it in course data ?
         # TODO : need to know if groups are in the same promotion or not for lectures room -> make a list promotion ?
-        room_1 = {'name': "GEI 15", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False, 'is_CS_room': False}
-        room_2 = {'name': "GEI 13", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False, 'is_CS_room': False}
-        room_3 = {'name': "GEI 111", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': True, 'is_CS_room': True}
-        room_4 = {'name': "GEI 109", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': True, 'is_CS_room': True}
-        room_5 = {'name': "GEI 213", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False, 'is_CS_room': False}
-
-        rooms_list = [room_1, room_2, room_3, room_4, room_5]
 
         # ------------------------------------------------------------------------------------------------- #
         # ----------------------------------- Model : add all the constraints ----------------------------- #
@@ -212,8 +205,7 @@ class Planning:
 
             checked_promo_list.append(group_index['promo'])
 
-
-        # Teacher constraints #
+        # -------------------------------------- Teacher constraints -------------------------------------- #
 
         for teacher_index in range(len(teacher_list)):
             for week in range(number_of_weeks):
@@ -237,9 +229,7 @@ class Planning:
                                   planning_experiments)
         model += (hours <= max_hours)
 
-        # ----------------- #
-        # ----- Rooms ----- #
-        # ----------------- #
+        # ---------------------------------------- Room constraints --------------------------------------- #
 
         # Instantiate lists to know what rooms could be use for lecture/tutorial/experiment
         rooms_lectures, rooms_tutorials, rooms_experiments = get_list_rooms_according_type_hours(rooms_list)
@@ -367,7 +357,7 @@ class Planning:
                 out += str(total_teacher_hours)
 
             # ---------------------- #
-            # ----- Rooms Test ----- #
+            # ----- Room Test ------ #
             # ---------------------- #
 
             rooms_lectures, rooms_tutorials, rooms_experiments = get_list_rooms_according_type_hours(self.rooms_list)
@@ -385,9 +375,9 @@ class Planning:
             total_hours_union_tutorial_experiment = Solution(get_total_hours_week([total_hours_tutorial, total_hours_experiment]))
 
             out += "\n\n"
-            out += "\n\n        # ---------------- ----- #"
-            out += "\n\n        # ----- Rooms Test ----- #"
-            out += "\n\n        # ---------------- ----- #"
+            out += "\n\n        # ---------------------- #"
+            out += "\n\n        # ----- Room Test ------ #"
+            out += "\n\n        # ---------------------- #"
             out += "\n\nTotal hours lecture: " + str(total_hours_lecture)
             out += "\nTotal hours tutorial: " + str(total_hours_tutorial)
             out += "\nTotal hours experiment: " + str(total_hours_experiment)

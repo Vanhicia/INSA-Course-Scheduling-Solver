@@ -47,7 +47,16 @@ def data_set(n):
                          {'course': course_5, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]}
         teacher_list = [teacher_1, teacher_2, teacher_3, teacher_4, teacher_5, teacher_6]
 
-        return course_list,teacher_list,group_list
+        # Rooms #
+        room_1 = {'name': "GEI 15", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False, 'is_CS_room': False}
+        room_2 = {'name': "GEI 13", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False, 'is_CS_room': False}
+        room_3 = {'name': "GEI 111", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': True, 'is_CS_room': True}
+        room_4 = {'name': "GEI 109", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': True, 'is_CS_room': True}
+        room_5 = {'name': "GEI 213", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False, 'is_CS_room': False}
+
+        rooms_list = [room_1, room_2, room_3, room_4, room_5]
+
+        return course_list, teacher_list, group_list, rooms_list
     elif n == 3:
         pass
 
