@@ -65,11 +65,16 @@ class Planning:
         planning_experiments = Matrix(len(experiment_list), number_of_weeks, 0, limit_hours_course)
 
 
+
         index_group_list = []
         for group in group_list:
             index_group_list.append({'index_lecture_list': list_index_lesson_group(group, 'lecture', lecture_list),
                                      'index_tutorial_list': list_index_lesson_group(group, 'tutorial', tutorial_list),
                                      'index_experiment_list': list_index_lesson_group(group, 'experiment', experiment_list)})
+
+
+        # TODO : implement a function that gives the option of being absent only some days in a week, and
+        #  the function computes the numbers of periods corresponding to these days of absence
 
         teacher_max_hours = 12  # maximum slot number for a teacher per week
 
@@ -108,8 +113,8 @@ class Planning:
 
         # Sum of hours per week
         # should be deleted ???
-        model += [(Sum(lect) + Sum(tuto) + Sum(exp) * 2) < slots for (lect, tuto, exp)
-         in zip(planning_lectures.col, planning_tutorials.col, planning_experiments.col)]
+        # model += [(Sum(lect) + Sum(tuto) + Sum(exp) * 2) < slots for (lect, tuto, exp)
+        #  in zip(planning_lectures.col, planning_tutorials.col, planning_experiments.col)]
 
         # Specific constraints #
 
@@ -152,6 +157,7 @@ class Planning:
         total_lecture_hours_group_list = []
         total_tutorial_hours_group_list = []
         total_experiment_hours_group_list = []
+        total_lecture_hours = []
 
         for group_index in range(len(group_list)):
 

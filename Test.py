@@ -26,9 +26,9 @@ def data_set(n):
         course_list = [course_1, course_2, course_3, course_4, course_5]
 
         # Groups #
-        group_1 = {'name': "4IR-A", 'course_list': [course_1, course_2]}
-        group_2 = {'name': "4IR-B", 'course_list': [course_2, course_3]}
-        group_3 = {'name': "4IR-C", 'course_list': [course_4, course_5]}
+        group_1 = {'name': "4IR-A", 'course_list': [course_1, course_2], 'promo': 1}
+        group_2 = {'name': "4IR-B", 'course_list': [course_2, course_3], 'promo': 1}
+        group_3 = {'name': "4IR-C", 'course_list': [course_4, course_5], 'promo': 2}
         group_list = [group_1, group_2, group_3]
 
         # Teachers #

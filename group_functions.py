@@ -1,6 +1,21 @@
 from course_functions import *
 
 
+def check_common_lectures(group_list, lecture_list, number_of_weeks):
+    checked_course_list = []
+    total_lecture_hours = []
+    for group in group_list:
+        for course in group['course_list']:
+            if course not in checked_course_list:
+                None
+
+
+            #    course_lecture_hours.course += total_lecture_hours
+            #    checked_course_list.append(course)
+
+    return total_lecture_hours
+
+
 def list_index_lesson_group(group, lesson_type, lesson_list):
     index_list = []
     for course in group['course_list']:
