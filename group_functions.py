@@ -20,6 +20,10 @@ def get_group_hours(group_index, index_group_list, week, planning_lectures, plan
 
     for lecture in group['index_lecture_list']:
         hours_lectures += planning_lectures[lecture['index']][week]
+
+        # in order to not count twice lectures that are followed by two groups at the same time,
+        # we check if the current group belongs to a promotion that was already accounted
+        # if not, then we know the current lecture was never accounted before and we add it to "unduplicated_lectures"
         if group['promo'] not in checked_promo_list:
             unduplicated_lecture_hours += planning_lectures[lecture['index']][week]
     for tutorial in group['index_tutorial_list']:
