@@ -158,6 +158,7 @@ class Planning:
         total_tutorial_hours_group_list = []
         total_experiment_hours_group_list = []
         total_lecture_hours = []
+        checked_promo_list = []
 
         for group_index in range(len(group_list)):
 
@@ -168,15 +169,21 @@ class Planning:
             total_hours_one_group = []
 
             for week in range(number_of_weeks):
-
-                hours_lectures, hours_tutorials, hours_experiments, hours_total = get_group_hours(group_index, index_group_list, week, planning_lectures, planning_tutorials,
-                                        planning_experiments)
+                hours_lectures, hours_tutorials, hours_experiments, hours_total, checked_promo_list, \
+                    unduplicated_lecture_hours = get_group_hours(group_index,
+                                                                 index_group_list,
+                                                                 week,
+                                                                 planning_lectures,
+                                                                 planning_tutorials,
+                                                                 planning_experiments,
+                                                                 checked_promo_list)
 
                 # Add total of lectures/tutorials/experiments hours for one week in the current group' lists
                 total_lecture_hours_one_group.append(hours_lectures)
                 total_tutorial_hours_one_group.append(hours_tutorials)
                 total_experiment_hours_one_group.append(hours_experiments)
                 total_hours_one_group.append(hours_total)
+                total_lecture_hours.append(unduplicated_lecture_hours)
 
                 model += (hours_total <= slots)
 
@@ -185,6 +192,9 @@ class Planning:
             total_tutorial_hours_group_list.append(total_tutorial_hours_one_group)
             total_experiment_hours_group_list.append(total_experiment_hours_one_group)
             total_hours_group_list.append(total_hours_one_group)
+
+            checked_promo_list.append(group_index['promo'])
+
 
         # Teacher constraints #
 
