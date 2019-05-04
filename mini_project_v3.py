@@ -17,26 +17,11 @@ class Planning:
         self.resource_per_room = None
 
     @staticmethod
-    # useless for the moment #
-    def sum_row_1_to_n(planning, row, n):
-        Sum = 0
-        for k in range(n):
-            Sum += sum(planning[row][k])
-        return Sum
-
-    @staticmethod
-    # count the number of forced lectures before a tuto, exp #
-    def sum_forced_lectures(n, limit):
-        mod = n % limit
-        nbr = (n-mod)/limit
-        return mod, int(nbr)
-
-    @staticmethod
     # for course_y, tutorials/experiments can start only after x lectures at least
     def exercises_only_after_x_lectures(course, lecture_list, exercise_list, nb_lec, x):
-        y = find_index_lesson_list(lecture_list, course)
-        z = find_index_lesson_list(exercise_list, course)
-        return x, y, z, nb_lec
+        id_lec = find_index_lesson_list(lecture_list, course)
+        id_exe = find_index_lesson_list(exercise_list, course)
+        return x, id_lec, id_exe, nb_lec
 
     def get_model(self, N):
 
@@ -130,37 +115,13 @@ class Planning:
 
         # exercises start after X lectures #
 
-        # format {course_list, index_of_course, lecture_list, tutorial_list,
-        #         nbr_of_lec_before_start, limit_hours_course}
-        # c : tuto/exp index in matrix, b : lect index in matrix, a : the tuto/exp start only after a lectures
-
-        # (a, b, c) = exercises_only_after_x_lectures(course_list[1], lecture_list, tutorial_list, 6)
-        # if (a > limit_hours_course):
-        #     (mod, nbr) = sum_forced_lectures(a, limit_hours_course)
-        #     for i in range(nbr):
-        #         model += (planning_lectures[b][i] == limit_hours_course)
-        #         model += (planning_tutorials[c][i] == 0)
-        #
-        #     model += (planning_lectures[b][nbr + 1] >= mod)
-        # else:
-        #     model += (planning_lectures[b][0] >= a)
-
-        # # solution propre, mais qui ne trouve pas de solution #
-        # (a, b, c) = exercises_only_after_x_lectures(course_list[1], lecture_list, tutorial_list, 6)
-        # for i in range(number_of_weeks):
-        #     model += ((planning_tutorials[c][i] == 0) or ((planning_tutorials[c][i] > 0) and
-        #     (planning_lectures[b][range(i)] >= a)))
-
-        # format : {'course_list':course_list, 'lecture_list': lecture_list,
-        #           'tutorial_list': tutorial_list,'nb_lec_before_tut':6}
-
-        (a, b, c, nb_lec) = self.exercises_only_after_x_lectures(course_list[1], lecture_list, tutorial_list,course_list[1]['lecture'], 6)
+        (x, id_lec, id_exe, nb_lec) = self.exercises_only_after_x_lectures(course_list[1], lecture_list, tutorial_list,course_list[1]['lecture'], 6)
         middle = int(limit_hours_course*number_of_weeks*0.5)
-        if ((a < middle) and (a<nb_lec)):
+        if ((x < middle) and (x<nb_lec)):
             for i in range(int(number_of_weeks*0.5)):
-                model += (planning_tutorials[c][i] == 0)
+                model += (planning_tutorials[id_exe][i] == 0)
             for i in range(int(number_of_weeks * 0.5),number_of_weeks):
-                model += (planning_lectures[b][i] <= int((nb_lec-a)/(number_of_weeks*0.5)))
+                model += (planning_lectures[id_lec][i] <= int((nb_lec-x)/(number_of_weeks*0.5)))
 
         # ---------------------------------------- Group constraints ------------------------------------------- #
 
