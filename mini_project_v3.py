@@ -3,6 +3,7 @@ from Numberjack import *
 from group_functions import *
 from room_functions import *
 from teacher_functions import *
+from course_functions import *
 
 
 class Planning:
@@ -16,28 +17,6 @@ class Planning:
         self.rooms_list = None
         self.resource_per_room = None
 
-    @staticmethod
-    # useless for the moment #
-    def sum_row_1_to_n(planning, row, n):
-        Sum = 0
-        for k in range(n):
-            Sum += sum(planning[row][k])
-        return Sum
-
-    @staticmethod
-    # count the number of forced lectures before a tuto, exp #
-    def sum_forced_lectures(n, limit):
-        mod = n % limit
-        nbr = (n-mod)/limit
-        return mod, int(nbr)
-
-    @staticmethod
-    # for course_y, tutorials/experiments can start only after x lectures at least
-    def exercises_only_after_x_lectures(course, lecture_list, exercise_list, nb_lec, x):
-        y = find_index_lesson_list(lecture_list, course)
-        z = find_index_lesson_list(exercise_list, course)
-        return x, y, z, nb_lec
-
     def get_model(self, N):
 
         # --------------------------------------------------------------------------------------------------- #
@@ -46,7 +25,7 @@ class Planning:
 
         slots = 17              # Max number of hours per week
         number_of_weeks = N     # Number of weeks in a year, for our test we put 10 weeks
-        resource_per_room = 5   # Number of slots per week a room could contained
+        resource_per_room = 27   # Number of slots per week a room could contained
         limit_hours_course = 5  # leveling factor
 
         # Get a data set from Test.py
@@ -104,7 +83,6 @@ class Planning:
         # ------------------------------------- Room initialization --------------------------------------- #
 
         # TODO : need to know if experiment hours need CS_room -> precise it in course data ?
-        # TODO : need to know if groups are in the same promotion or not for lectures room -> make a list promotion ?
 
         # ------------------------------------------------------------------------------------------------- #
         # ----------------------------------- Model : add all the constraints ----------------------------- #
@@ -131,55 +109,31 @@ class Planning:
 
         # exercises start after X lectures #
 
-        # format {course_list, index_of_course, lecture_list, tutorial_list,
-        #         nbr_of_lec_before_start, limit_hours_course}
-        # c : tuto/exp index in matrix, b : lect index in matrix, a : the tuto/exp start only after a lectures
-
-        # (a, b, c) = exercises_only_after_x_lectures(course_list[1], lecture_list, tutorial_list, 6)
-        # if (a > limit_hours_course):
-        #     (mod, nbr) = sum_forced_lectures(a, limit_hours_course)
-        #     for i in range(nbr):
-        #         model += (planning_lectures[b][i] == limit_hours_course)
-        #         model += (planning_tutorials[c][i] == 0)
-        #
-        #     model += (planning_lectures[b][nbr + 1] >= mod)
-        # else:
-        #     model += (planning_lectures[b][0] >= a)
-
-        # # solution propre, mais qui ne trouve pas de solution #
-        # (a, b, c) = exercises_only_after_x_lectures(course_list[1], lecture_list, tutorial_list, 6)
-        # for i in range(number_of_weeks):
-        #     model += ((planning_tutorials[c][i] == 0) or ((planning_tutorials[c][i] > 0) and
-        #     (planning_lectures[b][range(i)] >= a)))
-
-        # format : {'course_list':course_list, 'lecture_list': lecture_list,
-        #           'tutorial_list': tutorial_list,'nb_lec_before_tut':6}
-
-        (a, b, c, nb_lec) = self.exercises_only_after_x_lectures(course_list[1], lecture_list, tutorial_list,course_list[1]['lecture'], 6)
+        (x, id_lec, id_exe, nb_lec) = exercises_only_after_x_lectures(course_list[1], lecture_list, tutorial_list,course_list[1]['lecture'], 6)
         middle = int(limit_hours_course*number_of_weeks*0.5)
-        if ((a < middle) and (a<nb_lec)):
+        if ((x < middle) and (x<nb_lec)):
             for i in range(int(number_of_weeks*0.5)):
-                model += (planning_tutorials[c][i] == 0)
+                model += (planning_tutorials[id_exe][i] == 0)
             for i in range(int(number_of_weeks * 0.5),number_of_weeks):
-                model += (planning_lectures[b][i] <= int((nb_lec-a)/(number_of_weeks*0.5)))
+                model += (planning_lectures[id_lec][i] <= int((nb_lec-x)/(number_of_weeks*0.5)))
 
         # ---------------------------------------- Group constraints ------------------------------------------- #
 
         # Instantiate lists containing total of lectures/tutorials/experiments hours per week and per group
         total_hours_group_list = []
-        total_lecture_hours_group_list = []
+        total_lecture_hours_group_list_undup = []
         total_tutorial_hours_group_list = []
         total_experiment_hours_group_list = []
         checked_promo_list = []
-
+        undup = []
         for group_index in range(len(group_list)):
 
             # Instantiate lists containing total of lectures/tutorials/experiments hours per week for one group
-            total_lecture_hours_one_group = []
+            total_lecture_hours_one_group_undup = []
             total_tutorial_hours_one_group = []
             total_experiment_hours_one_group = []
             total_hours_one_group = []
-            unduplicated_one_group = []
+
 
             for week in range(number_of_weeks):
                 hours_lectures, hours_tutorials, hours_experiments, hours_total, \
@@ -192,17 +146,17 @@ class Planning:
                                                                  checked_promo_list)
 
                 # Add total of lectures/tutorials/experiments hours for one week in the current group' lists
-                total_lecture_hours_one_group.append(hours_lectures)
+                total_lecture_hours_one_group_undup.append(unduplicated_lecture_hours)
                 total_tutorial_hours_one_group.append(hours_tutorials)
                 total_experiment_hours_one_group.append(hours_experiments)
                 total_hours_one_group.append(hours_total)
 
-                unduplicated_one_group.append(unduplicated_lecture_hours)
+
 
                 model += (hours_total <= slots)
 
             # Add details of one group in the groups' lists
-            total_lecture_hours_group_list.append(total_lecture_hours_one_group)
+            total_lecture_hours_group_list_undup.append(total_lecture_hours_one_group_undup)
             total_tutorial_hours_group_list.append(total_tutorial_hours_one_group)
             total_experiment_hours_group_list.append(total_experiment_hours_one_group)
             total_hours_group_list.append(total_hours_one_group)
@@ -250,7 +204,7 @@ class Planning:
             get_union_list_rooms_according_type_hours(rooms_list)
 
         # Instantiate lists containing total of lectures/tutorials/experiments hours per week
-        total_hours_lecture = get_total_hours_week(total_lecture_hours_group_list)
+        total_hours_lecture = get_total_hours_week(total_lecture_hours_group_list_undup)
         total_hours_tutorial = get_total_hours_week(total_tutorial_hours_group_list)
         total_hours_experiment = get_total_hours_week(total_experiment_hours_group_list)
 
@@ -317,21 +271,21 @@ class Planning:
 
             # Instantiate lists containing total of lectures/tutorials/experiments hours per week and per group
             total_hours_group_list = []
-            total_lecture_hours_group_list = []
+            total_lecture_hours_group_list_undup = []
             total_tutorial_hours_group_list = []
             total_experiment_hours_group_list = []
             checked_promo_list = []
-            total_lecture_hours = []
+
             # print groups' hours
             for group_index in range(len(self.index_group_list)):
                 out += ('\n\nGroup ' + str(group_index + 1) + ': \n')
 
                 # Instantiate lists containing total of lectures/tutorials/experiments hours per week for one group
                 total_lecture_hours_one_group = []
+                total_lecture_hours_one_group_undup = []
                 total_tutorial_hours_one_group = []
                 total_experiment_hours_one_group = []
                 total_hours_one_group = []
-                unduplicated_one_group = []
 
                 for week in range(len(self.planning_lectures.col)):
                     hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours = \
@@ -344,26 +298,24 @@ class Planning:
                                         checked_promo_list)
 
                     # Add total of lectures/tutorials/experiments hours for one week in the current group' lists
+                    total_lecture_hours_one_group_undup.append(unduplicated_lecture_hours)
                     total_lecture_hours_one_group.append(hours_lectures)
                     total_tutorial_hours_one_group.append(hours_tutorials)
                     total_experiment_hours_one_group .append(hours_experiments)
                     total_hours_one_group.append(hours_total)
 
-                    unduplicated_one_group.append(unduplicated_lecture_hours)
-
                 # Print details of the current group
                 out += "Lecture" + str(total_lecture_hours_one_group)
                 out += "\nTutorial" + str(total_tutorial_hours_one_group)
-                out += "\nExperiments" + str(total_experiment_hours_one_group )
+                out += "\nExperiments" + str(total_experiment_hours_one_group)
                 out += "\n\nTotal" + str(total_hours_one_group)
                 out += "\n\n"
 
                 # Add details of one group in the groups' lists
-                total_lecture_hours_group_list.append(total_lecture_hours_one_group)
+                total_lecture_hours_group_list_undup.append(total_lecture_hours_one_group_undup)
                 total_tutorial_hours_group_list.append(total_tutorial_hours_one_group)
                 total_experiment_hours_group_list.append(total_experiment_hours_one_group)
                 total_hours_group_list.append(total_hours_one_group)
-                total_lecture_hours.append(unduplicated_one_group)
 
                 checked_promo_list.append(self.index_group_list[group_index]['promo'])
 
@@ -390,7 +342,7 @@ class Planning:
             # get_union_list_rooms_according_type_hours(rooms_list)
 
             # Lists containing total of lectures/tutorials/experiments hours per week
-            total_hours_lecture = Solution(get_total_hours_week(total_lecture_hours_group_list))
+            total_hours_lecture = Solution(get_total_hours_week(total_lecture_hours_group_list_undup))
             total_hours_tutorial = Solution(get_total_hours_week(total_tutorial_hours_group_list))
             total_hours_experiment = Solution(get_total_hours_week(total_experiment_hours_group_list))
 
@@ -414,9 +366,6 @@ class Planning:
             out += "\nResources max for lectures per week: " + str(self.resource_per_room*len(rooms_lectures))
             out += "\nResources max for tutorials per week: " + str(self.resource_per_room*len(rooms_tutorials))
             out += "\nResources max for experiments per week: " + str(self.resource_per_room*len(rooms_experiments))
-
-            out += "\n TEST GROUPE PROMO" + str([sum(x) for x in zip(*total_lecture_hours)])
-            out += "\n TEST GROUPE PROMO " + str(len(total_lecture_hours))
 
         else:
             out = "No solution has been found !"
