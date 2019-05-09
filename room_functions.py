@@ -64,28 +64,3 @@ def get_union_list_rooms_according_type_hours(all_rooms_list):
 # Check if hours are less than resources of a room and per week
 def is_lesson_hours_lt_resources(total_hours, nb_rooms, nb_resources):
     return [week <= (nb_rooms*nb_resources) for week in total_hours]
-
-
-# def get_total_hours_week(planning_lectures, planning_tutorials, planning_experiments, nb_weeks):
-#     res = [0]*nb_weeks
-#     hours_lectures = sum_column(planning_lectures)
-#     hours_tutorials = sum_column(planning_tutorials)
-#     hours_experiments = sum_column(planning_experiments)
-#
-#     for i in range(nb_weeks):
-#         res[i] = hours_lectures[i] + hours_tutorials[i] + hours_experiments[i]
-#     return res
-
-# def intersection(lst1, lst2):
-#     lst3 = [value for value in lst1 if value in lst2]
-#     return lst3
-#
-#
-# # Python program to illustrate union
-# # Without repetition
-# def union(lst1, lst2):
-#     key = frozenset(lst1[0].items())
-#     key2 = frozenset(lst2[0].items())
-#     final_list = list(set(key) | set(key2))
-#     return final_list
-# def union(dict1, dict2): return dict(dict1.items() + dict2.items())

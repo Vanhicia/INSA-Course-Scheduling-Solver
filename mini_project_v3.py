@@ -81,8 +81,7 @@ class Planning:
                                        'index_experiment_list': list_index_lesson(teacher, 'experiment', experiment_list)})
 
         # ------------------------------------- Room initialization --------------------------------------- #
-
-        # TODO : need to know if experiment hours need CS_room -> precise it in course data ? yes + in room data
+        # TODO : Take into account type room
 
         # ------------------------------------------------------------------------------------------------- #
         # ----------------------------------- Model : add all the constraints ----------------------------- #
