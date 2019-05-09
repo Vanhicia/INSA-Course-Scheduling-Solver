@@ -1,0 +1,45 @@
+﻿réu du 9/05/2019
+
+
+
+list des trucs fait pendant les vacances
+
+list des trucs restant à faire:
+
+_jeu de donnée/tests en conditions réels (maxence),
+
+_fonctionnalité alicia,
+_salles et types de salles, OU SI FLEMME rédiger une partie amélioration ou on peut sortir les cours par type de salle/par salle (kimi),
+
+_fin de l'implementation du compte des cms en commun pour les groupes qui ont seulement quelques cours en commun (pierre).
+
+_remplacer les prints par un fichier user-friendly (penser aux secretaires), étudier la possibilité du load balancing: si possible, le faire,
+sinon, rédiger quelque chose sur le word-online (jean)
+
+
+
+propositions:
+
+_interface graphique?
+
+_load balancing?
+
+
+
+incertitudes:
+
+_faire le rapport pour le 24 mai ?
+
+_rapport commun avec l'anglais?
+
+_rendu du code?
+
+
+
+=> RDV avec esquirol
+
+
+
+travail fait pendant la réunion:
+
+création du word-online (A OUVRIR SUR WORD), répartition des taches.....

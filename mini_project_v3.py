@@ -280,7 +280,7 @@ class Planning:
         # Constraint : Tutorial and experiment should not be done in the same room at the same time
         model += is_lesson_hours_lt_resources(total_hours_union_tutorial_experiment, len(union_tutorials_experiments), resource_per_room)
 
-        # Constraint : They should not have more lectures,tutorials and experiments than available rooms
+        # Constraint : There should not be more lectures,tutorials and experiments than available rooms
         model += is_lesson_hours_lt_resources(get_total_hours_week(total_hours_group_list), len(rooms_list), resource_per_room)
 
         self.planning_lectures = planning_lectures

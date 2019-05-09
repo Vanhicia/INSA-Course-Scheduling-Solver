@@ -9,6 +9,8 @@ def list_index_lesson_group(group, lesson_type, lesson_list):
 
     return index_list
 
+# TODO: implementer les "accounted classes" qui pourraient nous permettre d'avoir des groupes dans une meme promo
+#  qui n'ont pas les mêmes cours
 
 def get_group_hours(group_index, index_group_list, week, planning_lectures, planning_tutorials,
                     planning_experiments, checked_promo_list):
