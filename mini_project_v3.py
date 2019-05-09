@@ -82,7 +82,7 @@ class Planning:
 
         # ------------------------------------- Room initialization --------------------------------------- #
 
-        # TODO : need to know if experiment hours need CS_room -> precise it in course data ?
+        # TODO : need to know if experiment hours need CS_room -> precise it in course data ? yes + in room data
 
         # ------------------------------------------------------------------------------------------------- #
         # ----------------------------------- Model : add all the constraints ----------------------------- #
@@ -111,10 +111,10 @@ class Planning:
 
         (x, id_lec, id_exe, nb_lec) = exercises_only_after_x_lectures(course_list[1], lecture_list, tutorial_list,course_list[1]['lecture'], 6)
         middle = int(limit_hours_course*number_of_weeks*0.5)
-        if ((x < middle) and (x<nb_lec)):
+        if (x < middle) and (x<nb_lec):
             for i in range(int(number_of_weeks*0.5)):
                 model += (planning_tutorials[id_exe][i] == 0)
-            for i in range(int(number_of_weeks * 0.5),number_of_weeks):
+            for i in range(int(number_of_weeks * 0.5), number_of_weeks):
                 model += (planning_lectures[id_lec][i] <= int((nb_lec-x)/(number_of_weeks*0.5)))
 
         # ---------------------------------------- Group constraints ------------------------------------------- #
@@ -125,7 +125,7 @@ class Planning:
         total_tutorial_hours_group_list = []
         total_experiment_hours_group_list = []
         checked_promo_list = []
-        undup = []
+
         for group_index in range(len(group_list)):
 
             # Instantiate lists containing total of lectures/tutorials/experiments hours per week for one group
@@ -133,7 +133,6 @@ class Planning:
             total_tutorial_hours_one_group = []
             total_experiment_hours_one_group = []
             total_hours_one_group = []
-
 
             for week in range(number_of_weeks):
                 hours_lectures, hours_tutorials, hours_experiments, hours_total, \
@@ -150,8 +149,6 @@ class Planning:
                 total_tutorial_hours_one_group.append(hours_tutorials)
                 total_experiment_hours_one_group.append(hours_experiments)
                 total_hours_one_group.append(hours_total)
-
-
 
                 model += (hours_total <= slots)
 
