@@ -3,6 +3,7 @@ from Numberjack import *
 from group_functions import *
 from room_functions import *
 from teacher_functions import *
+from course_functions import *
 
 
 class Planning:
@@ -15,13 +16,6 @@ class Planning:
         self.index_group_list = None
         self.rooms_list = None
         self.resource_per_room = None
-
-    @staticmethod
-    # for course_y, tutorials/experiments can start only after x lectures at least
-    def exercises_only_after_x_lectures(course, lecture_list, exercise_list, nb_lec, x):
-        id_lec = find_index_lesson_list(lecture_list, course)
-        id_exe = find_index_lesson_list(exercise_list, course)
-        return x, id_lec, id_exe, nb_lec
 
     def get_model(self, N):
 
@@ -115,7 +109,7 @@ class Planning:
 
         # exercises start after X lectures #
 
-        (x, id_lec, id_exe, nb_lec) = self.exercises_only_after_x_lectures(course_list[1], lecture_list, tutorial_list,course_list[1]['lecture'], 6)
+        (x, id_lec, id_exe, nb_lec) = exercises_only_after_x_lectures(course_list[1], lecture_list, tutorial_list,course_list[1]['lecture'], 6)
         middle = int(limit_hours_course*number_of_weeks*0.5)
         if ((x < middle) and (x<nb_lec)):
             for i in range(int(number_of_weeks*0.5)):
