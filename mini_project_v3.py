@@ -12,13 +12,58 @@ class Planning:
         self.planning_lectures = None
         self.planning_tutorials = None
         self.planning_experiments = None
+
         self.index_teacher_list = None
         self.index_group_list = None
+
         self.rooms_list = None
         self.resource_per_room = None
 
-    def get_model(self, N):
+        # Added for printing
+        self.group_list = None
+        self.lecture_list = None
+        self.tutorial_list = None
+        self.experiment_list = None
 
+        self.N = None
+
+    def print_csv(self, filename):
+        file = open(filename, "w")
+        cpt = 0
+        for grp in self.index_group_list:
+            file.write(self.group_list[cpt]['name']+"\n")
+            cpt+=1
+
+            total = [0]*self.N
+
+            for wk in range(1, self.N+1):
+                file.write(";Semaine "+str(wk))
+
+            for cs in grp['index_lecture_list']:
+                file.write("\n CM : "+self.lecture_list[cs['index']][0])
+                for wk in range(self.N): #TODO Change to use parameter
+                    total[wk] += int(str(self.planning_lectures[cs['index']][wk]))
+                    file.write(";"+str(self.planning_lectures[cs['index']][wk]))
+
+            for cs in grp['index_tutorial_list']:
+                file.write("\n TD : "+self.tutorial_list[cs['index']][0])
+                for wk in range(self.N): #TODO Change to use parameter
+                    total[wk] += int(str(self.planning_tutorials[cs['index']][wk]))
+                    file.write(";"+str(self.planning_tutorials[cs['index']][wk]))
+
+            for cs in grp['index_experiment_list']:
+                file.write("\n TP : "+self.experiment_list[cs['index']][0])
+                for wk in range(self.N): #TODO Change to use parameter
+                    total[wk] += (int(str(self.planning_experiments[cs['index']][wk]))*2)
+                    file.write(";"+str(int(str(self.planning_experiments[cs['index']][wk]))*2))
+
+            file.write("\n Total ")
+            for tot in total:
+                file.write(";"+str(tot))
+            file.write("\n\n")
+        file.close()
+
+    def get_model(self, N):
         # --------------------------------------------------------------------------------------------------- #
         # ------------------------------------------ Initialization ----------------------------------------- #
         # --------------------------------------------------------------------------------------------------- #
@@ -30,7 +75,6 @@ class Planning:
 
         # Get a data set from Test.py
         course_list, teacher_list, group_list, rooms_list = Test.data_set(2)
-
         # ----------------------------------- Additional course initialization ------------------------------------ #
 
         # Create lecture/tutorial/experiment list
@@ -241,6 +285,13 @@ class Planning:
         self.rooms_list = rooms_list
         self.resource_per_room = resource_per_room
 
+        #Printing needed data
+        self.group_list = group_list
+        self.lecture_list = lecture_list
+        self.tutorial_list = tutorial_list
+        self.experiment_list = experiment_list
+        self.N = N
+
         return model
 
     def solve(self, param):
@@ -329,6 +380,9 @@ class Planning:
                     total_teacher_hours.append(hours)
                 out += str(total_teacher_hours)
 
+
+
+
             # ---------------------- #
             # ----- Room Test ------ #
             # ---------------------- #
@@ -362,6 +416,8 @@ class Planning:
             out += "\nResources max for lectures per week: " + str(self.resource_per_room*len(rooms_lectures))
             out += "\nResources max for tutorials per week: " + str(self.resource_per_room*len(rooms_tutorials))
             out += "\nResources max for experiments per week: " + str(self.resource_per_room*len(rooms_experiments))
+
+            self.print_csv("res.csv")
 
         else:
             out = "No solution has been found !"
