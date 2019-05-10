@@ -61,7 +61,7 @@ def data_set(n):
                          {'course': course_5, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]}
         teacher_list = [teacher_1, teacher_2, teacher_3, teacher_4, teacher_5, teacher_6]
 
-        return course_list, teacher_list, group_list, rooms_list
+        return course_list, teacher_list, group_list, rooms_list, value_type_room
     elif n == 3:
         pass
 

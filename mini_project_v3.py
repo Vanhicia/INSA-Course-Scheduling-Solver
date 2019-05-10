@@ -71,11 +71,11 @@ class Planning:
 
         slots = 17              # Max number of hours per week
         number_of_weeks = N     # Number of weeks in a year, for our test we put 10 weeks
-        resource_per_room = 27   # Number of slots per week a room could contained
+        resource_per_room = 6   # Number of slots per week a room could contained
         limit_hours_course = 5  # leveling factor
 
         # Get a data set from Test.py
-        course_list, teacher_list, group_list, rooms_list = Test.data_set(2)
+        course_list, teacher_list, group_list, rooms_list, value_type_room = Test.data_set(2)
 
         # ----------------------------------- Course initialization ------------------------------------ #
 
@@ -316,8 +316,16 @@ class Planning:
         # Constraint : Lecture should be done in a room that is for lectures
         model += is_lesson_hours_lt_resources(total_hours_lecture, len(rooms_lectures), resource_per_room)
 
-        # # Constraint : Tutorial should be done in a room that is for tutorials
-        # model += is_lesson_hours_lt_resources(total_hours_tutorial, len(rooms_tutorials), resource_per_room)
+        # Constraint : Tutorial should be done in a room that is for tutorials
+        # Some tutorial are hold in special room, so we have to distinguish them.
+        tutorial_rooms_per_type = get_list_rooms_per_type(rooms_tutorials, value_type_room)
+
+        for week in total_hours_tutorial:
+            for room_key, val in week.items():
+                if room_key in tutorial_rooms_per_type:
+                    model += is_lesson_hours_lt_resources_one_week(val, tutorial_rooms_per_type[room_key], resource_per_room)
+                else:
+                    raise Exception("DATA ERROR : there is not this type of room : "+str(room_key))
         #
         # # Constraint : Experiment should be done in a room that is for experiments
         # model += is_lesson_hours_lt_resources(total_hours_experiment, len(rooms_experiments), resource_per_room)

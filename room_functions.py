@@ -72,7 +72,22 @@ def get_union_list_rooms_according_type_hours(all_rooms_list):
     return lectures_tutorials, lectures_experiments, tutorials_experiments
 
 
+def get_list_rooms_per_type(room_list, value_type_room):
+    res = {}
+    for room in room_list:
+        for type_room in value_type_room:
+            if type_room == room['type_room']:
+                if type_room in res:
+                    res[type_room] +=1
+                else:
+                    res.update({type_room: 1})
+    return res
+
+
 # Check if hours are less than resources of a room and per week
 def is_lesson_hours_lt_resources(total_hours, nb_rooms, nb_resources):
     return [week <= (nb_rooms*nb_resources) for week in total_hours]
 
+
+def is_lesson_hours_lt_resources_one_week(week, nb_rooms, nb_resources):
+    return [week <= (nb_rooms*nb_resources)]
