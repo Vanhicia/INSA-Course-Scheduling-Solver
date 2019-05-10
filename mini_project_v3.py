@@ -293,25 +293,10 @@ class Planning:
         # Instantiate lists to know what rooms could be use for lecture/tutorial/experiment
         rooms_lectures, rooms_tutorials, rooms_experiments = get_list_rooms_according_type_hours(rooms_list)
 
-        # # Instantiate union lists
-        # # union_lectures_tutorials : rooms that could be use for lectures or/and tutorials
-        # # union_lectures_experiments : rooms that could be use for lectures or/and experiments
-        # # union_tutorials_experiments : rooms that could be use for tutorials or/and experiments
-        # union_lectures_tutorials, union_lectures_experiments, union_tutorials_experiments = \
-        #     get_union_list_rooms_according_type_hours(rooms_list)
-
         # Instantiate lists containing total of lectures/tutorials/experiments hours per week
         total_hours_lecture = get_total_hours_week(total_lecture_hours_group_list_undup)
         total_hours_tutorial = get_total_hours_week_per_type_room(total_tutorial_hours_group_list, number_of_weeks)
         total_hours_experiment = get_total_hours_week_per_type_room(total_experiment_hours_group_list, number_of_weeks)
-
-        # Instantiate sum total of lectures/tutorials/experiments per week
-        # total_hours_union_lecture_tutorial : sum total of lectures and tutorials
-        # total_hours_union_lecture_experiment : sum total of lectures and experiments
-        # total_hours_union_tutorial_experiment : sum total of tutorials and experiments
-        # total_hours_union_lecture_tutorial = get_total_hours_week([total_hours_lecture, total_hours_tutorial])
-        # total_hours_union_lecture_experiment = get_total_hours_week([total_hours_lecture, total_hours_experiment])
-        # total_hours_union_tutorial_experiment = get_total_hours_week([total_hours_tutorial, total_hours_experiment])
 
         # Constraint : Lecture should be done in a room that is for lectures
         model += is_lesson_hours_lt_resources(total_hours_lecture, len(rooms_lectures), resource_per_room)
@@ -337,14 +322,41 @@ class Planning:
                 else:
                     raise Exception("DATA ERROR : there is not this type of room for experiments : " + str(room_key))
 
+        # # Instantiate union lists
+        # # union_lectures_tutorials : rooms that could be use for lectures or/and tutorials
+        # # union_lectures_experiments : rooms that could be use for lectures or/and experiments
+        # # union_tutorials_experiments : rooms that could be use for tutorials or/and experiments
+        # union_lectures_tutorials, union_lectures_experiments = \
+        #     get_union_list_rooms_according_type_hours(rooms_list)
+
+        union_tutorials_experiments = experiment_rooms_per_type
+        for key, val in tutorial_rooms_per_type.items():
+            if key not in union_tutorials_experiments:
+                union_tutorials_experiments.update({key, val})
+            else:
+                if val > union_tutorials_experiments[key]:
+                    union_tutorials_experiments[key] = tutorial_rooms_per_type[key]
+        # Instantiate sum total of lectures/tutorials/experiments per week
+        # total_hours_union_lecture_tutorial : sum total of lectures and tutorials
+        # total_hours_union_lecture_experiment : sum total of lectures and experiments
+        # total_hours_union_tutorial_experiment : sum total of tutorials and experiments
+        # total_hours_union_lecture_tutorial = get_total_hours_week([total_hours_lecture, total_hours_tutorial])
+        # total_hours_union_lecture_experiment = get_total_hours_week([total_hours_lecture, total_hours_experiment])
+        total_hours_union_tutorial_experiment = get_total_hours_week_per_type_room([total_hours_tutorial, total_hours_experiment], number_of_weeks)
+
         # # Constraint : Lecture and tutorial should not be done in the same room at the same time
         # model += is_lesson_hours_lt_resources(total_hours_union_lecture_tutorial, len(union_lectures_tutorials), resource_per_room)
         #
         # # Constraint : Lecture and experiment should not be done in the same room at the same time
         # model += is_lesson_hours_lt_resources(total_hours_union_lecture_experiment, len(union_lectures_experiments), resource_per_room)
-        #
-        # # Constraint : Tutorial and experiment should not be done in the same room at the same time
-        # model += is_lesson_hours_lt_resources(total_hours_union_tutorial_experiment, len(union_tutorials_experiments), resource_per_room)
+
+        # Constraint : Tutorial and experiment should not be done in the same room at the same time
+        for week in total_hours_union_tutorial_experiment:
+            for room_key, val in week.items():
+                if room_key in union_tutorials_experiments:
+                    model += is_lesson_hours_lt_resources_one_week(val, union_tutorials_experiments[room_key], resource_per_room)
+                else:
+                    raise Exception("DATA ERROR : there is not this type of room for tutorials/experiments : " + str(room_key))
 
         # Constraint : There should not be more lectures,tutorials and experiments than available rooms
         model += is_lesson_hours_lt_resources(get_total_hours_week(total_hours_group_list), len(rooms_list), resource_per_room)
@@ -461,8 +473,6 @@ class Planning:
                 out += "\nExperiments" + str(total_experiment_hours_one_group)
                 out += "\n\nTotal" + str(total_hours_one_group)
                 out += "\n\n"
-                out += str(Solution(self.planning_tutorials_group[group_index]))
-                out += "\n\n"
 
                 # Add details of one group in the groups' lists
                 total_lecture_hours_group_list_undup.append(total_lecture_hours_one_group_undup)
@@ -489,8 +499,7 @@ class Planning:
             # # Lists containing sum total of lectures/tutorials/experiments per week
             # total_hours_union_lecture_tutorial = Solution(get_total_hours_week([total_hours_lecture, total_hours_tutorial]))
             # total_hours_union_lecture_experiment = Solution(get_total_hours_week([total_hours_lecture, total_hours_experiment]))
-            # total_hours_union_tutorial_experiment = Solution(get_total_hours_week([total_hours_tutorial, total_hours_experiment]))
-
+            total_hours_union_tutorial_experiment = get_total_hours_week_per_type_room([total_hours_tutorial, total_hours_experiment], self.N)
             out += "\n\n"
             out += "\n\n        # ---------------------- #"
             out += "\n\n        # ----- Room Test ------ #"
@@ -501,7 +510,7 @@ class Planning:
             out += "\n"
             # out += "\n\nTotal hours lecture+tutorial: " + str(total_hours_union_lecture_tutorial)
             # out += "\nTotal hours lecture+experiment: " + str(total_hours_union_lecture_experiment)
-            # out += "\nTotal hours tutorial+experiment: " + str(total_hours_union_tutorial_experiment)
+            out += "\nTotal hours tutorial+experiment: " + str(total_hours_union_tutorial_experiment)
             out += "\n"
             out += "\nResources max for lectures per week: " + str(self.resource_per_room*len(rooms_lectures))
             out += "\nResources max for tutorials per week: " + str(self.resource_per_room*len(rooms_tutorials))
