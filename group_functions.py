@@ -19,6 +19,7 @@ def get_group_hours(group_info, group_index, index_group_list, week, planning_le
     hours_tutorials = 0
     hours_tutorials_per_type_room = {}
     hours_experiments = 0
+    hours_experiments_per_type_room = {}
     unduplicated_lecture_hours = 0
     group = index_group_list[group_index]
     for lecture in group['index_lecture_list']:
@@ -36,9 +37,14 @@ def get_group_hours(group_info, group_index, index_group_list, week, planning_le
             hours_tutorials_per_type_room[course['type_room']] += planning_tutorials[tutorial['index']][week]
         else:
             hours_tutorials_per_type_room.update({course['type_room']: planning_tutorials[tutorial['index']][week]})
+
     for experiment in group['index_experiment_list']:
         hours_experiments += 2 * planning_experiments[experiment['index']][week]
-
+        course = group_info['course_list'][experiment['index']]
+        if course['type_room'] in hours_experiments_per_type_room.keys():
+            hours_experiments_per_type_room[course['type_room']] += planning_experiments[experiment['index']][week]
+        else:
+            hours_experiments_per_type_room.update({course['type_room']: planning_experiments[experiment['index']][week]})
     hours_total = hours_lectures + hours_tutorials + hours_experiments
-    return hours_lectures, hours_tutorials_per_type_room, hours_experiments, hours_total, unduplicated_lecture_hours
+    return hours_lectures, hours_tutorials_per_type_room, hours_experiments_per_type_room, hours_total, unduplicated_lecture_hours
 
