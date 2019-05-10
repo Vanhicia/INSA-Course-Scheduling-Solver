@@ -23,46 +23,46 @@ class Planning:
         # Added for printing
         self.group_list = None
         self.lecture_list = None
-        self.tutorial_list = None
-        self.experiment_list = None
-
+        self.tutorial_list_per_group = None
+        self.experiment_list_per_group = None
         self.N = None
 
-    # def print_csv(self, filename):
-    #     file = open(filename, "w")
-    #     cpt = 0
-    #     for grp in self.index_group_list:
-    #         file.write(self.group_list[cpt]['name']+"\n")
-    #         cpt+=1
-    #
-    #         total = [0]*self.N
-    #
-    #         for wk in range(1, self.N+1):
-    #             file.write(";Semaine "+str(wk))
-    #
-    #         for cs in grp['index_lecture_list']:
-    #             file.write("\n CM : "+self.lecture_list[cs['index']][0])
-    #             for wk in range(self.N): #TODO Change to use parameter
-    #                 total[wk] += int(str(self.planning_lectures[cs['index']][wk]))
-    #                 file.write(";"+str(self.planning_lectures[cs['index']][wk]))
-    #
-    #         for cs in grp['index_tutorial_list']:
-    #             file.write("\n TD : "+self.tutorial_list[cs['index']][0])
-    #             for wk in range(self.N): #TODO Change to use parameter
-    #                 total[wk] += int(str(self.planning_tutorials[cs['index']][wk]))
-    #                 file.write(";"+str(self.planning_tutorials[cs['index']][wk]))
-    #
-    #         for cs in grp['index_experiment_list']:
-    #             file.write("\n TP : "+self.experiment_list[cs['index']][0])
-    #             for wk in range(self.N): #TODO Change to use parameter
-    #                 total[wk] += (int(str(self.planning_experiments[cs['index']][wk]))*2)
-    #                 file.write(";"+str(int(str(self.planning_experiments[cs['index']][wk]))*2))
-    #
-    #         file.write("\n Total ")
-    #         for tot in total:
-    #             file.write(";"+str(tot))
-    #         file.write("\n\n")
-    #     file.close()
+    def print_csv(self, filename):
+        file = open(filename, "w")
+        cpt = 0
+        for grp in self.index_group_list:
+            file.write(self.group_list[cpt]['name']+"\n")
+
+            total = [0]*self.N
+
+            for week in range(self.N):
+                file.write(";Semaine "+str(week+1))
+
+            for cs in grp['index_lecture_list']:
+                file.write("\n CM : "+self.lecture_list[cs['index']][0])
+                for wk in range(self.N): #TODO Change to use parameter
+                    total[wk] += int(str(self.planning_lectures[cs['index']][wk]))
+                    file.write(";"+str(self.planning_lectures[cs['index']][wk]))
+
+            for cs in grp['index_tutorial_list']:
+                file.write("\n TD : "+self.tutorial_list_per_group[cpt][cs['index']][0])
+                for wk in range(self.N): #TODO Change to use parameter
+                    total[wk] += int(str(self.planning_tutorials_group[cpt][cs['index']][wk]))
+                    file.write(";"+str(self.planning_tutorials_group[cpt][cs['index']][wk]))
+
+            for cs in grp['index_experiment_list']:
+                file.write("\n TP : "+self.experiment_list_per_group[cpt][cs['index']][0])
+                for wk in range(self.N): #TODO Change to use parameter
+                    total[wk] += (int(str(self.planning_experiments_group[cpt][cs['index']][wk]))*2)
+                    file.write(";"+str(int(str(self.planning_experiments_group[cpt][cs['index']][wk]))*2))
+
+            file.write("\n Total ")
+            for tot in total:
+                file.write(";"+str(tot))
+            file.write("\n\n")
+            cpt += 1
+        # TODO csv for teacher part
+        file.close()
 
     def get_model(self, N):
         # --------------------------------------------------------------------------------------------------- #
@@ -345,8 +345,8 @@ class Planning:
         # Printing needed data
         self.group_list = group_list
         self.lecture_list = lecture_list
-        # self.tutorial_list = tutorial_list
-        # self.experiment_list = experiment_list
+        self.tutorial_list_per_group = tutorial_list_per_group
+        self.experiment_list_per_group = experiment_list_per_group
         self.N = N
 
         return model
@@ -487,7 +487,7 @@ class Planning:
             out += "\nResources max for experiments per week: " + str(self.resource_per_room*len(rooms_experiments))
 
 
-            # self.print_csv("res.csv")
+            self.print_csv("res.csv")
 
         else:
             out = "No solution has been found !"
