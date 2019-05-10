@@ -5,12 +5,16 @@ def list_index_lesson_group(group, lesson_type, lesson_list):
     index_list = []
     for course in group['course_list']:
         if course[lesson_type] > 0:
-            index_list.append({'index': find_index_lesson_list(lesson_list, course), 'number_of': course[lesson_type]})
+            index_list.append({'name': course['name'], 'index': find_index_lesson_list(lesson_list, course), 'number_of': course[lesson_type]})
 
     return index_list
 
 # TODO: implementer les "accounted classes" qui pourraient nous permettre d'avoir des groupes dans une meme promo
 #  qui n'ont pas les mêmes cours
+
+
+checked_subject = []
+
 
 def get_group_hours(group_index, index_group_list, week, planning_lectures, planning_tutorials,
                     planning_experiments, checked_promo_list):
@@ -26,8 +30,11 @@ def get_group_hours(group_index, index_group_list, week, planning_lectures, plan
         # in order to not count twice lectures that are followed by two groups at the same time,
         # we check if the current group belongs to a promotion that was already accounted
         # if not, then we know the current lecture was never accounted before and we add it to "unduplicated_lectures"
-        if group['promo'] not in checked_promo_list:
-            unduplicated_lecture_hours += planning_lectures[lecture['index']][week]
+        print(checked_subject)
+        if lecture['name'] not in checked_subject:
+            if group['promo'] not in checked_promo_list:
+                unduplicated_lecture_hours += planning_lectures[lecture['index']][week]
+                checked_subject.append(lecture['name'])
     for tutorial in group['index_tutorial_list']:
         hours_tutorials += planning_tutorials[tutorial['index']][week]
     for experiment in group['index_experiment_list']:

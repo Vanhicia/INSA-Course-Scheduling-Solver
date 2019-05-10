@@ -228,14 +228,14 @@ class Planning:
             total_hours_one_group = []
 
             for week in range(number_of_weeks):
-                hours_lectures, hours_tutorials, hours_experiments, hours_total, \
-                    unduplicated_lecture_hours = get_group_hours(group_index,
-                                                                 index_group_list,
-                                                                 week,
-                                                                 planning_lectures,
-                                                                 planning_tutorials_per_group[group_index],
-                                                                 planning_experiments_per_group[group_index],
-                                                                 checked_promo_list)
+                hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours,\
+                    = get_group_hours(group_index,
+                                      index_group_list,
+                                      week,
+                                      planning_lectures,
+                                      planning_tutorials_per_group[group_index],
+                                      planning_experiments_per_group[group_index],
+                                      checked_promo_list)
 
                 # Add total of lectures/tutorials/experiments hours for one week in the current group' lists
                 total_lecture_hours_one_group_undup.append(unduplicated_lecture_hours)
@@ -422,14 +422,14 @@ class Planning:
                 total_hours_one_group = []
 
                 for week in range(len(self.planning_lectures.col)):
-                    hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours = \
-                        get_group_hours(group_index,
-                                        self.index_group_list,
-                                        week,
-                                        Solution(self.planning_lectures),
-                                        Solution(self.planning_tutorials_group[group_index]),
-                                        Solution(self.planning_experiments_group[group_index]),
-                                        checked_promo_list)
+                    hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours,\
+                        = get_group_hours(group_index,
+                                          self.index_group_list,
+                                          week,
+                                          Solution(self.planning_lectures),
+                                          Solution(self.planning_tutorials_group[group_index]),
+                                          Solution(self.planning_experiments_group[group_index]),
+                                          checked_promo_list)
 
                     # Add total of lectures/tutorials/experiments hours for one week in the current group' lists
                     total_lecture_hours_one_group_undup.append(unduplicated_lecture_hours)
