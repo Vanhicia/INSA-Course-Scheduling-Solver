@@ -69,7 +69,7 @@ def get_union_list_rooms_according_type_hours(all_rooms_list):
             if room not in tutorials_experiments:
                 tutorials_experiments.append(room)
 
-    return lectures_tutorials, lectures_experiments, tutorials_experiments
+    return lectures_tutorials, lectures_experiments
 
 
 def get_list_rooms_per_type(room_list, value_type_room):

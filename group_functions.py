@@ -46,5 +46,5 @@ def get_group_hours(group_info, group_index, index_group_list, week, planning_le
         else:
             hours_experiments_per_type_room.update({course['type_room']: planning_experiments[experiment['index']][week]})
     hours_total = hours_lectures + hours_tutorials + hours_experiments
-    return hours_lectures, hours_tutorials_per_type_room, hours_experiments_per_type_room, hours_total, unduplicated_lecture_hours
+    return hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours, hours_tutorials_per_type_room, hours_experiments_per_type_room
 
