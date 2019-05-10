@@ -12,7 +12,7 @@ def list_index_lesson_group(group, lesson_type, lesson_list):
 # TODO: implementer les "accounted classes" qui pourraient nous permettre d'avoir des groupes dans une meme promo
 #  qui n'ont pas les mêmes cours
 
-
+# probleme avec cette variable
 checked_subject = []
 
 
