@@ -27,8 +27,8 @@ def data_set(n):
         rooms_list = [room_1, room_2, room_3, room_4, room_5]
 
         # Courses #
-        course_1 = {'name': 'math', 'lecture': 40, 'tutorial': 0, 'experiment': 0, 'type_room': value_type_room[4]}
-        course_2 = {'name': 'Computer Science', 'lecture': 30, 'tutorial': 10, 'experiment': 15, 'type_room': value_type_room[2]}
+        course_1 = {'name': 'math', 'lecture': 40, 'tutorial': 5, 'experiment': 0, 'type_room': value_type_room[4]}
+        course_2 = {'name': 'Computer Science', 'lecture': 30, 'tutorial': 10, 'experiment': 15, 'type_room': value_type_room[1]}
         course_3 = {'name': 'Security', 'lecture': 10, 'tutorial': 0, 'experiment': 5, 'type_room': value_type_room[3]}
         course_4 = {'name': 'English', 'lecture': 20, 'tutorial': 0, 'experiment': 0, 'type_room': value_type_room[4]}
         course_5 = {'name': 'PPI', 'lecture': 10, 'tutorial': 0, 'experiment': 0, 'type_room': value_type_room[4]}

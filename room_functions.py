@@ -1,5 +1,5 @@
 from Numberjack import *
-
+import collections, functools, operator
 
 # Sum column of a matrix
 def sum_column(matrix):
@@ -8,7 +8,18 @@ def sum_column(matrix):
 
 # Return a list containing total of hours per week
 def get_total_hours_week(total_group):
-    return sum_column(total_group)
+        return sum_column(total_group)
+
+
+def get_total_hours_week_per_type_room(total_group, number_of_week):
+    res = []
+
+    for week in range(number_of_week):
+        column = []
+        for group in total_group:
+            column.append(group[week])
+        res.append(dict(functools.reduce(operator.add, map(collections.Counter, column))))
+    return res
 
 
 # Return 3 lists
@@ -64,3 +75,4 @@ def get_union_list_rooms_according_type_hours(all_rooms_list):
 # Check if hours are less than resources of a room and per week
 def is_lesson_hours_lt_resources(total_hours, nb_rooms, nb_resources):
     return [week <= (nb_rooms*nb_resources) for week in total_hours]
+
