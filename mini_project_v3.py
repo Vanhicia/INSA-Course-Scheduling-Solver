@@ -277,21 +277,30 @@ class Planning:
 
         # teacher_1 is not available the first week
         teacher_index = 0
-        max_hours = 0
-        hours = get_teacher_hours(teacher_index, index_teacher_list, 0, planning_lectures, planning_tutorials_per_teacher[teacher_index],
+        week_num = 0
+        absence_day_number = 5
+        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
+        hours = get_teacher_hours(teacher_index, index_teacher_list, week_num, planning_lectures,
+                                  planning_tutorials_per_teacher[teacher_index],
                                   planning_experiments_per_teacher[teacher_index])
         model += (hours <= max_hours)
 
         # teacher_6 is not available the fourth week
         teacher_index = 5
-        max_hours = 0
-        hours = get_teacher_hours(teacher_index, index_teacher_list, 3, planning_lectures, planning_tutorials_per_teacher[teacher_index],
+        week_num = 3
+        absence_day_number = 5
+        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
+        hours = get_teacher_hours(teacher_index, index_teacher_list, week_num, planning_lectures,
+                                  planning_tutorials_per_teacher[teacher_index],
                                   planning_experiments_per_teacher[teacher_index])
         model += (hours <= max_hours)
 
-        teacher_index = 5
-        max_hours = 0
-        hours = get_teacher_hours(teacher_index, index_teacher_list, 8, planning_lectures, planning_tutorials_per_teacher[teacher_index],
+        # teacher_4 is not available 2 days during the seventh week
+        teacher_index = 3
+        week_num = 6
+        absence_day_number = 2
+        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
+        hours = get_teacher_hours(teacher_index, index_teacher_list, week_num, planning_lectures, planning_tutorials_per_teacher[teacher_index],
                                   planning_experiments_per_teacher[teacher_index])
         model += (hours <= max_hours)
 

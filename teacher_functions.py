@@ -39,3 +39,13 @@ def get_teacher_hours(teacher_index, index_teacher_list, week, planning_lectures
         hours += experiment['gp_nb'] * 2 * planning_experiments[experiment['index']][week]
 
     return hours
+
+
+# compute the available slot number when a teacher is partially absent during a week,
+# from the absence day number and the maximum of slots per week
+def compute_slot_number(absence_day_number, max_hours):
+    total_day_number = 5
+    slots = 0
+    if absence_day_number < total_day_number:
+        slots = int(max_hours*((total_day_number-absence_day_number)/total_day_number))
+    return slots
