@@ -72,7 +72,9 @@ class Planning:
         slots = 17              # Max number of hours per week
         number_of_weeks = N     # Number of weeks in a year, for our test we put 10 weeks
         resource_per_room = 7   # Number of slots per week a room could contained
-        limit_hours_course = 5  # leveling factor
+        limit_hours_course_for_lectures = 5  # leveling factor
+        limit_hours_course_for_tutorials = 5  # leveling factor
+        limit_hours_course_for_experiments = 2  # leveling factor
 
         # Get a data set from Test.py
         course_list, teacher_list, group_list, rooms_list, value_type_room = Test.data_set(2)
@@ -94,7 +96,7 @@ class Planning:
                 lecture_list += [[course['name'], course['lecture']]]
 
         # Matrix representing planning for lecture lessons
-        planning_lectures = Matrix(len(lecture_list), number_of_weeks, 0, limit_hours_course)
+        planning_lectures = Matrix(len(lecture_list), number_of_weeks, 0, limit_hours_course_for_lectures)
 
         # --------------------- Initialize planning tutorial and experiment for groups --------------------- #
 
@@ -123,11 +125,11 @@ class Planning:
                                      'index_experiment_list': list_index_lesson_group(group, 'experiment', experiment_list_one_group)})
             # Tutorials
             tutorial_list_per_group.append(tutorial_list_one_group)
-            planning_tutorials_per_group.append(Matrix(len(tutorial_list_one_group), number_of_weeks, 0, limit_hours_course))
+            planning_tutorials_per_group.append(Matrix(len(tutorial_list_one_group), number_of_weeks, 0, limit_hours_course_for_tutorials))
 
             # Experiments
             experiment_list_per_group.append(experiment_list_one_group)
-            planning_experiments_per_group.append(Matrix(len(experiment_list_one_group), number_of_weeks, 0, limit_hours_course))
+            planning_experiments_per_group.append(Matrix(len(experiment_list_one_group), number_of_weeks, 0, limit_hours_course_for_experiments))
 
         # ------------------------ Initialize tutorial and experiment lists for teachers -------------------- #
 
@@ -156,12 +158,12 @@ class Planning:
 
             # Tutorials
             tutorial_list_per_teacher.append(tutorial_list_one_teacher)
-            planning_tutorials_one_teacher = Matrix(len(tutorial_list_one_teacher), number_of_weeks, 0, limit_hours_course)
+            planning_tutorials_one_teacher = Matrix(len(tutorial_list_one_teacher), number_of_weeks, 0, limit_hours_course_for_tutorials)
             planning_tutorials_per_teacher.append(planning_tutorials_one_teacher)
 
             # Experiments
             experiment_list_per_teacher.append(experiment_list_one_teacher)
-            planning_experiments_one_teacher = Matrix(len(experiment_list_one_teacher), number_of_weeks, 0,limit_hours_course)
+            planning_experiments_one_teacher = Matrix(len(experiment_list_one_teacher), number_of_weeks, 0,limit_hours_course_for_tutorials)
             planning_experiments_per_teacher.append(planning_experiments_one_teacher)
 
         # ----------------------------------- Additional group initialization -------------------------------------- #

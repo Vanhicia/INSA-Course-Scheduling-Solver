@@ -66,6 +66,7 @@ def data_set(n):
     elif n == 3:
         pass
 
+
 if __name__ == '__main__':
     cou,tea,gro = data_set(2)
     for i in cou:
