@@ -217,31 +217,42 @@ class Planning:
         total_lecture_hours_group_list_undup = []
         total_tutorial_hours_group_list = []
         total_experiment_hours_group_list = []
-        checked_promo_list = []
+        checked_promo_list = []  # a list a promos that are already accounted
+        checked_subject = []  # a list of subjects that are already accounted (reset for every promo)
 
         for group_index in range(len(group_list)):
+
+            # if the promo is different from the group before, we reset the checked_subject list
+            if index_group_list[group_index]['promo'] not in checked_promo_list:
+                checked_subject = []
 
             # Instantiate lists containing total of lectures/tutorials/experiments hours per week for one group
             total_lecture_hours_one_group_undup = []
             total_tutorial_hours_one_group = []
             total_experiment_hours_one_group = []
             total_hours_one_group = []
+            checked_subject_weekly = []  # we reset the weekly list for every group
 
             for week in range(number_of_weeks):
-                hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours,\
-                    = get_group_hours(group_index,
-                                      index_group_list,
-                                      week,
-                                      planning_lectures,
-                                      planning_tutorials_per_group[group_index],
-                                      planning_experiments_per_group[group_index],
-                                      checked_promo_list)
+                hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours, \
+                    subject_treated = get_group_hours(group_index,
+                                                      index_group_list,
+                                                      week,
+                                                      planning_lectures,
+                                                      planning_tutorials_per_group[group_index],
+                                                      planning_experiments_per_group[group_index],
+                                                      checked_subject)
 
                 # Add total of lectures/tutorials/experiments hours for one week in the current group' lists
                 total_lecture_hours_one_group_undup.append(unduplicated_lecture_hours)
                 total_tutorial_hours_one_group.append(hours_tutorials)
                 total_experiment_hours_one_group.append(hours_experiments)
                 total_hours_one_group.append(hours_total)
+
+                # every week, for every treated subject, if they are not already in the temporary list, we add them
+                for subject in subject_treated:
+                    if (subject not in checked_subject_weekly) and (subject != []):
+                        checked_subject_weekly.append(subject)
 
                 model += (hours_total <= slots)
 
@@ -251,7 +262,17 @@ class Planning:
             total_experiment_hours_group_list.append(total_experiment_hours_one_group)
             total_hours_group_list.append(total_hours_one_group)
 
-            checked_promo_list.append(index_group_list[group_index]['promo'])
+            # end of treatment for the group:
+
+            # if the promo of the group is not already in the checked promo list, we add it
+            if index_group_list[group_index]['promo'] not in checked_promo_list:
+                checked_promo_list.append(index_group_list[group_index]['promo'])
+
+            # at this point, every week was treated for this group
+            # for every subject found, we add them to the checked subject list
+            for subject in checked_subject_weekly:
+                if subject not in checked_subject:
+                    checked_subject.append(subject)
 
         # -------------------------------------- Teacher constraints -------------------------------------- #
 
@@ -401,6 +422,7 @@ class Planning:
             total_tutorial_hours_group_list = []
             total_experiment_hours_group_list = []
             checked_promo_list = []
+            checked_subject = []
 
             # ----------------------- #
             # ----- Group Test ------ #
@@ -414,22 +436,26 @@ class Planning:
             for group_index in range(len(self.index_group_list)):
                 out += ('\n\nGroup ' + str(group_index + 1) + ': \n')
 
+                if self.index_group_list[group_index]['promo'] not in checked_promo_list:
+                    checked_subject = []
+
                 # Instantiate lists containing total of lectures/tutorials/experiments hours per week for one group
                 total_lecture_hours_one_group = []
                 total_lecture_hours_one_group_undup = []
                 total_tutorial_hours_one_group = []
                 total_experiment_hours_one_group = []
                 total_hours_one_group = []
+                checked_subject_weekly = []
 
                 for week in range(len(self.planning_lectures.col)):
                     hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours,\
-                        = get_group_hours(group_index,
-                                          self.index_group_list,
-                                          week,
-                                          Solution(self.planning_lectures),
-                                          Solution(self.planning_tutorials_group[group_index]),
-                                          Solution(self.planning_experiments_group[group_index]),
-                                          checked_promo_list)
+                        subject_treated = get_group_hours(group_index,
+                                                          self.index_group_list,
+                                                          week,
+                                                          Solution(self.planning_lectures),
+                                                          Solution(self.planning_tutorials_group[group_index]),
+                                                          Solution(self.planning_experiments_group[group_index]),
+                                                          checked_subject)
 
                     # Add total of lectures/tutorials/experiments hours for one week in the current group' lists
                     total_lecture_hours_one_group_undup.append(unduplicated_lecture_hours)
@@ -437,6 +463,10 @@ class Planning:
                     total_tutorial_hours_one_group.append(hours_tutorials)
                     total_experiment_hours_one_group .append(hours_experiments)
                     total_hours_one_group.append(hours_total)
+
+                    for subject in subject_treated:
+                        if (subject not in checked_subject_weekly) and (subject != []):
+                            checked_subject_weekly.append(subject)
 
                 # Print details of the current group
                 out += "Lecture" + str(total_lecture_hours_one_group)
@@ -451,8 +481,12 @@ class Planning:
                 total_experiment_hours_group_list.append(total_experiment_hours_one_group)
                 total_hours_group_list.append(total_hours_one_group)
 
-                checked_promo_list.append(self.index_group_list[group_index]['promo'])
+                if self.index_group_list[group_index]['promo'] not in checked_promo_list:
+                    checked_promo_list.append(self.index_group_list[group_index]['promo'])
 
+                for subject in checked_subject_weekly:
+                    if subject not in checked_subject:
+                        checked_subject.append(subject)
             # ---------------------- #
             # ----- Room Test ------ #
             # ---------------------- #
