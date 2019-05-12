@@ -198,17 +198,19 @@ class Planning:
         model += [Sum(row) == hours[1] for teacher in range(len(teacher_list)) for (row, hours) in zip(planning_experiments_per_teacher[teacher].row, experiment_list_per_teacher[teacher])]
 
         # Specific constraints #
-
         # Tutorials start after X lectures #
-        # for group in range(len(group_list)):
-        #     (x, id_lec, id_exe, nb_lec) = exercises_only_after_x_lectures(course_list[1], lecture_list, tutorial_list_per_group[group], course_list[1]['lecture'], 6)
-        #     middle = int(limit_hours_course*number_of_weeks*0.5)
-        #     if len(planning_tutorials_per_group[group]) > 0:
-        #         if (x < middle) and (x < nb_lec):
-        #             for i in range(int(number_of_weeks*0.5)):
-        #                 model += (planning_tutorials_per_group[group][id_exe][i] == 0)
-        #             for i in range(int(number_of_weeks * 0.5), number_of_weeks):
-        #                 model += (planning_lectures[id_lec][i] <= int((nb_lec-x)/(number_of_weeks*0.5)))
+        for group in group_list:
+            for course in group['course_list']:
+                if course['tutorial'] > 0:
+                    nbr_group = group_list.index(group)
+                    (x, id_lec, id_exe, nb_lec) = exercises_only_after_x_lectures(course, lecture_list, tutorial_list_per_group[nbr_group], course['lecture'], 6)
+                    middle = int(limit_hours_course_for_lectures*number_of_weeks*0.5)
+                    if len(planning_tutorials_per_group[nbr_group]) > 0:
+                        if (x < middle) and (x < nb_lec):
+                            for i in range(int(number_of_weeks*0.5)):
+                                model += (planning_tutorials_per_group[nbr_group][id_exe][i] == 0)
+                            for i in range(int(number_of_weeks * 0.5), number_of_weeks):
+                                model += (planning_lectures[id_lec][i] <= int((nb_lec-x)/(number_of_weeks*0.5)))
 
         # ---------------------------------------- Group constraints ------------------------------------------- #
 
