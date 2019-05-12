@@ -163,7 +163,7 @@ class Planning:
 
             # Experiments
             experiment_list_per_teacher.append(experiment_list_one_teacher)
-            planning_experiments_one_teacher = Matrix(len(experiment_list_one_teacher), number_of_weeks, 0,limit_hours_course_for_tutorials)
+            planning_experiments_one_teacher = Matrix(len(experiment_list_one_teacher), number_of_weeks, 0,limit_hours_course_for_experiments)
             planning_experiments_per_teacher.append(planning_experiments_one_teacher)
 
         # ----------------------------------- Additional group initialization -------------------------------------- #
