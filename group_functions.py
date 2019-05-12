@@ -1,5 +1,5 @@
 from course_functions import *
-from collections import ChainMap
+
 
 def list_index_lesson_group(group, lesson_type, lesson_list):
     index_list = []
@@ -8,9 +8,6 @@ def list_index_lesson_group(group, lesson_type, lesson_list):
             index_list.append({'name': course['name'], 'index': find_index_lesson_list(lesson_list, course), 'number_of': course[lesson_type]})
 
     return index_list
-
-# TODO: implementer les "accounted classes" qui pourraient nous permettre d'avoir des groupes dans une meme promo
-#  qui n'ont pas les mêmes cours
 
 
 def get_group_hours(group_info, group_index, index_group_list, week, planning_lectures, planning_tutorials,
@@ -51,5 +48,6 @@ def get_group_hours(group_info, group_index, index_group_list, week, planning_le
         else:
             hours_experiments_per_type_room.update({course['type_room']: planning_experiments[experiment['index']][week]})
     hours_total = hours_lectures + hours_tutorials + hours_experiments
+
     return hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours, subject_treated, hours_tutorials_per_type_room, hours_experiments_per_type_room
 
