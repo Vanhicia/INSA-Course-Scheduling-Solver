@@ -288,46 +288,79 @@ class Planning:
                 if hours > 0:
                     model += (hours <= teacher_max_hours)
 
-        # for teacher_index in range(len(teacher_list)):
-        #     for week in range(number_of_weeks):
-        #         hours = get_teacher_hours(teacher_index,
-        #                                   index_teacher_list,
-        #                                   week,
-        #                                   planning_lectures,
-        #                                   planning_tutorials_per_teacher[teacher_index],
-        #                                   planning_experiments_per_teacher[teacher_index])
-        #         model += (hours <= teacher_max_hours)
-        #
-        # # Specific teacher constraints #
-        #
-        # # teacher_1 is not available the first week
-        # teacher_index = 0
-        # week_num = 0
-        # absence_day_number = 5
-        # max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
-        # hours = get_teacher_hours(teacher_index, index_teacher_list, week_num, planning_lectures,
-        #                           planning_tutorials_per_teacher[teacher_index],
-        #                           planning_experiments_per_teacher[teacher_index])
-        # model += (hours <= max_hours)
-        #
-        # # teacher_6 is not available the fourth week
-        # teacher_index = 5
-        # week_num = 3
-        # absence_day_number = 5
-        # max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
-        # hours = get_teacher_hours(teacher_index, index_teacher_list, week_num, planning_lectures,
-        #                           planning_tutorials_per_teacher[teacher_index],
-        #                           planning_experiments_per_teacher[teacher_index])
-        # model += (hours <= max_hours)
-        #
-        # # teacher_4 is not available 2 days during the seventh week
-        # teacher_index = 3
-        # week_num = 6
-        # absence_day_number = 2
-        # max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
-        # hours = get_teacher_hours(teacher_index, index_teacher_list, week_num, planning_lectures, planning_tutorials_per_teacher[teacher_index],
-        #                           planning_experiments_per_teacher[teacher_index])
-        # model += (hours <= max_hours)
+        # Specific teacher constraints #
+
+        # teacher_1 is not available the first week
+        teacher = teacher_list[0]
+        week = 0
+        absence_day_number = 5
+        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
+        hours = get_teacher_hours(teacher,
+                                group_list,
+                                promo_list,
+                                week,
+                                # planning_lessons_per_promo,
+                                planning_tutorials_per_group,
+                                planning_experiments_per_group,
+                                # lesson_list_per_promo2,
+                                tutorial_list_per_group2,
+                                experiment_list_per_group2)
+
+        model += (hours <= max_hours)
+
+        # teacher_2 is not available the tenth week
+        teacher = teacher_list[1]
+        week = 9
+        absence_day_number = 5
+        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
+        hours = get_teacher_hours(teacher,
+                                  group_list,
+                                  promo_list,
+                                  week,
+                                  # planning_lessons_per_promo,
+                                  planning_tutorials_per_group,
+                                  planning_experiments_per_group,
+                                  # lesson_list_per_promo2,
+                                  tutorial_list_per_group2,
+                                  experiment_list_per_group2)
+
+        model += (hours <= max_hours)
+
+        # teacher_2 is not available the tenth week
+        teacher = teacher_list[1]
+        week = 9
+        absence_day_number = 5
+        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
+        hours = get_teacher_hours(teacher,
+                                  group_list,
+                                  promo_list,
+                                  week,
+                                  # planning_lessons_per_promo,
+                                  planning_tutorials_per_group,
+                                  planning_experiments_per_group,
+                                  # lesson_list_per_promo2,
+                                  tutorial_list_per_group2,
+                                  experiment_list_per_group2)
+
+        model += (hours <= max_hours)
+
+        # teacher_1 is not available 2 days during the eighth week
+        teacher = teacher_list[0]
+        week = 7
+        absence_day_number = 2
+        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
+        hours = get_teacher_hours(teacher,
+                                  group_list,
+                                  promo_list,
+                                  week,
+                                  # planning_lessons_per_promo,
+                                  planning_tutorials_per_group,
+                                  planning_experiments_per_group,
+                                  # lesson_list_per_promo2,
+                                  tutorial_list_per_group2,
+                                  experiment_list_per_group2)
+
+        model += (hours <= max_hours)
 
         # ---------------------------------------- Room constraints --------------------------------------- #
 
