@@ -10,6 +10,7 @@ class Planning:
 
     def __init__(self):
         self.planning_lectures = None
+        self.planning_lectures_per_promo = None
         self.planning_tutorials_group = None
         self.planning_experiments_group = None
         self.planning_tutorials_teacher = None
@@ -100,8 +101,11 @@ class Planning:
             if course['lecture'] > 0:
                 lecture_list += [[course['name'], course['lecture']]]
 
+        promo_list = get_promos(group_list)
         # Matrix representing planning for lecture lessons
         planning_lectures = Matrix(len(lecture_list), number_of_weeks, 0, limit_hours_course_for_lectures)
+        planning_lectures_per_promo = []
+
 
         # --------------------- Initialize planning tutorial and experiment for groups --------------------- #
 
@@ -248,14 +252,16 @@ class Planning:
 
             for week in range(number_of_weeks):
                 hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours, \
-                    subject_treated, hours_tutorials_per_type_room, hours_experiments_per_type_room= get_group_hours(group_info,
-                                                                 group_index,
-                                                                 index_group_list,
-                                                                 week,
-                                                                 planning_lectures,
-                                                                 planning_tutorials_per_group[group_index],
-                                                                 planning_experiments_per_group[group_index],
-                                                                 checked_subject)
+                    subject_treated, hours_tutorials_per_type_room, hours_experiments_per_type_room = \
+                    get_group_hours(group_info,
+                                    group_index,
+                                    index_group_list,
+                                    week,
+                                    planning_lectures,
+                                    planning_lectures_per_promo,
+                                    planning_tutorials_per_group[group_index],
+                                    planning_experiments_per_group[group_index],
+                                    checked_subject)
 
                 # Add total of lectures/tutorials/experiments hours for one week in the current group' lists
                 total_lecture_hours_one_group_undup.append(unduplicated_lecture_hours)
@@ -424,7 +430,7 @@ class Planning:
         # Constraint : There should not be more lectures,tutorials and experiments than available rooms
         model += is_lesson_hours_lt_resources(get_total_hours_week(total_hours_group_list), len(rooms_list), resource_per_room)
 
-        self.planning_lectures = planning_lectures #TODO : modif in planning_lectures_per_promo
+        self.planning_lectures = planning_lectures  # TODO : modif in planning_lectures_per_promo
         self.planning_tutorials_group = planning_tutorials_per_group
         self.planning_experiments_group = planning_experiments_per_group
         self.index_group_list = index_group_list

@@ -1,16 +1,25 @@
 from course_functions import *
 
 
+def get_promos(group_list):  # takes a group list, returns a promo list
+    promo_list = []
+    for group in group_list:
+        if group['promo'] not in promo_list:
+            promo_list.append(group)
+
+
 def list_index_lesson_group(group, lesson_type, lesson_list):
     index_list = []
     for course in group['course_list']:
         if course[lesson_type] > 0:
-            index_list.append({'name': course['name'], 'index': find_index_lesson_list(lesson_list, course), 'number_of': course[lesson_type]})
+            index_list.append({'name': course['name'], 'index': find_index_lesson_list(lesson_list, course),
+                               'number_of': course[lesson_type]})
 
     return index_list
 
 
-def get_group_hours(group_info, group_index, index_group_list, week, planning_lectures, planning_tutorials,
+def get_group_hours(group_info, group_index, index_group_list, week, planning_lectures,
+                    planning_lectures_per_promo, planning_tutorials,
                     planning_experiments, checked_subject):
     hours_lectures = 0
     hours_tutorials = 0
@@ -46,8 +55,10 @@ def get_group_hours(group_info, group_index, index_group_list, week, planning_le
         if course['type_room'] in hours_experiments_per_type_room.keys():
             hours_experiments_per_type_room[course['type_room']] += planning_experiments[experiment['index']][week]
         else:
-            hours_experiments_per_type_room.update({course['type_room']: planning_experiments[experiment['index']][week]})
+            hours_experiments_per_type_room.update({course['type_room']: planning_experiments[experiment['index']]
+                                                    [week]})
     hours_total = hours_lectures + hours_tutorials + hours_experiments
 
-    return hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours, subject_treated, hours_tutorials_per_type_room, hours_experiments_per_type_room
+    return hours_lectures, hours_tutorials, hours_experiments, hours_total, unduplicated_lecture_hours, \
+        subject_treated, hours_tutorials_per_type_room, hours_experiments_per_type_room
 

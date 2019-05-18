@@ -1,4 +1,5 @@
 import DataFileManager
+import group_functions
 
 
 # Set of data that can accessed by their id n
@@ -44,7 +45,7 @@ def data_set(n):
         # Promo #
         promo_1 = [group_1, group_2]
         promo_2 = [group_3, group_4]
-        promo_list = [promo_1, promo_2]
+        promo_list = group_functions.get_promos(group_list)
 
         # Teachers #
         teacher_1 = {'name': "Michel Dumont", 'course_list': [
