@@ -431,6 +431,7 @@ class Planning:
         model += is_lesson_hours_lt_resources(get_total_hours_week(total_hours_group_list), len(rooms_list), resource_per_room)
 
         self.planning_lectures = planning_lectures  # TODO : modif in planning_lectures_per_promo
+        self.planning_lectures_per_promo = planning_lectures_per_promo
         self.planning_tutorials_group = planning_tutorials_per_group
         self.planning_experiments_group = planning_experiments_per_group
         self.index_group_list = index_group_list
@@ -532,6 +533,7 @@ class Planning:
                                         self.index_group_list,
                                         week,
                                         Solution(self.planning_lectures),
+                                        Solution(self.planning_lectures_per_promo),
                                         Solution(self.planning_tutorials_group[group_index]),
                                         Solution(self.planning_experiments_group[group_index]),
                                         checked_subject)
