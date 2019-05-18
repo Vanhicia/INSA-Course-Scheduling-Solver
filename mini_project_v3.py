@@ -77,7 +77,7 @@ class Planning:
         limit_hours_course_for_experiments = 2  # leveling factor
 
         # Get a data set from Test.py
-        course_list, teacher_list, group_list, rooms_list, value_type_room = Test.data_set(2)
+        course_list, teacher_list, group_list, promo_list, rooms_list, value_type_room = Test.data_set(2)
 
         # ----------------------------------- Course initialization ------------------------------------ #
 
@@ -86,6 +86,11 @@ class Planning:
         lecture_list = []
         tutorial_list_per_group = []
         experiment_list_per_group = []
+
+        # These lists contain the course variables followed by the students
+        # They are useful to define teacher constraints
+        tutorial_list_per_group2 = []
+        experiment_list_per_group2 = []
 
         # ---------------------------------- Initialize planning_lecture ----------------------------------- #
 
@@ -113,11 +118,15 @@ class Planning:
         for group in group_list:
             tutorial_list_one_group = []
             experiment_list_one_group = []
+            tutorial_list_one_group2 = []
+            experiment_list_one_group2 = []
             for course in group['course_list']:
                 if course['tutorial'] > 0:  # The current group has tutorials' current course
                     tutorial_list_one_group += [[course['name'], course['tutorial']]]
+                    tutorial_list_one_group2 += course
                 if course['experiment'] > 0:  # The current group has experiments' current course
                     experiment_list_one_group += [[course['name'], course['experiment']]]
+                    experiment_list_one_group2 += course
 
             index_group_list.append({'promo': group['promo'],
                                      'index_lecture_list': list_index_lesson_group(group, 'lecture', lecture_list),
@@ -125,46 +134,46 @@ class Planning:
                                      'index_experiment_list': list_index_lesson_group(group, 'experiment', experiment_list_one_group)})
             # Tutorials
             tutorial_list_per_group.append(tutorial_list_one_group)
+            tutorial_list_per_group2.append(tutorial_list_one_group2)
             planning_tutorials_per_group.append(Matrix(len(tutorial_list_one_group), number_of_weeks, 0, limit_hours_course_for_tutorials))
 
             # Experiments
             experiment_list_per_group.append(experiment_list_one_group)
+            experiment_list_per_group2.append(experiment_list_one_group2)
             planning_experiments_per_group.append(Matrix(len(experiment_list_one_group), number_of_weeks, 0, limit_hours_course_for_experiments))
 
         # ------------------------ Initialize tutorial and experiment lists for teachers -------------------- #
 
-        index_teacher_list = []
+        #index_teacher_list = []
         teacher_max_hours = 12  # maximum slot number for a teacher per week
 
-        tutorial_list_per_teacher = []
-        experiment_list_per_teacher = []
-        planning_tutorials_per_teacher = []
-        planning_experiments_per_teacher = []
-
-        for teacher in teacher_list:
-            tutorial_list_one_teacher = []
-            experiment_list_one_teacher = []
-            for course in teacher['course_list']:
-                if course['tutorial_gp_nb'] > 0:
-                    if course['course']['tutorial'] > 0:  # The current teacher has tutorials' current course with at least one group
-                        tutorial_list_one_teacher += [[course['course']['name'], course['course']['tutorial']]]
-                if course['experiment_gp_nb'] > 0:
-                    if course['course']['experiment'] > 0:  # The current teacher has experiments' current course with at least one group
-                        experiment_list_one_teacher += [[course['course']['name'], course['course']['experiment']]]
-
-            index_teacher_list.append({'index_lecture_list': list_index_lesson(teacher, 'lecture', lecture_list),
-                                       'index_tutorial_list': list_index_lesson(teacher, 'tutorial', tutorial_list_one_teacher),
-                                       'index_experiment_list': list_index_lesson(teacher, 'experiment', experiment_list_one_teacher)})
-
-            # Tutorials
-            tutorial_list_per_teacher.append(tutorial_list_one_teacher)
-            planning_tutorials_one_teacher = Matrix(len(tutorial_list_one_teacher), number_of_weeks, 0, limit_hours_course_for_tutorials)
-            planning_tutorials_per_teacher.append(planning_tutorials_one_teacher)
-
-            # Experiments
-            experiment_list_per_teacher.append(experiment_list_one_teacher)
-            planning_experiments_one_teacher = Matrix(len(experiment_list_one_teacher), number_of_weeks, 0,limit_hours_course_for_experiments)
-            planning_experiments_per_teacher.append(planning_experiments_one_teacher)
+        # tutorial_list_per_teacher = []
+        # experiment_list_per_teacher = []
+        #
+        # for teacher in teacher_list:
+        #     tutorial_list_one_teacher = []
+        #     experiment_list_one_teacher = []
+        #     for course in teacher['course_list']:
+        #         if course['tutorial_gp_nb'] > 0:
+        #             if course['course']['tutorial'] > 0:  # The current teacher has tutorials' current course with at least one group
+        #                 tutorial_list_one_teacher += [[course['course']['name'], course['course']['tutorial']]]
+        #         if course['experiment_gp_nb'] > 0:
+        #             if course['course']['experiment'] > 0:  # The current teacher has experiments' current course with at least one group
+        #                 experiment_list_one_teacher += [[course['course']['name'], course['course']['experiment']]]
+        #
+        #     index_teacher_list.append({'index_lecture_list': list_index_lesson(teacher, 'lecture', lecture_list),
+        #                                'index_tutorial_list': list_index_lesson(teacher, 'tutorial', tutorial_list_one_teacher),
+        #                                'index_experiment_list': list_index_lesson(teacher, 'experiment', experiment_list_one_teacher)})
+        #
+        #     # Tutorials
+        #     tutorial_list_per_teacher.append(tutorial_list_one_teacher)
+        #     planning_tutorials_one_teacher = Matrix(len(tutorial_list_one_teacher), number_of_weeks, 0, limit_hours_course_for_tutorials)
+        #     planning_tutorials_per_teacher.append(planning_tutorials_one_teacher)
+        #
+        #     # Experiments
+        #     experiment_list_per_teacher.append(experiment_list_one_teacher)
+        #     planning_experiments_one_teacher = Matrix(len(experiment_list_one_teacher), number_of_weeks, 0,limit_hours_course_for_experiments)
+        #     planning_experiments_per_teacher.append(planning_experiments_one_teacher)
 
         # ----------------------------------- Additional group initialization -------------------------------------- #
 
@@ -190,12 +199,10 @@ class Planning:
         # Tutorials
         # Constraint : The sum of a row should be equal to the corresponding tutorial total hours,
         model += [Sum(row) == hours[1] for group in range(len(group_list)) for (row, hours) in zip(planning_tutorials_per_group[group].row, tutorial_list_per_group[group])]
-        model += [Sum(row) == hours[1] for teacher in range(len(teacher_list)) for (row, hours) in zip(planning_tutorials_per_teacher[teacher].row, tutorial_list_per_teacher[teacher])]
 
         # Experiments
         # Constraint : The sum of a row should be equal to the corresponding experiment total hours,
         model += [Sum(row) == hours[1] for group in range(len(group_list)) for (row, hours) in zip(planning_experiments_per_group[group].row, experiment_list_per_group[group])]
-        model += [Sum(row) == hours[1] for teacher in range(len(teacher_list)) for (row, hours) in zip(planning_experiments_per_teacher[teacher].row, experiment_list_per_teacher[teacher])]
 
         # Specific constraints #
         # Tutorials start after X lectures #
@@ -288,46 +295,60 @@ class Planning:
 
         # -------------------------------------- Teacher constraints -------------------------------------- #
 
-        for teacher_index in range(len(teacher_list)):
+        for teacher in teacher_list:
             for week in range(number_of_weeks):
-                hours = get_teacher_hours(teacher_index,
-                                          index_teacher_list,
+                hours = get_teacher_hours(teacher,
+                                          group_list,
+                                          promo_list,
                                           week,
-                                          planning_lectures,
-                                          planning_tutorials_per_teacher[teacher_index],
-                                          planning_experiments_per_teacher[teacher_index])
+                                          # planning_lessons_per_promo,
+                                          planning_tutorials_per_group,
+                                          planning_experiments_per_group,
+                                          # lesson_list_per_promo2,
+                                          tutorial_list_per_group2,
+                                          experiment_list_per_group2)
                 model += (hours <= teacher_max_hours)
 
-        # Specific teacher constraints #
-
-        # teacher_1 is not available the first week
-        teacher_index = 0
-        week_num = 0
-        absence_day_number = 5
-        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
-        hours = get_teacher_hours(teacher_index, index_teacher_list, week_num, planning_lectures,
-                                  planning_tutorials_per_teacher[teacher_index],
-                                  planning_experiments_per_teacher[teacher_index])
-        model += (hours <= max_hours)
-
-        # teacher_6 is not available the fourth week
-        teacher_index = 5
-        week_num = 3
-        absence_day_number = 5
-        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
-        hours = get_teacher_hours(teacher_index, index_teacher_list, week_num, planning_lectures,
-                                  planning_tutorials_per_teacher[teacher_index],
-                                  planning_experiments_per_teacher[teacher_index])
-        model += (hours <= max_hours)
-
-        # teacher_4 is not available 2 days during the seventh week
-        teacher_index = 3
-        week_num = 6
-        absence_day_number = 2
-        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
-        hours = get_teacher_hours(teacher_index, index_teacher_list, week_num, planning_lectures, planning_tutorials_per_teacher[teacher_index],
-                                  planning_experiments_per_teacher[teacher_index])
-        model += (hours <= max_hours)
+        # for teacher_index in range(len(teacher_list)):
+        #     for week in range(number_of_weeks):
+        #         hours = get_teacher_hours(teacher_index,
+        #                                   index_teacher_list,
+        #                                   week,
+        #                                   planning_lectures,
+        #                                   planning_tutorials_per_teacher[teacher_index],
+        #                                   planning_experiments_per_teacher[teacher_index])
+        #         model += (hours <= teacher_max_hours)
+        #
+        # # Specific teacher constraints #
+        #
+        # # teacher_1 is not available the first week
+        # teacher_index = 0
+        # week_num = 0
+        # absence_day_number = 5
+        # max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
+        # hours = get_teacher_hours(teacher_index, index_teacher_list, week_num, planning_lectures,
+        #                           planning_tutorials_per_teacher[teacher_index],
+        #                           planning_experiments_per_teacher[teacher_index])
+        # model += (hours <= max_hours)
+        #
+        # # teacher_6 is not available the fourth week
+        # teacher_index = 5
+        # week_num = 3
+        # absence_day_number = 5
+        # max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
+        # hours = get_teacher_hours(teacher_index, index_teacher_list, week_num, planning_lectures,
+        #                           planning_tutorials_per_teacher[teacher_index],
+        #                           planning_experiments_per_teacher[teacher_index])
+        # model += (hours <= max_hours)
+        #
+        # # teacher_4 is not available 2 days during the seventh week
+        # teacher_index = 3
+        # week_num = 6
+        # absence_day_number = 2
+        # max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
+        # hours = get_teacher_hours(teacher_index, index_teacher_list, week_num, planning_lectures, planning_tutorials_per_teacher[teacher_index],
+        #                           planning_experiments_per_teacher[teacher_index])
+        # model += (hours <= max_hours)
 
         # ---------------------------------------- Room constraints --------------------------------------- #
 
@@ -403,12 +424,9 @@ class Planning:
         # Constraint : There should not be more lectures,tutorials and experiments than available rooms
         model += is_lesson_hours_lt_resources(get_total_hours_week(total_hours_group_list), len(rooms_list), resource_per_room)
 
-        self.planning_lectures = planning_lectures
+        self.planning_lectures = planning_lectures #TODO : modif in planning_lectures_per_promo
         self.planning_tutorials_group = planning_tutorials_per_group
         self.planning_experiments_group = planning_experiments_per_group
-        self.planning_tutorials_teacher = planning_tutorials_per_teacher
-        self.planning_experiments_teacher = planning_experiments_per_teacher
-        self.index_teacher_list = index_teacher_list
         self.index_group_list = index_group_list
         self.rooms_list = rooms_list
         self.resource_per_room = resource_per_room
