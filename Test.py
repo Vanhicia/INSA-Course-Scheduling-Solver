@@ -50,7 +50,7 @@ def data_set(n):
         # Teachers #
         teacher_1 = {'name': "Michel Dumont", 'course_list': [
                         {'course': course_1, 'lecture_promo': [promo_1], 'tutorial_gp': [group_1, group_2], 'experiment_gp': [group_1]},
-                        {'course': course_2, 'lecture_promo': [], 'tutorial_gp': 1, 'experiment_gp': []}]}
+                        {'course': course_2, 'lecture_promo': [], 'tutorial_gp': [group_2], 'experiment_gp': []}]}
 
         teacher_2 = {'name': "Hélène Michou", 'course_list': [
                         {'course': course_1, 'lecture_promo': [promo_2], 'tutorial_gp': [group_4], 'experiment_gp': [group_2, group_4]},

@@ -127,10 +127,10 @@ class Planning:
             for course in group['course_list']:
                 if course['tutorial'] > 0:  # The current group has tutorials' current course
                     tutorial_list_one_group += [[course['name'], course['tutorial']]]
-                    tutorial_list_one_group2 += course
+                    tutorial_list_one_group2 += [course]
                 if course['experiment'] > 0:  # The current group has experiments' current course
                     experiment_list_one_group += [[course['name'], course['experiment']]]
-                    experiment_list_one_group2 += course
+                    experiment_list_one_group2 += [course]
 
             index_group_list.append({'promo': group['promo'],
                                      'index_lecture_list': list_index_lesson_group(group, 'lecture', lecture_list),
