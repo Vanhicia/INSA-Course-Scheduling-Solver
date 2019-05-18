@@ -1,0 +1,215 @@
+import DataFileManager
+
+# Rooms ( /!\ Same rooms than DataFile /!\ ) #
+value_type_room = ['Normal', 'CS', 'IOT', 'Security - Network', 'Automate', 'Electronic', 'CSH', 'Sport', 'bib insa']
+room_1 = {'name': "GEI 15", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False,
+          'type_room': value_type_room[0]}
+room_2 = {'name': "GEI 13", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False,
+          'type_room': value_type_room[0]}
+room_2 = {'name': "GEI 213", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False,
+          'type_room': value_type_room[0]}
+room_3 = {'name': "GEI 111A", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': True,
+          'type_room': value_type_room[1]}
+room_4 = {'name': "GEI 111B", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': True,
+          'type_room': value_type_room[1]}
+room_5 = {'name': "GEI 102A", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': True,
+          'type_room': value_type_room[1]}
+room_6 = {'name': "GEI 102B", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': True,
+          'type_room': value_type_room[1]}
+room_7 = {'name': "GEI 105", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': True,
+          'type_room': value_type_room[2]}
+room_8 = {'name': "GEI 101", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': True,
+          'type_room': value_type_room[3]}
+room_9 = {'name': "GEI 223", 'is_for_lecture': False, 'is_for_tutorial': False, 'is_for_experiment': True,
+          'type_room': value_type_room[4]}
+room_10 = {'name': "GEI 224", 'is_for_lecture': False, 'is_for_tutorial': False, 'is_for_experiment': True,
+          'type_room': value_type_room[4]}
+room_11 = {'name': "GEI 226", 'is_for_lecture': False, 'is_for_tutorial': False, 'is_for_experiment': True,
+          'type_room': value_type_room[4]}
+room_12 = {'name': "GEI 002", 'is_for_lecture': False, 'is_for_tutorial': False, 'is_for_experiment': True,
+          'type_room': value_type_room[5]}
+room_13 = {'name': "GEI 005", 'is_for_lecture': False, 'is_for_tutorial': False, 'is_for_experiment': True,
+          'type_room': value_type_room[5]}
+room_14 = {'name': "GEI 113", 'is_for_lecture': False, 'is_for_tutorial': False, 'is_for_experiment': True,
+          'type_room': value_type_room[5]}
+room_15 = {'name': "CSH 004", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False,
+          'type_room': value_type_room[6]}
+room_16 = {'name': "CSH 006", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False,
+          'type_room': value_type_room[6]}
+room_17 = {'name': "CSH 104", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False,
+          'type_room': value_type_room[6]}
+room_18 = {'name': "Gymnase", 'is_for_lecture': False, 'is_for_tutorial': True, 'is_for_experiment': False,
+          'type_room': value_type_room[7]}
+room_19 = {'name': "Bib - salle formation", 'is_for_lecture': False, 'is_for_tutorial': True,
+           'is_for_experiment': False, 'type_room': value_type_room[8]}
+rooms_list = [room_1, room_2, room_3, room_4, room_5, room_6, room_7, room_8, room_9, room_10, room_11, room_12,
+              room_13, room_14, room_15, room_16, room_17, room_18, room_19]
+
+
+# sequencement s8 4IR 2018-2019 #
+# Tronc commun #
+course_1 = {'name': 'MSC', 'lecture': 12, 'tutorial': 0, 'experiment': 5,
+            'type_room': value_type_room[1]}
+course_2 = {'name': 'Temps reel', 'lecture': 7, 'tutorial': 2, 'experiment': 5,
+            'type_room': value_type_room[1]}
+course_3 = {'name': 'PIR', 'lecture': 0, 'tutorial': 0, 'experiment': 24,
+            'type_room': value_type_room[3]}
+course_4 = {'name': 'Conduite de projet', 'lecture': 8, 'tutorial': 0, 'experiment': 0,
+            'type_room': value_type_room[0]}
+course_5 = {'name': 'QSE', 'lecture': 13, 'tutorial': 0, 'experiment': 0,
+            'type_room': value_type_room[0]}
+course_6 = {'name': 'Activite physique et sportive', 'lecture': 0, 'tutorial': 12, 'experiment': 0,
+            'type_room': value_type_room[7]}
+course_7 = {'name': 'LV1', 'lecture': 0, 'tutorial': 24, 'experiment': 0,
+            'type_room': value_type_room[6]}
+course_8 = {'name': 'Communication', 'lecture': 0, 'tutorial': 8, 'experiment': 0,
+            'type_room': value_type_room[6]}
+
+# Orientation SI #
+course_9 = {'name': 'IA', 'lecture': 8, 'tutorial': 0, 'experiment': 4,
+             'type_room': value_type_room[1]}
+course_10 = {'name': 'Web Semantique', 'lecture': 4, 'tutorial': 0, 'experiment': 4,
+             'type_room': value_type_room[1]}
+course_11 = {'name': 'Meta-Heuristiques', 'lecture': 6, 'tutorial': 0, 'experiment': 5,
+             'type_room': value_type_room[1]}
+course_12 = {'name': 'Automates et Langages', 'lecture': 15, 'tutorial': 8, 'experiment': 0,
+             'type_room': value_type_room[1]}
+course_13 = {'name': 'Architectures Materielles', 'lecture': 8, 'tutorial': 4, 'experiment': 0,
+             'type_room': value_type_room[1]}
+course_14 = {'name': 'Projet Systeme Informatique', 'lecture': 0, 'tutorial': 0, 'experiment': 14,
+             'type_room': value_type_room[1]}
+
+# Orientation SC #
+course_15 = {'name': 'Interconnexion avancee', 'lecture': 13, 'tutorial': 2, 'experiment': 7,
+             'type_room': value_type_room[2]}
+course_16 = {'name': 'Reseaux grande distance', 'lecture': 14, 'tutorial': 2, 'experiment': 2,
+             'type_room': value_type_room[0]}
+course_17 = {'name': 'BE qualité de service dans l internet', 'lecture': 0, 'tutorial': 2, 'experiment': 5,
+             'type_room': value_type_room[2]}
+course_18 = {'name': 'Modèles et algorithmes pour l ingenieurie de trafic', 'lecture': 8, 'tutorial': 3,
+             'experiment': 0, 'type_room': value_type_room[2]}
+course_19 = {'name': 'Verification de protocoles', 'lecture': 6, 'tutorial': 0, 'experiment': 2,
+             'type_room': value_type_room[2]}
+course_20 = {'name': 'BE dimensionnement d interface radio pour reseaux mobiles', 'lecture': 4, 'tutorial': 0,
+             'experiment': 5, 'type_room': value_type_room[2]}
+course_21 = {'name': 'BE Controle d acces au medium', 'lecture': 5, 'tutorial': 0, 'experiment': 6,
+             'type_room': value_type_room[2]}
+course_22 = {'name': 'Reseaux d acces et communications optiques', 'lecture': 14, 'tutorial': 2, 'experiment': 0,
+             'type_room': value_type_room[2]}
+
+course_list = [course_1, course_2, course_3, course_4, course_5, course_6, course_7, course_8, course_9,
+               course_10, course_11, course_12, course_13, course_14, course_15, course_16, course_17, course_18,
+               course_19, course_20, course_21, course_22]
+
+# ( /!\ Same groups than DataFile /!\ ) #
+group_1 = {'name': '4IR-A', 'course_list': [course_1, course_2], 'promo': "4IR-4SC"}
+group_2 = {'name': '4IR-B', 'course_list': [course_1, course_3, course_5], 'promo': "4IR-4SC"}
+group_3 = {'name': '4IR-C', 'course_list': [course_3, course_5, course_4], 'promo': "4IR-4SC"}
+group_4 = {'name': '4IR-SC', 'course_list': [course_3, course_5, course_4], 'promo': "4IR-4SC"}
+group_list = [group_1, group_2, group_3, group_4]
+
+# Promo ( /!\ Same Promo than DataFile /!\ ) #
+promo_1 = [group_1, group_2, group_3, group_4]
+promo_1_SI = [group_1, group_2, group_3]
+promo_1_SC = [group_4]
+# promo_2 = [group_3, group_4]
+promo_list = [promo_1]
+
+# Teachers ( /!\ Some teachers are the same than DataFile /!\ ) #
+teacher_1 = {'name': "C. Baron", 'course_list': [
+    {'course': course_2, 'lecture_gp_nb': [promo_1], 'tutorial_gp_nb': promo_1, 'experiment_gp_nb': []}]}
+teacher_2 = {'name': "Francois Vernadat", 'course_list': [
+    {'course': course_1, 'lecture_gp_nb': [promo_1], 'tutorial_gp_nb': [], 'experiment_gp_nb': []},
+    {'course': course_19, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1_SC}]}
+teacher_3 = {'name': "JJ Cousty", 'course_list': [
+    {'course': course_4, 'lecture_gp_nb': [], 'tutorial_gp_nb': promo_1, 'experiment_gp_nb': []}]}
+teacher_4 = {'name': "Divers profs", 'course_list': [
+    {'course': course_5, 'lecture_gp_nb': [promo_1], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+
+sport_1 = {'name': "Prof sport1", 'course_list': [
+    {'course': course_6, 'lecture_gp_nb': [], 'tutorial_gp_nb': [group_1], 'experiment_gp_nb': []}]}
+sport_2 = {'name': "Prof sport2", 'course_list': [
+    {'course': course_6, 'lecture_gp_nb': [], 'tutorial_gp_nb': [group_2], 'experiment_gp_nb': []}]}
+sport_3 = {'name': "Prof sport3", 'course_list': [
+    {'course': course_6, 'lecture_gp_nb': [], 'tutorial_gp_nb': [group_3], 'experiment_gp_nb': []}]}
+sport_4 = {'name': "Prof sport4", 'course_list': [
+    {'course': course_6, 'lecture_gp_nb': [], 'tutorial_gp_nb': [group_4], 'experiment_gp_nb': []}]}
+
+teacher_5 = {'name': "Prof LV1 1", 'course_list': [
+    {'course': course_7, 'lecture_gp_nb': [group_1], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+teacher_6 = {'name': "Prof LV1 2", 'course_list': [
+    {'course': course_7, 'lecture_gp_nb': [group_2], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+teacher_7 = {'name': "Prof LV1 3", 'course_list': [
+    {'course': course_7, 'lecture_gp_nb': [group_3], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+teacher_8 = {'name': "Prof LV1 4", 'course_list': [
+    {'course': course_7, 'lecture_gp_nb': [group_4], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+
+teacher_9 = {'name': "Prof Com 1", 'course_list': [
+    {'course': course_8, 'lecture_gp_nb': [group_1], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+teacher_10 = {'name': "Prof Com 2", 'course_list': [
+    {'course': course_8, 'lecture_gp_nb': [group_2], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+teacher_11 = {'name': "Prof Com 3", 'course_list': [
+    {'course': course_8, 'lecture_gp_nb': [group_3], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+teacher_12 = {'name': "Prof Com 4", 'course_list': [
+    {'course': course_8, 'lecture_gp_nb': [group_4], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+
+teacher_13 = {'name': "Christophe Chassot", 'course_list': [
+    {'course': course_15, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+teacher_14 = {'name': "Vincent Nicomette", 'course_list': [
+    {'course': course_16, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': promo_1_SC, 'experiment_gp_nb': promo_1_SC}]}
+teacher_15 = {'name': "Slim Abdellatif", 'course_list': [
+    {'course': course_17, 'lecture_gp_nb': [], 'tutorial_gp_nb': promo_1_SC, 'experiment_gp_nb': promo_1_SC}]}
+teacher_16 = {'name': "O. Brun", 'course_list': [
+    {'course': course_18, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': promo_1_SC, 'experiment_gp_nb': []}]}
+
+teacher_17 = {'name': "Alain Boyer", 'course_list': [
+    {'course': course_20, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1_SC}]}
+teacher_18 = {'name': "D. Dragomirescu", 'course_list': [
+    {'course': course_21, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1_SC},
+    {'course': course_13, 'lecture_gp_nb': [promo_1_SI], 'tutorial_gp_nb': [group_1], 'experiment_gp_nb': []}]}
+teacher_19 = {'name': "Jean-Marie Dilhac", 'course_list': [
+    {'course': course_22, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': promo_1_SC, 'experiment_gp_nb': []}]}
+
+teacher_20 = {'name': "Patrick Esquirol", 'course_list': [
+    {'course': course_9, 'lecture_gp_nb': [promo_1_SI], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+teacher_21 = {'name': "Nathalie Hernandez", 'course_list': [
+    {'course': course_10, 'lecture_gp_nb': [promo_1_SI], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+teacher_22 = {'name': "Marie-Jo Huguet", 'course_list': [
+    {'course': course_11, 'lecture_gp_nb': [promo_1_SI], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+teacher_23 = {'name': "Eric Alata", 'course_list': [
+    {'course': course_12, 'lecture_gp_nb': [promo_1_SI], 'tutorial_gp_nb': promo_1_SI, 'experiment_gp_nb': []},
+    {'course': course_14, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': [group_1]}]}
+
+teacher_assistant_1 = {'name': "Doctorant 1", 'course_list': [
+    {'course': course_19, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1}]}
+teacher_assistant_2 = {'name': "Doctorant 2", 'course_list': [
+    {'course': course_2, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1}]}
+teacher_assistant_3 = {'name': "Doctorant 3", 'course_list': [
+    {'course': course_15, 'lecture_gp_nb': [], 'tutorial_gp_nb': course_15, 'experiment_gp_nb': course_15}]}
+teacher_assistant_4 = {'name': "Doctorant 4", 'course_list': [
+    {'course': course_9, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1_SI}]}
+teacher_assistant_5 = {'name': "Doctorant 5", 'course_list': [
+    {'course': course_10, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1_SI}]}
+teacher_assistant_6 = {'name': "Doctorant 6", 'course_list': [
+    {'course': course_11, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1_SI}]}
+teacher_assistant_7 = {'name': "Remi Adelin", 'course_list': [
+    {'course': course_14, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': [group_2, group_3]},
+    {'course': course_13, 'lecture_gp_nb': [promo_1_SI], 'tutorial_gp_nb': [group_3,group_2], 'experiment_gp_nb': []}]}
+
+
+teacher_ghost_1 = {'name': "Professeur fantome1 (PIR)", 'course_list': [
+    {'course': course_3, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': [group_1]}]}
+teacher_ghost_2 = {'name': "Professeur fantome2 (PIR)", 'course_list': [
+    {'course': course_3, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': [group_2]}]}
+teacher_ghost_3 = {'name': "Professeur fantome3 (PIR)", 'course_list': [
+    {'course': course_3, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': [group_3]}]}
+teacher_ghost_4 = {'name': "Professeur fantome4 (PIR)", 'course_list': [
+    {'course': course_3, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': [group_4]}]}
+
+teacher_list = [teacher_1, teacher_2, teacher_3, teacher_4, teacher_5, teacher_6, teacher_7, teacher_8, teacher_9,
+                teacher_10, teacher_11, teacher_12, teacher_13, teacher_14, teacher_15, teacher_16, teacher_17,
+                teacher_18, teacher_19, teacher_20, teacher_21, teacher_22, teacher_23,
+                teacher_assistant_1, teacher_assistant_2, teacher_assistant_3, teacher_assistant_4,
+                teacher_assistant_5, teacher_assistant_6, teacher_assistant_7,
+                sport_1, sport_2, sport_3, sport_4,
+                teacher_ghost_1, teacher_ghost_2, teacher_ghost_3, teacher_ghost_4]
