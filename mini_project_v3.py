@@ -127,10 +127,10 @@ class Planning:
             for course in group['course_list']:
                 if course['tutorial'] > 0:  # The current group has tutorials' current course
                     tutorial_list_one_group += [[course['name'], course['tutorial']]]
-                    tutorial_list_one_group2 += course
+                    tutorial_list_one_group2 += [course]
                 if course['experiment'] > 0:  # The current group has experiments' current course
                     experiment_list_one_group += [[course['name'], course['experiment']]]
-                    experiment_list_one_group2 += course
+                    experiment_list_one_group2 += [course]
 
             index_group_list.append({'promo': group['promo'],
                                      'index_lecture_list': list_index_lesson_group(group, 'lecture', lecture_list),
@@ -313,7 +313,8 @@ class Planning:
                                           # lesson_list_per_promo2,
                                           tutorial_list_per_group2,
                                           experiment_list_per_group2)
-                model += (hours <= teacher_max_hours)
+                if hours >0:
+                    model += (hours <= teacher_max_hours)
 
         # for teacher_index in range(len(teacher_list)):
         #     for week in range(number_of_weeks):
@@ -468,27 +469,27 @@ class Planning:
             # ------------------------- #
 
             out = "\n\n        # ------------------------- #"
-            out += "\n\n        # ----- Teacher Test ------ #"
-            out += "\n\n        # ------------------------- #"
-            out += '\n\nLectures: \n' + str(self.planning_lectures)
-            for teacher_index in range(len(self.planning_tutorials_teacher)):
-                out += ('\n\n\nTeacher ' + str(teacher_index + 1) + ': \n')
-                out += 'Tutorials' + str(Solution(self.planning_tutorials_teacher[teacher_index]))
-                out += '\nClassroom Experiments' + str(Solution(self.planning_experiments_teacher[teacher_index]))
-                total_teacher_hours = []
-                for week in range(len(self.planning_lectures.col)):
-                    hours = get_teacher_hours(teacher_index,
-                                              self.index_teacher_list,
-                                              week,
-                                              Solution(self.planning_lectures),
-                                              Solution(self.planning_tutorials_teacher[teacher_index]),
-                                              Solution(self.planning_experiments_teacher[teacher_index]))
-                    total_teacher_hours.append(hours)
-                out += "\n\nTotal"
-                # Sum lecture from planning_lectures
-                # + tutorial from planning_tutorials_teacher
-                # + experiment hours from planning_experiment_teacher
-                out += str(total_teacher_hours)
+            # out += "\n\n        # ----- Teacher Test ------ #"
+            # out += "\n\n        # ------------------------- #"
+            # out += '\n\nLectures: \n' + str(self.planning_lectures)
+            # for teacher_index in range(len(self.planning_tutorials_teacher)):
+            #     out += ('\n\n\nTeacher ' + str(teacher_index + 1) + ': \n')
+            #     out += 'Tutorials' + str(Solution(self.planning_tutorials_teacher[teacher_index]))
+            #     out += '\nClassroom Experiments' + str(Solution(self.planning_experiments_teacher[teacher_index]))
+            #     total_teacher_hours = []
+            #     for week in range(len(self.planning_lectures.col)):
+            #         hours = get_teacher_hours(teacher_index,
+            #                                   self.index_teacher_list,
+            #                                   week,
+            #                                   Solution(self.planning_lectures),
+            #                                   Solution(self.planning_tutorials_teacher[teacher_index]),
+            #                                   Solution(self.planning_experiments_teacher[teacher_index]))
+            #         total_teacher_hours.append(hours)
+            #     out += "\n\nTotal"
+            #     # Sum lecture from planning_lectures
+            #     # + tutorial from planning_tutorials_teacher
+            #     # + experiment hours from planning_experiment_teacher
+            #     out += str(total_teacher_hours)
 
             # Instantiate lists containing total of lectures/tutorials/experiments hours per week and per group
             total_hours_group_list = []

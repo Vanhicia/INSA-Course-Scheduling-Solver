@@ -55,12 +55,12 @@ def get_teacher_hours(teacher, group_list, promo_list, week, list_planning_tutor
 
         for group in course['tutorial_gp']:
             gp_index = group_list.index(group)
-            tuto_index = tutorial_list_per_group2[gp_index].index(course)
+            tuto_index = tutorial_list_per_group2[gp_index].index(course['course'])
             hours += (list_planning_tutorials_per_group[gp_index])[tuto_index][week]
 
         for group in course['experiment_gp']:
             gp_index = group_list.index(group)
-            exp_index = experiment_list_per_group2[gp_index].index(course)
+            exp_index = experiment_list_per_group2[gp_index].index(course['course'])
             hours += 2 * (list_planning_experiments_per_group[gp_index])[exp_index][week]
 
     return hours
