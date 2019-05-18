@@ -22,10 +22,14 @@ class Planning:
         self.resource_per_room = None
 
         # Added for printing
+        self.teacher_list = None
         self.group_list = None
+        self.promo_list = None
         self.lecture_list = None
         self.tutorial_list_per_group = None
         self.experiment_list_per_group = None
+        self.tutorial_list_per_group2 = None
+        self.experiment_list_per_group2 = None
         self.N = None
 
     def print_csv(self, filename):
@@ -146,44 +150,10 @@ class Planning:
             experiment_list_per_group2.append(experiment_list_one_group2)
             planning_experiments_per_group.append(Matrix(len(experiment_list_one_group), number_of_weeks, 0, limit_hours_course_for_experiments))
 
-        # ------------------------ Initialize tutorial and experiment lists for teachers -------------------- #
-
-        #index_teacher_list = []
-        teacher_max_hours = 12  # maximum slot number for a teacher per week
-
-        # tutorial_list_per_teacher = []
-        # experiment_list_per_teacher = []
-        #
-        # for teacher in teacher_list:
-        #     tutorial_list_one_teacher = []
-        #     experiment_list_one_teacher = []
-        #     for course in teacher['course_list']:
-        #         if course['tutorial_gp_nb'] > 0:
-        #             if course['course']['tutorial'] > 0:  # The current teacher has tutorials' current course with at least one group
-        #                 tutorial_list_one_teacher += [[course['course']['name'], course['course']['tutorial']]]
-        #         if course['experiment_gp_nb'] > 0:
-        #             if course['course']['experiment'] > 0:  # The current teacher has experiments' current course with at least one group
-        #                 experiment_list_one_teacher += [[course['course']['name'], course['course']['experiment']]]
-        #
-        #     index_teacher_list.append({'index_lecture_list': list_index_lesson(teacher, 'lecture', lecture_list),
-        #                                'index_tutorial_list': list_index_lesson(teacher, 'tutorial', tutorial_list_one_teacher),
-        #                                'index_experiment_list': list_index_lesson(teacher, 'experiment', experiment_list_one_teacher)})
-        #
-        #     # Tutorials
-        #     tutorial_list_per_teacher.append(tutorial_list_one_teacher)
-        #     planning_tutorials_one_teacher = Matrix(len(tutorial_list_one_teacher), number_of_weeks, 0, limit_hours_course_for_tutorials)
-        #     planning_tutorials_per_teacher.append(planning_tutorials_one_teacher)
-        #
-        #     # Experiments
-        #     experiment_list_per_teacher.append(experiment_list_one_teacher)
-        #     planning_experiments_one_teacher = Matrix(len(experiment_list_one_teacher), number_of_weeks, 0,limit_hours_course_for_experiments)
-        #     planning_experiments_per_teacher.append(planning_experiments_one_teacher)
 
         # ----------------------------------- Additional group initialization -------------------------------------- #
 
         # ---------------------------------- Additional teacher initialization ------------------------------------- #
-
-        # TODO : implement a function that affect a teacher to a group
 
         # ------------------------------------- Additional room initialization --------------------------------------- #
 
@@ -301,6 +271,8 @@ class Planning:
 
         # -------------------------------------- Teacher constraints -------------------------------------- #
 
+        teacher_max_hours = 12  # maximum slot number for a teacher per week
+
         for teacher in teacher_list:
             for week in range(number_of_weeks):
                 hours = get_teacher_hours(teacher,
@@ -313,7 +285,7 @@ class Planning:
                                           # lesson_list_per_promo2,
                                           tutorial_list_per_group2,
                                           experiment_list_per_group2)
-                if hours >0:
+                if hours > 0:
                     model += (hours <= teacher_max_hours)
 
         # for teacher_index in range(len(teacher_list)):
@@ -440,10 +412,14 @@ class Planning:
         self.resource_per_room = resource_per_room
 
         # Printing needed data
+        self.teacher_list = teacher_list
         self.group_list = group_list
+        self.promo_list = promo_list
         self.lecture_list = lecture_list
         self.tutorial_list_per_group = tutorial_list_per_group
         self.experiment_list_per_group = experiment_list_per_group
+        self.tutorial_list_per_group2 = tutorial_list_per_group2
+        self.experiment_list_per_group2 = experiment_list_per_group2
         self.N = N
 
         return model
@@ -469,27 +445,37 @@ class Planning:
             # ------------------------- #
 
             out = "\n\n        # ------------------------- #"
-            # out += "\n\n        # ----- Teacher Test ------ #"
-            # out += "\n\n        # ------------------------- #"
+            out += "\n\n        # ----- Teacher Test ------ #"
+            out += "\n\n        # ------------------------- #"
             # out += '\n\nLectures: \n' + str(self.planning_lectures)
-            # for teacher_index in range(len(self.planning_tutorials_teacher)):
-            #     out += ('\n\n\nTeacher ' + str(teacher_index + 1) + ': \n')
-            #     out += 'Tutorials' + str(Solution(self.planning_tutorials_teacher[teacher_index]))
-            #     out += '\nClassroom Experiments' + str(Solution(self.planning_experiments_teacher[teacher_index]))
-            #     total_teacher_hours = []
-            #     for week in range(len(self.planning_lectures.col)):
-            #         hours = get_teacher_hours(teacher_index,
-            #                                   self.index_teacher_list,
-            #                                   week,
-            #                                   Solution(self.planning_lectures),
-            #                                   Solution(self.planning_tutorials_teacher[teacher_index]),
-            #                                   Solution(self.planning_experiments_teacher[teacher_index]))
-            #         total_teacher_hours.append(hours)
-            #     out += "\n\nTotal"
-            #     # Sum lecture from planning_lectures
-            #     # + tutorial from planning_tutorials_teacher
-            #     # + experiment hours from planning_experiment_teacher
-            #     out += str(total_teacher_hours)
+
+            planning_tutorials_per_group2 = []
+            planning_experiments_per_group2 = []
+            for group in self.group_list:
+                gp_index = self.group_list.index(group)
+                planning_tutorials_per_group2.append(Solution(self.planning_tutorials_group[gp_index]))
+                planning_experiments_per_group2.append(Solution(self.planning_experiments_group[gp_index]))
+
+            for teacher in self.teacher_list:
+                out += ('\n\n\n' + teacher['name'] + ': \n')
+                total_teacher_hours = []
+                for week in range(len(self.planning_lectures.col)):
+                    hours = get_teacher_hours(teacher,
+                                          self.group_list,
+                                          self.promo_list,
+                                          week,
+                                          # planning_lectures_per_promo,
+                                          planning_tutorials_per_group2,
+                                          planning_experiments_per_group2,
+                                          # self.lecture_list_per_promo2,
+                                          self.tutorial_list_per_group2,
+                                          self.experiment_list_per_group2)
+                    total_teacher_hours.append(hours)
+                out += "Total"
+                # Sum lecture from planning_lectures
+                # + tutorial from planning_tutorials_teacher
+                # + experiment hours from planning_experiment_teacher
+                out += str(total_teacher_hours)
 
             # Instantiate lists containing total of lectures/tutorials/experiments hours per week and per group
             total_hours_group_list = []
