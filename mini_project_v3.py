@@ -89,6 +89,7 @@ class Planning:
         # Create lecture/tutorial/experiment list
         # One element contains the name of the subject + the number of lectures/tutorials/experiments
         lecture_list = []
+        lecture_list_per_promo = []
         tutorial_list_per_group = []
         experiment_list_per_group = []
 
@@ -97,21 +98,12 @@ class Planning:
         tutorial_list_per_group2 = []
         experiment_list_per_group2 = []
 
-        # ---------------------------------- Initialize planning_lecture ----------------------------------- #
-
-        for course in course_list:
-            # some courses have only lectures, only tutorials or only experiments,
-            # so we need to check if we have lectures in the current course
-            if course['lecture'] > 0:
-                lecture_list += [[course['name'], course['lecture']]]
-
+        # --------------------------- Initialize planning_lecture, tutorial and experiment --------------------------- #
         promo_list = get_promos(group_list)
+
         # Matrix representing planning for lecture lessons
         planning_lectures = Matrix(len(lecture_list), number_of_weeks, 0, limit_hours_course_for_lectures)
         planning_lectures_per_promo = []
-
-
-        # --------------------- Initialize planning tutorial and experiment for groups --------------------- #
 
         # Lists containing matrix representing planning for tutorial/experiment per group
         planning_tutorials_per_group = []
@@ -123,33 +115,50 @@ class Planning:
         # and a number of hours for the present type of class for the present course
         index_group_list = []
 
-        for group in group_list:
-            tutorial_list_one_group = []
-            experiment_list_one_group = []
-            tutorial_list_one_group2 = []
-            experiment_list_one_group2 = []
-            for course in group['course_list']:
-                if course['tutorial'] > 0:  # The current group has tutorials' current course
-                    tutorial_list_one_group += [[course['name'], course['tutorial']]]
-                    tutorial_list_one_group2 += [course]
-                if course['experiment'] > 0:  # The current group has experiments' current course
-                    experiment_list_one_group += [[course['name'], course['experiment']]]
-                    experiment_list_one_group2 += [course]
+        for promo in promo_list:
+            lecture_list_one_promo = []
+            for course in course_list:
+                # some courses have only lectures, only tutorials or only experiments,
+                # so we need to check if we have lectures in the current course
+                if course['lecture'] > 0:
+                    lecture_list_one_promo += [[course['name'], course['lecture']]]
+            for group in promo:
+                tutorial_list_one_group = []
+                experiment_list_one_group = []
+                tutorial_list_one_group2 = []
+                experiment_list_one_group2 = []
+                for course in group['course_list']:
+                    if course['tutorial'] > 0:  # The current group has tutorials' current course
+                        tutorial_list_one_group += [[course['name'], course['tutorial']]]
+                        tutorial_list_one_group2 += [course]
+                    if course['experiment'] > 0:  # The current group has experiments' current course
+                        experiment_list_one_group += [[course['name'], course['experiment']]]
+                        experiment_list_one_group2 += [course]
 
-            index_group_list.append({'promo': group['promo'],
-                                     'index_lecture_list': list_index_lesson_group(group, 'lecture', lecture_list),
-                                     'index_tutorial_list': list_index_lesson_group(group, 'tutorial', tutorial_list_one_group),
-                                     'index_experiment_list': list_index_lesson_group(group, 'experiment', experiment_list_one_group)})
-            # Tutorials
-            tutorial_list_per_group.append(tutorial_list_one_group)
-            tutorial_list_per_group2.append(tutorial_list_one_group2)
-            planning_tutorials_per_group.append(Matrix(len(tutorial_list_one_group), number_of_weeks, 0, limit_hours_course_for_tutorials))
+                index_group_list.append({'promo': group['promo'],
+                                         'index_lecture_list': list_index_lesson_group(group, 'lecture',
+                                                                                       lecture_list_one_promo),
+                                         'index_tutorial_list': list_index_lesson_group(group, 'tutorial',
+                                                                                        tutorial_list_one_group),
+                                         'index_experiment_list': list_index_lesson_group(group, 'experiment',
+                                                                                          experiment_list_one_group)})
 
-            # Experiments
-            experiment_list_per_group.append(experiment_list_one_group)
-            experiment_list_per_group2.append(experiment_list_one_group2)
-            planning_experiments_per_group.append(Matrix(len(experiment_list_one_group), number_of_weeks, 0, limit_hours_course_for_experiments))
+                # Tutorials
+                tutorial_list_per_group.append(tutorial_list_one_group)
+                tutorial_list_per_group2.append(tutorial_list_one_group2)
+                planning_tutorials_per_group.append(
+                    Matrix(len(tutorial_list_one_group), number_of_weeks, 0, limit_hours_course_for_tutorials))
 
+                # Experiments
+                experiment_list_per_group.append(experiment_list_one_group)
+                experiment_list_per_group2.append(experiment_list_one_group2)
+                planning_experiments_per_group.append(
+                    Matrix(len(experiment_list_one_group), number_of_weeks, 0, limit_hours_course_for_experiments))
+
+            # Lectures
+            lecture_list_per_promo.append(lecture_list_one_promo)
+            planning_lectures_per_promo.append(
+                Matrix(len(lecture_list_one_promo), number_of_weeks, 0, limit_hours_course_for_lectures))
 
         # ----------------------------------- Additional group initialization -------------------------------------- #
 
