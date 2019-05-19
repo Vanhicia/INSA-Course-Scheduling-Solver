@@ -193,7 +193,7 @@ class Planning:
                             for i in range(limit_lesson):
                                 model += (planning_tutorials_per_group[nbr_group][id_exe][i] == 0)
                             for i in range(limit_lesson, number_of_weeks):
-                                model += (planning_lectures[id_lec][i] <= int((nb_lec - x) / (number_of_weeks * 0.5)))
+                                model += (planning_lectures[id_lec][i] <= int((nb_lec - x) / limit_lesson))
 
         # ---------------------------------------- Group constraints ------------------------------------------- #
 
