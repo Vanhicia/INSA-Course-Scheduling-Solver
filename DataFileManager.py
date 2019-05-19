@@ -267,6 +267,8 @@ def test_json():
     group_3 = {'name': '4IR-C', 'course_list': [course_3, course_5, course_4]}
     group_list = [group_1, group_2, group_3]
 
+
+
     jfile = [course_list, teacher_list, group_list]
     f = open("test.json", "w")
     f.write(json.dumps(jfile))

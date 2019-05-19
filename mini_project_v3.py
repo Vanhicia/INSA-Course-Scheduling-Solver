@@ -184,14 +184,16 @@ class Planning:
             for course in group['course_list']:
                 if course['tutorial'] > 0:
                     nbr_group = group_list.index(group)
-                    (x, id_lec, id_exe, nb_lec) = exercises_only_after_x_lectures(course, lecture_list, tutorial_list_per_group[nbr_group], course['lecture'], 6)
-                    middle = int(limit_hours_course_for_lectures*number_of_weeks*0.5)
+                    (x, id_lec, id_exe, nb_lec) = exercises_only_after_x_lectures(course, lecture_list,
+                                                                                  tutorial_list_per_group[nbr_group],
+                                                                                  course['lecture'], 10)
                     if len(planning_tutorials_per_group[nbr_group]) > 0:
-                        if (x < middle) and (x < nb_lec):
-                            for i in range(int(number_of_weeks*0.5)):
+                        if (x < nb_lec):
+                            limit_lesson = int(x/limit_hours_course_for_lectures)+1
+                            for i in range(limit_lesson):
                                 model += (planning_tutorials_per_group[nbr_group][id_exe][i] == 0)
-                            for i in range(int(number_of_weeks * 0.5), number_of_weeks):
-                                model += (planning_lectures[id_lec][i] <= int((nb_lec-x)/(number_of_weeks*0.5)))
+                            for i in range(limit_lesson, number_of_weeks):
+                                model += (planning_lectures[id_lec][i] <= int((nb_lec - x) / (number_of_weeks * 0.5)))
 
         # ---------------------------------------- Group constraints ------------------------------------------- #
 
