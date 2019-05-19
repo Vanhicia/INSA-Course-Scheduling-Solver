@@ -1,5 +1,6 @@
 import DataFileManager
 
+
 # Rooms ( /!\ Same rooms than DataFile /!\ ) #
 value_type_room = ['Normal', 'CS', 'IOT', 'Security - Network', 'Automate', 'Electronic', 'CSH', 'Sport', 'bib insa']
 room_1 = {'name': "GEI 15", 'is_for_lecture': True, 'is_for_tutorial': True, 'is_for_experiment': False,
