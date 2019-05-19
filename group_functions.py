@@ -6,6 +6,7 @@ def get_promos(group_list):  # takes a group list, returns a promo list
     for group in group_list:
         if group['promo'] not in promo_list:
             promo_list.append(group)
+    return promo_list
 
 
 def list_index_lesson_group(group, lesson_type, lesson_list):
