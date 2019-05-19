@@ -123,7 +123,7 @@ class Planning:
                 # so we need to check if we have lectures in the current course
                 if course['lecture'] > 0:
                     lecture_list_one_promo += [[course['name'], course['lecture']]]
-            for group in promo:
+            for group in promo_list[promo]:
                 tutorial_list_one_group = []
                 experiment_list_one_group = []
                 tutorial_list_one_group2 = []
