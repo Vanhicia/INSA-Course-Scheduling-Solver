@@ -117,94 +117,94 @@ promo_list = [promo_1]
 
 # Teachers ( /!\ Some teachers are the same than DataFile /!\ ) #
 teacher_1 = {'name': "C. Baron", 'course_list': [
-    {'course': course_2, 'lecture_gp_nb': [promo_1], 'tutorial_gp_nb': promo_1, 'experiment_gp_nb': []}]}
+    {'course': course_2, 'lecture_promo': [promo_1], 'tutorial_gp': promo_1, 'experiment_gp': []}]}
 teacher_2 = {'name': "Francois Vernadat", 'course_list': [
-    {'course': course_1, 'lecture_gp_nb': [promo_1], 'tutorial_gp_nb': [], 'experiment_gp_nb': []},
-    {'course': course_19, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1_SC}]}
+    {'course': course_1, 'lecture_promo': [promo_1], 'tutorial_gp': [], 'experiment_gp': []},
+    {'course': course_19, 'lecture_promo': [promo_1_SC], 'tutorial_gp': [], 'experiment_gp': promo_1_SC}]}
 teacher_3 = {'name': "JJ Cousty", 'course_list': [
-    {'course': course_4, 'lecture_gp_nb': [], 'tutorial_gp_nb': promo_1, 'experiment_gp_nb': []}]}
+    {'course': course_4, 'lecture_promo': [], 'tutorial_gp': promo_1, 'experiment_gp': []}]}
 teacher_4 = {'name': "Divers profs", 'course_list': [
-    {'course': course_5, 'lecture_gp_nb': [promo_1], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+    {'course': course_5, 'lecture_promo': [promo_1], 'tutorial_gp': [], 'experiment_gp': []}]}
 
 sport_1 = {'name': "Prof sport1", 'course_list': [
-    {'course': course_6, 'lecture_gp_nb': [], 'tutorial_gp_nb': [group_1], 'experiment_gp_nb': []}]}
+    {'course': course_6, 'lecture_promo': [], 'tutorial_gp': [group_1], 'experiment_gp': []}]}
 sport_2 = {'name': "Prof sport2", 'course_list': [
-    {'course': course_6, 'lecture_gp_nb': [], 'tutorial_gp_nb': [group_2], 'experiment_gp_nb': []}]}
+    {'course': course_6, 'lecture_promo': [], 'tutorial_gp': [group_2], 'experiment_gp': []}]}
 sport_3 = {'name': "Prof sport3", 'course_list': [
-    {'course': course_6, 'lecture_gp_nb': [], 'tutorial_gp_nb': [group_3], 'experiment_gp_nb': []}]}
+    {'course': course_6, 'lecture_promo': [], 'tutorial_gp': [group_3], 'experiment_gp': []}]}
 sport_4 = {'name': "Prof sport4", 'course_list': [
-    {'course': course_6, 'lecture_gp_nb': [], 'tutorial_gp_nb': [group_4], 'experiment_gp_nb': []}]}
+    {'course': course_6, 'lecture_promo': [], 'tutorial_gp': [group_4], 'experiment_gp': []}]}
 
 teacher_5 = {'name': "Prof LV1 1", 'course_list': [
-    {'course': course_7, 'lecture_gp_nb': [group_1], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+    {'course': course_7, 'lecture_promo': [group_1], 'tutorial_gp': [], 'experiment_gp': []}]}
 teacher_6 = {'name': "Prof LV1 2", 'course_list': [
-    {'course': course_7, 'lecture_gp_nb': [group_2], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+    {'course': course_7, 'lecture_promo': [group_2], 'tutorial_gp': [], 'experiment_gp': []}]}
 teacher_7 = {'name': "Prof LV1 3", 'course_list': [
-    {'course': course_7, 'lecture_gp_nb': [group_3], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+    {'course': course_7, 'lecture_promo': [group_3], 'tutorial_gp': [], 'experiment_gp': []}]}
 teacher_8 = {'name': "Prof LV1 4", 'course_list': [
-    {'course': course_7, 'lecture_gp_nb': [group_4], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+    {'course': course_7, 'lecture_promo': [group_4], 'tutorial_gp': [], 'experiment_gp': []}]}
 
 teacher_9 = {'name': "Prof Com 1", 'course_list': [
-    {'course': course_8, 'lecture_gp_nb': [group_1], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+    {'course': course_8, 'lecture_promo': [group_1], 'tutorial_gp': [], 'experiment_gp': []}]}
 teacher_10 = {'name': "Prof Com 2", 'course_list': [
-    {'course': course_8, 'lecture_gp_nb': [group_2], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+    {'course': course_8, 'lecture_promo': [group_2], 'tutorial_gp': [], 'experiment_gp': []}]}
 teacher_11 = {'name': "Prof Com 3", 'course_list': [
-    {'course': course_8, 'lecture_gp_nb': [group_3], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+    {'course': course_8, 'lecture_promo': [group_3], 'tutorial_gp': [], 'experiment_gp': []}]}
 teacher_12 = {'name': "Prof Com 4", 'course_list': [
-    {'course': course_8, 'lecture_gp_nb': [group_4], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+    {'course': course_8, 'lecture_promo': [group_4], 'tutorial_gp': [], 'experiment_gp': []}]}
 
 teacher_13 = {'name': "Christophe Chassot", 'course_list': [
-    {'course': course_15, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+    {'course': course_15, 'lecture_promo': [promo_1_SC], 'tutorial_gp': [], 'experiment_gp': []}]}
 teacher_14 = {'name': "Vincent Nicomette", 'course_list': [
-    {'course': course_16, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': promo_1_SC, 'experiment_gp_nb': promo_1_SC}]}
+    {'course': course_16, 'lecture_promo': [promo_1_SC], 'tutorial_gp': promo_1_SC, 'experiment_gp': promo_1_SC}]}
 teacher_15 = {'name': "Slim Abdellatif", 'course_list': [
-    {'course': course_17, 'lecture_gp_nb': [], 'tutorial_gp_nb': promo_1_SC, 'experiment_gp_nb': promo_1_SC}]}
+    {'course': course_17, 'lecture_promo': [], 'tutorial_gp': promo_1_SC, 'experiment_gp': promo_1_SC}]}
 teacher_16 = {'name': "O. Brun", 'course_list': [
-    {'course': course_18, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': promo_1_SC, 'experiment_gp_nb': []}]}
+    {'course': course_18, 'lecture_promo': [promo_1_SC], 'tutorial_gp': promo_1_SC, 'experiment_gp': []}]}
 
 teacher_17 = {'name': "Alain Boyer", 'course_list': [
-    {'course': course_20, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1_SC}]}
+    {'course': course_20, 'lecture_promo': [promo_1_SC], 'tutorial_gp': [], 'experiment_gp': promo_1_SC}]}
 teacher_18 = {'name': "D. Dragomirescu", 'course_list': [
-    {'course': course_21, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1_SC},
-    {'course': course_13, 'lecture_gp_nb': [promo_1_SI], 'tutorial_gp_nb': [group_1], 'experiment_gp_nb': []}]}
+    {'course': course_21, 'lecture_promo': [promo_1_SC], 'tutorial_gp': [], 'experiment_gp': promo_1_SC},
+    {'course': course_13, 'lecture_promo': [promo_1_SI], 'tutorial_gp': [group_1], 'experiment_gp': []}]}
 teacher_19 = {'name': "Jean-Marie Dilhac", 'course_list': [
-    {'course': course_22, 'lecture_gp_nb': [promo_1_SC], 'tutorial_gp_nb': promo_1_SC, 'experiment_gp_nb': []}]}
+    {'course': course_22, 'lecture_promo': [promo_1_SC], 'tutorial_gp': promo_1_SC, 'experiment_gp': []}]}
 
 teacher_20 = {'name': "Patrick Esquirol", 'course_list': [
-    {'course': course_9, 'lecture_gp_nb': [promo_1_SI], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+    {'course': course_9, 'lecture_promo': [promo_1_SI], 'tutorial_gp': [], 'experiment_gp': []}]}
 teacher_21 = {'name': "Nathalie Hernandez", 'course_list': [
-    {'course': course_10, 'lecture_gp_nb': [promo_1_SI], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+    {'course': course_10, 'lecture_promo': [promo_1_SI], 'tutorial_gp': [], 'experiment_gp': []}]}
 teacher_22 = {'name': "Marie-Jo Huguet", 'course_list': [
-    {'course': course_11, 'lecture_gp_nb': [promo_1_SI], 'tutorial_gp_nb': [], 'experiment_gp_nb': []}]}
+    {'course': course_11, 'lecture_promo': [promo_1_SI], 'tutorial_gp': [], 'experiment_gp': []}]}
 teacher_23 = {'name': "Eric Alata", 'course_list': [
-    {'course': course_12, 'lecture_gp_nb': [promo_1_SI], 'tutorial_gp_nb': promo_1_SI, 'experiment_gp_nb': []},
-    {'course': course_14, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': [group_1]}]}
+    {'course': course_12, 'lecture_promo': [promo_1_SI], 'tutorial_gp': promo_1_SI, 'experiment_gp': []},
+    {'course': course_14, 'lecture_promo': [], 'tutorial_gp': [], 'experiment_gp': [group_1]}]}
 
 teacher_assistant_1 = {'name': "Doctorant 1", 'course_list': [
-    {'course': course_19, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1}]}
+    {'course': course_19, 'lecture_promo': [], 'tutorial_gp': [], 'experiment_gp': promo_1}]}
 teacher_assistant_2 = {'name': "Doctorant 2", 'course_list': [
-    {'course': course_2, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1}]}
+    {'course': course_2, 'lecture_promo': [], 'tutorial_gp': [], 'experiment_gp': promo_1}]}
 teacher_assistant_3 = {'name': "Doctorant 3", 'course_list': [
-    {'course': course_15, 'lecture_gp_nb': [], 'tutorial_gp_nb': course_15, 'experiment_gp_nb': course_15}]}
+    {'course': course_15, 'lecture_promo': [], 'tutorial_gp': course_15, 'experiment_gp': course_15}]}
 teacher_assistant_4 = {'name': "Doctorant 4", 'course_list': [
-    {'course': course_9, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1_SI}]}
+    {'course': course_9, 'lecture_promo': [], 'tutorial_gp': [], 'experiment_gp': promo_1_SI}]}
 teacher_assistant_5 = {'name': "Doctorant 5", 'course_list': [
-    {'course': course_10, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1_SI}]}
+    {'course': course_10, 'lecture_promo': [], 'tutorial_gp': [], 'experiment_gp': promo_1_SI}]}
 teacher_assistant_6 = {'name': "Doctorant 6", 'course_list': [
-    {'course': course_11, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': promo_1_SI}]}
+    {'course': course_11, 'lecture_promo': [], 'tutorial_gp': [], 'experiment_gp': promo_1_SI}]}
 teacher_assistant_7 = {'name': "Remi Adelin", 'course_list': [
-    {'course': course_14, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': [group_2, group_3]},
-    {'course': course_13, 'lecture_gp_nb': [promo_1_SI], 'tutorial_gp_nb': [group_3,group_2], 'experiment_gp_nb': []}]}
+    {'course': course_14, 'lecture_promo': [], 'tutorial_gp': [], 'experiment_gp': [group_2, group_3]},
+    {'course': course_13, 'lecture_promo': [promo_1_SI], 'tutorial_gp': [group_3,group_2], 'experiment_gp': []}]}
 
 
 teacher_ghost_1 = {'name': "Professeur fantome1 (PIR)", 'course_list': [
-    {'course': course_3, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': [group_1]}]}
+    {'course': course_3, 'lecture_promo': [], 'tutorial_gp': [], 'experiment_gp': [group_1]}]}
 teacher_ghost_2 = {'name': "Professeur fantome2 (PIR)", 'course_list': [
-    {'course': course_3, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': [group_2]}]}
+    {'course': course_3, 'lecture_promo': [], 'tutorial_gp': [], 'experiment_gp': [group_2]}]}
 teacher_ghost_3 = {'name': "Professeur fantome3 (PIR)", 'course_list': [
-    {'course': course_3, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': [group_3]}]}
+    {'course': course_3, 'lecture_promo': [], 'tutorial_gp': [], 'experiment_gp': [group_3]}]}
 teacher_ghost_4 = {'name': "Professeur fantome4 (PIR)", 'course_list': [
-    {'course': course_3, 'lecture_gp_nb': [], 'tutorial_gp_nb': [], 'experiment_gp_nb': [group_4]}]}
+    {'course': course_3, 'lecture_promo': [], 'tutorial_gp': [], 'experiment_gp': [group_4]}]}
 
 teacher_list = [teacher_1, teacher_2, teacher_3, teacher_4, teacher_5, teacher_6, teacher_7, teacher_8, teacher_9,
                 teacher_10, teacher_11, teacher_12, teacher_13, teacher_14, teacher_15, teacher_16, teacher_17,
