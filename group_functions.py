@@ -10,7 +10,7 @@ def get_promos(group_list):  # takes a group list, returns a promo list
             checked_promo.append(promo_index)
             current_promo = []
             current_promo.append(group)
-            promo_list[promo_index] =  current_promo
+            promo_list[promo_index] = current_promo
         else:
             promo_list[promo_index].append(group)
     return promo_list

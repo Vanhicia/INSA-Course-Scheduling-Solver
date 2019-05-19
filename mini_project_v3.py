@@ -224,7 +224,7 @@ class Planning:
             # resetting the checked subject list because the current promo was changed
             checked_subject = []
 
-            for group_info in promo:
+            for group_info in promo_list[promo]:
 
                 # Instantiate lists containing total of lectures/tutorials/experiments hours per week for one group
                 total_lecture_hours_one_group_undup = []
@@ -544,7 +544,7 @@ class Planning:
 
                 checked_subject = []
 
-                for group in promo:
+                for group in self.promo_list[promo]:
                     out += ('\n\nGroup ' + str(group_index + 1) + ': \n')
 
                     # Instantiate lists containing total of lectures/tutorials/experiments hours per week for one group
