@@ -81,7 +81,7 @@ class Planning:
         limit_hours_course_for_experiments = 2  # leveling factor
 
         # Get a data set from Test.py
-        course_list, teacher_list, group_list, promo_list, rooms_list, value_type_room = Test.data_set(2)
+        course_list, teacher_list, group_list, promo_list, rooms_list, value_type_room, teacher_absence_list = Test.data_set(2)
 
         # ----------------------------------- Course initialization ------------------------------------ #
 
@@ -302,77 +302,20 @@ class Planning:
 
         # Specific teacher constraints #
 
-        # teacher_1 is not available the first week
-        teacher = teacher_list[0]
-        week = 0
-        absence_day_number = 5
-        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
-        hours = get_teacher_hours(teacher,
-                                group_list,
-                                promo_list,
-                                week,
-                                # planning_lessons_per_promo,
-                                planning_tutorials_per_group,
-                                planning_experiments_per_group,
-                                # lesson_list_per_promo2,
-                                tutorial_list_per_group2,
-                                experiment_list_per_group2)
+        for absence in teacher_absence_list:
+            max_hours = compute_slot_number(absence['absence_day_number'], teacher_max_hours)
+            hours = get_teacher_hours(absence['teacher'],
+                                      group_list,
+                                      promo_list,
+                                      absence['week'],
+                                      # planning_lessons_per_promo,
+                                      planning_tutorials_per_group,
+                                      planning_experiments_per_group,
+                                      # lesson_list_per_promo2,
+                                      tutorial_list_per_group2,
+                                      experiment_list_per_group2)
 
-        model += (hours <= max_hours)
-
-        # teacher_2 is not available the tenth week
-        teacher = teacher_list[1]
-        week = 9
-        absence_day_number = 5
-        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
-        hours = get_teacher_hours(teacher,
-                                  group_list,
-                                  promo_list,
-                                  week,
-                                  # planning_lessons_per_promo,
-                                  planning_tutorials_per_group,
-                                  planning_experiments_per_group,
-                                  # lesson_list_per_promo2,
-                                  tutorial_list_per_group2,
-                                  experiment_list_per_group2)
-
-        model += (hours <= max_hours)
-
-        # teacher_2 is not available the tenth week
-        teacher = teacher_list[1]
-        week = 9
-        absence_day_number = 5
-        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
-        hours = get_teacher_hours(teacher,
-                                  group_list,
-                                  promo_list,
-                                  week,
-                                  # planning_lessons_per_promo,
-                                  planning_tutorials_per_group,
-                                  planning_experiments_per_group,
-                                  # lesson_list_per_promo2,
-                                  tutorial_list_per_group2,
-                                  experiment_list_per_group2)
-
-        model += (hours <= max_hours)
-
-        # teacher_1 is not available 2 days during the eighth week
-        teacher = teacher_list[0]
-        week = 7
-        absence_day_number = 2
-        max_hours = compute_slot_number(absence_day_number, teacher_max_hours)
-        hours = get_teacher_hours(teacher,
-                                  group_list,
-                                  promo_list,
-                                  week,
-                                  # planning_lessons_per_promo,
-                                  planning_tutorials_per_group,
-                                  planning_experiments_per_group,
-                                  # lesson_list_per_promo2,
-                                  tutorial_list_per_group2,
-                                  experiment_list_per_group2)
-
-        model += (hours <= max_hours)
+            model += (hours <= max_hours)
 
         # ---------------------------------------- Room constraints --------------------------------------- #
 
