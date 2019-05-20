@@ -70,7 +70,20 @@ def data_set(n):
 
         teacher_list = [teacher_1, teacher_2, teacher_3, teacher_4, teacher_5, teacher_6]
 
-        return course_list, teacher_list, group_list, promo_list, rooms_list, value_type_room
+        # Teacher absences #
+
+        # teacher_1 is not available the first week
+        absence_1 = {'teacher': teacher_1, 'week': 0, 'absence_day_number': 5}
+
+        # teacher_2 is not available the tenth week
+        absence_2 = {'teacher': teacher_2, 'week': 9, 'absence_day_number': 5}
+
+        # teacher_1 is not available 2 days during the fifth week
+        absence_3 = {'teacher': teacher_1, 'week': 4, 'absence_day_number': 2}
+
+        teacher_absence_list = [absence_1, absence_2, absence_3]
+
+        return course_list, teacher_list, group_list, promo_list, rooms_list, value_type_room, teacher_absence_list
     elif n == 3:
         pass
 
