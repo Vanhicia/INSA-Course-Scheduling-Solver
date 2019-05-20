@@ -499,27 +499,27 @@ class Planning:
                 planning_tutorials_per_group2.append(Solution(self.planning_tutorials_group[gp_index]))
                 planning_experiments_per_group2.append(Solution(self.planning_experiments_group[gp_index]))
 
-            # for teacher in self.teacher_list:
-            #     out += ('\n\n\n' + teacher['name'] + ': \n')
-            #     total_teacher_hours = []
-            #     for week in range(len(self.planning_lectures.col)):
-            #         hours = get_teacher_hours(teacher,
-            #                               self.group_list,
-            #                               self.promo_list,
-            #                               week,
-            #                               # planning_lectures_per_promo,
-            #                               planning_tutorials_per_group2,
-            #                               planning_experiments_per_group2,
-            #                               # self.lecture_list_per_promo2,
-            #                               self.tutorial_list_per_group2,
-            #                               self.experiment_list_per_group2)
-            #         total_teacher_hours.append(hours)
-            #     out += "Total"
-            #
-            #     # Sum lecture from planning_lectures
-            #     # + tutorial from planning_tutorials_teacher
-            #     # + experiment hours from planning_experiment_teacher
-            #     out += str(total_teacher_hours)
+            for teacher in self.teacher_list:
+                out += ('\n\n\n' + teacher['name'] + ': \n')
+                total_teacher_hours = []
+                for week in range(self.N):
+                    hours = get_teacher_hours(teacher,
+                                          self.group_list,
+                                          self.promo_list,
+                                          week,
+                                          # planning_lectures_per_promo,
+                                          planning_tutorials_per_group2,
+                                          planning_experiments_per_group2,
+                                          # self.lecture_list_per_promo2,
+                                          self.tutorial_list_per_group2,
+                                          self.experiment_list_per_group2)
+                    total_teacher_hours.append(hours)
+                out += "Total"
+
+                # Sum lecture from planning_lectures
+                # + tutorial from planning_tutorials_teacher
+                # + experiment hours from planning_experiment_teacher
+                out += str(total_teacher_hours)
 
             # Instantiate lists containing total of lectures/tutorials/experiments hours per week and per group
             total_hours_group_list = []
