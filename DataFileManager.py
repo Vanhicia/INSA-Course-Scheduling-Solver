@@ -29,10 +29,6 @@ import group_functions
 
 # Function : test_json() ==> Store default data to test.json
 
-# TODO ALL:
-#     FINISH CLASS
-
-
 class DataFileManager:
 
     courses = []
@@ -65,7 +61,6 @@ class DataFileManager:
         JSON_file = open(self.filename, "w")
         JSON_file.write(json.dumps(py_object))
 
-    #TODO Rework
     def get_data(self):
         promos = group_functions.get_promos(self.groups)
         return self.courses, self.teachers, self.groups, promos, self.rooms, self.room_types, self.teacher_absence_list

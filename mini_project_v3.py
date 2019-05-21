@@ -30,6 +30,7 @@ class Planning:
         self.experiment_list_per_group2 = None
         self.N = None
 
+
     def print_csv(self, filename):
         file = open(filename, "w")
         cpt = 0
@@ -40,22 +41,22 @@ class Planning:
 
             for week in range(self.N):
                 file.write(";Semaine "+str(week+1))
-            # TODO: change to make it work with promos
-            # for cs in grp['index_lecture_list']:
-            #     file.write("\n CM : "+self.lecture_list[cs['index']][0])
-            #     for wk in range(self.N): #TODO Change to use parameter
-            #         total[wk] += int(str(self.planning_lectures[cs['index']][wk]))
-            #         file.write(";"+str(self.planning_lectures[cs['index']][wk]))
+
+            for cs in grp['index_lecture_list']:
+                file.write("\n CM : "+cs['name'])
+                for wk in range(self.N):
+                    total[wk] += int(str(self.planning_lectures_per_promo[int(grp['promo'])-1][cs['index']][wk]))
+                    file.write(";"+str(self.planning_lectures_per_promo[int(grp['promo'])-1][cs['index']][wk]))
 
             for cs in grp['index_tutorial_list']:
                 file.write("\n TD : "+self.tutorial_list_per_group[cpt][cs['index']][0])
-                for wk in range(self.N): #TODO Change to use parameter
+                for wk in range(self.N):
                     total[wk] += int(str(self.planning_tutorials_group[cpt][cs['index']][wk]))
                     file.write(";"+str(self.planning_tutorials_group[cpt][cs['index']][wk]))
 
             for cs in grp['index_experiment_list']:
                 file.write("\n TP : "+self.experiment_list_per_group[cpt][cs['index']][0])
-                for wk in range(self.N): #TODO Change to use parameter
+                for wk in range(self.N):
                     total[wk] += (int(str(self.planning_experiments_group[cpt][cs['index']][wk]))*2)
                     file.write(";"+str(int(str(self.planning_experiments_group[cpt][cs['index']][wk]))*2))
 
@@ -405,6 +406,7 @@ class Planning:
         self.tutorial_list_per_group2 = tutorial_list_per_group2
         self.experiment_list_per_group2 = experiment_list_per_group2
         self.N = N
+        self.lecture_list_per_promo = lecture_list_per_promo
 
         return model
 
