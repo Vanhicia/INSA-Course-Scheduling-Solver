@@ -24,7 +24,6 @@ class Planning:
         self.teacher_list = None
         self.group_list = None
         self.promo_list = None
-        self.lecture_list = None
         self.tutorial_list_per_group = None
         self.experiment_list_per_group = None
         self.tutorial_list_per_group2 = None
@@ -41,7 +40,7 @@ class Planning:
 
             for week in range(self.N):
                 file.write(";Semaine "+str(week+1))
-
+            # TODO: change to make it work with promos
             # for cs in grp['index_lecture_list']:
             #     file.write("\n CM : "+self.lecture_list[cs['index']][0])
             #     for wk in range(self.N): #TODO Change to use parameter
@@ -87,7 +86,6 @@ class Planning:
 
         # Create lecture/tutorial/experiment list
         # One element contains the name of the subject + the number of lectures/tutorials/experiments
-        lecture_list = []
         lecture_list_per_promo = []
         tutorial_list_per_group = []
         experiment_list_per_group = []
@@ -101,8 +99,6 @@ class Planning:
         promo_list = get_promos(group_list)
 
         # Matrix representing planning for lecture lessons
-        # TODO: delete this one if it's okay
-        # planning_lectures = Matrix(len(lecture_list), number_of_weeks, 0, limit_hours_course_for_lectures)
 
         planning_lectures_per_promo = []
 
@@ -118,17 +114,14 @@ class Planning:
 
         for promo in promo_list:
             lecture_list_one_promo = []
-            for course in course_list:
-                # some courses have only lectures, only tutorials or only experiments,
-                # so we need to check if we have lectures in the current course
-                if course['lecture'] > 0:
-                    lecture_list_one_promo += [[course['name'], course['lecture']]]
             for group in promo_list[promo]:
                 tutorial_list_one_group = []
                 experiment_list_one_group = []
                 tutorial_list_one_group2 = []
                 experiment_list_one_group2 = []
                 for course in group['course_list']:
+                    if course['lecture'] > 0 and ([[course['name'], course['lecture']]] not in lecture_list_one_promo):
+                        lecture_list_one_promo += [[course['name'], course['lecture']]]
                     if course['tutorial'] > 0:  # The current group has tutorials' current course
                         tutorial_list_one_group += [[course['name'], course['tutorial']]]
                         tutorial_list_one_group2 += [course]
@@ -161,6 +154,7 @@ class Planning:
             planning_lectures_per_promo.append(
                 Matrix(len(lecture_list_one_promo), number_of_weeks, 0, limit_hours_course_for_lectures))
 
+
         # ----------------------------------- Additional group initialization -------------------------------------- #
 
         # ---------------------------------- Additional teacher initialization ------------------------------------- #
@@ -178,7 +172,7 @@ class Planning:
         # Lectures
         # On the matrix, each row represents a lecture, and each column represent a week.
         # Constraint : The sum of a row should be equal to the corresponding lecture total hours.
-        model += [Sum(row) == hours[1] for promo in range(len(promo_list)) for (row, hours) in zip(planning_lectures_per_promo[promo].row, lecture_list)]
+        model += [Sum(row) == hours[1] for promo in range(len(promo_list)) for (row, hours) in zip(planning_lectures_per_promo[promo].row, lecture_list_per_promo[promo])]
 
         # Tutorials
         # Constraint : The sum of a row should be equal to the corresponding tutorial total hours,
@@ -190,22 +184,25 @@ class Planning:
 
         # Specific constraints #
         # Tutorials start after X lectures #
-        for group in group_list:
-            for course in group['course_list']:
-                if course['tutorial'] > 0:
-                    nbr_group = group_list.index(group)
-                    (x, id_lec, id_exe, nb_lec) = exercises_only_after_x_lectures(course, lecture_list,
-                                                                                  tutorial_list_per_group[nbr_group],
-                                                                                  course['lecture'], 10)
-                    if len(planning_tutorials_per_group[nbr_group]) > 0:
-                        if (x < nb_lec):
-                            limit_lesson = int(x/limit_hours_course_for_lectures)+1
-                            for i in range(limit_lesson):
-                                model += (planning_tutorials_per_group[nbr_group][id_exe][i] == 0)
-                            for i in range(limit_lesson, number_of_weeks):
-                                # TODO: change specific constraint to work with new planning lectures per promo
-                                # model += (planning_lectures[id_lec][i] <= int((nb_lec - x) / limit_lesson))
-                                pass
+        promo_index = 0
+        for promo in promo_list:
+            for group in promo_list[promo]:
+                for course in group['course_list']:
+                    if course['tutorial'] > 0:
+                        nbr_group = group_list.index(group)
+                        (x, id_lec, id_exe, nb_lec) = exercises_only_after_x_lectures(course, lecture_list_per_promo[promo_index],
+                                                                                      tutorial_list_per_group[nbr_group],
+                                                                                      course['lecture'], 10)
+                        if len(planning_tutorials_per_group[nbr_group]) > 0:
+                            if (x < nb_lec):
+                                limit_lesson = int(x/limit_hours_course_for_lectures)+1
+                                for i in range(limit_lesson):
+                                    model += (planning_tutorials_per_group[nbr_group][id_exe][i] == 0)
+                                for i in range(limit_lesson, number_of_weeks):
+                                    # TODO: change specific constraint to work with new planning lectures per promo
+                                    # model += (planning_lectures[id_lec][i] <= int((nb_lec - x) / limit_lesson))
+                                    pass
+            promo_index += 1
 
         # ---------------------------------------- Group constraints ------------------------------------------- #
 
@@ -301,6 +298,7 @@ class Planning:
                     model += (hours <= teacher_max_hours)
 
         # Specific teacher constraints #
+
 
         for absence in teacher_absence_list:
             max_hours = compute_slot_number(absence['absence_day_number'], teacher_max_hours)
@@ -402,7 +400,6 @@ class Planning:
         self.teacher_list = teacher_list
         self.group_list = group_list
         self.promo_list = promo_list
-        self.lecture_list = lecture_list
         self.tutorial_list_per_group = tutorial_list_per_group
         self.experiment_list_per_group = experiment_list_per_group
         self.tutorial_list_per_group2 = tutorial_list_per_group2
@@ -442,6 +439,7 @@ class Planning:
                 planning_tutorials_per_group2.append(Solution(self.planning_tutorials_group[gp_index]))
                 planning_experiments_per_group2.append(Solution(self.planning_experiments_group[gp_index]))
 
+
             for teacher in self.teacher_list:
                 out += ('\n\n\n' + teacher['name'] + ': \n')
                 total_teacher_hours = []
@@ -463,6 +461,7 @@ class Planning:
                 # + tutorial from planning_tutorials_teacher
                 # + experiment hours from planning_experiment_teacher
                 out += str(total_teacher_hours)
+
 
             # Instantiate lists containing total of lectures/tutorials/experiments hours per week and per group
             total_hours_group_list = []
@@ -526,7 +525,7 @@ class Planning:
                                 checked_subject_weekly.append(subject)
 
                     # Print details of the current group
-                    out += "Lecture" + str(total_lecture_hours_one_group)
+                    out += "Lectures" + str(total_lecture_hours_one_group)
                     out += "\nTutorial" + str(total_tutorial_hours_one_group)
                     out += "\nExperiments" + str(total_experiment_hours_one_group)
                     out += "\n\nTotal" + str(total_hours_one_group)

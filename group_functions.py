@@ -27,7 +27,7 @@ def list_index_lesson_group(group, lesson_type, lesson_list):
 
 
 def get_group_hours(group_info, group_index, index_group_list, week,
-                    planning_lectures_per_promo, planning_tutorials,
+                    planning_lectures_one_promo, planning_tutorials,
                     planning_experiments, checked_subject):
     hours_lectures = 0
     hours_tutorials = 0
@@ -39,13 +39,13 @@ def get_group_hours(group_info, group_index, index_group_list, week,
     subject_treated = []
 
     for lecture in group['index_lecture_list']:
-
+        hours_lectures += planning_lectures_one_promo[lecture['index']][week]
         # in order to not count twice lectures that are followed by two groups at the same time,
         # we check if the current lesson was already accounted
         # (we assume that the checked subject list is reset for each promo)
         # if not, then we know the current lecture was never accounted before and we add it to "unduplicated_lectures"
         if lecture['name'] not in checked_subject:
-            unduplicated_lecture_hours += planning_lectures_per_promo[lecture['index']][week]
+            unduplicated_lecture_hours += planning_lectures_one_promo[lecture['index']][week]
             subject_treated.append(lecture['name'])
 
     for tutorial in group['index_tutorial_list']:
