@@ -1,5 +1,5 @@
 import Test
-from Numberjack import *
+
 from group_functions import *
 from room_functions import *
 from teacher_functions import *
@@ -82,9 +82,9 @@ class Planning:
         limit_hours_course_for_experiments = 2  # leveling factor
 
         # Get a data set from Test.py
-        course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room, teacher_absence_list = Test.data_set(2)
-
-        course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room, teacher_absence_list, spe_cst_list = Test.data_set(3)
+        course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room, \
+            teacher_absence_list = Test.data_set(3)
+            #, spe_cst_list
 
         # ----------------------------------- Course initialization ------------------------------------ #
 
@@ -191,10 +191,10 @@ class Planning:
 
         # Specific constraints #
         # Tutorials start after X lectures #
-        for spe_cst in spe_cst_list:
-            cst_specific_tut(spe_cst,lecture_list_per_promo, tutorial_list_per_group, promo_list, group_list,
-                         planning_tutorials_per_group,
-                         planning_lectures_per_promo, limit_hours_course_for_lectures, number_of_weeks, model)
+        # for spe_cst in spe_cst_list:
+        #     cst_specific_tut(spe_cst,lecture_list_per_promo, tutorial_list_per_group, promo_list, group_list,
+        #                  planning_tutorials_per_group,
+        #                  planning_lectures_per_promo, limit_hours_course_for_lectures, number_of_weeks, model)
 
             # cst_specific_exp(spe_cst,lecture_list_per_promo, experiment_list_per_group, promo_list, group_list,
             #              planning_experiments_per_group,
@@ -276,40 +276,40 @@ class Planning:
             promo_index += 1
 
         # -------------------------------------- Teacher constraints -------------------------------------- #
-        #
-        #         teacher_max_hours = 12  # maximum slot number for a teacher per week
-        #
-        #         for teacher in teacher_list:
-        #             for week in range(number_of_weeks):
-        #                 hours = get_teacher_hours(teacher,
-        #                                           group_list,
-        #                                           promo_list2,
-        #                                           week,
-        #                                           planning_lectures_per_promo,
-        #                                           planning_tutorials_per_group,
-        #                                           planning_experiments_per_group,
-        #                                           lecture_list_per_promo2,
-        #                                           tutorial_list_per_group2,
-        #                                           experiment_list_per_group2)
-        #                 if hours > 0:
-        #                     model += (hours <= teacher_max_hours)
-        #
-        #         # Specific teacher constraints #
-        #
-        #         for absence in teacher_absence_list:
-        #             max_hours = compute_slot_number(absence['absence_day_number'], teacher_max_hours)
-        #             hours = get_teacher_hours(absence['teacher'],
-        #                                       group_list,
-        #                                       promo_list2,
-        #                                       absence['week'],
-        #                                       planning_lectures_per_promo,
-        #                                       planning_tutorials_per_group,
-        #                                       planning_experiments_per_group,
-        #                                       lecture_list_per_promo2,
-        #                                       tutorial_list_per_group2,
-        #                                       experiment_list_per_group2)
-        #
-        # model += (hours <= max_hours)
+
+        teacher_max_hours = 12  # maximum slot number for a teacher per week
+
+        for teacher in teacher_list:
+            for week in range(number_of_weeks):
+                hours = get_teacher_hours(teacher,
+                                          group_list,
+                                          promo_list2,
+                                          week,
+                                          planning_lectures_per_promo,
+                                          planning_tutorials_per_group,
+                                          planning_experiments_per_group,
+                                          lecture_list_per_promo2,
+                                          tutorial_list_per_group2,
+                                          experiment_list_per_group2)
+                if hours > 0:
+                    model += (hours <= teacher_max_hours)
+
+        # Specific teacher constraints #
+
+        for absence in teacher_absence_list:
+            max_hours = compute_slot_number(absence['absence_day_number'], teacher_max_hours)
+            hours = get_teacher_hours(absence['teacher'],
+                                      group_list,
+                                      promo_list2,
+                                      absence['week'],
+                                      planning_lectures_per_promo,
+                                      planning_tutorials_per_group,
+                                      planning_experiments_per_group,
+                                      lecture_list_per_promo2,
+                                      tutorial_list_per_group2,
+                                      experiment_list_per_group2)
+
+            model += (hours <= max_hours)
         # ---------------------------------------- Room constraints --------------------------------------- #
 
         # Instantiate lists to know what rooms could be use for lecture/tutorial/experiment
@@ -338,7 +338,9 @@ class Planning:
         # Constraint : Experiment should be done in a room that is for experiments
         # Some experiment are hold in special room, so we have to distinguish them.
         experiment_rooms_per_type = get_list_rooms_per_type(rooms_experiments, value_type_room)
+
         for week in total_hours_experiment_per_room:
+
             for room_key, val in week.items():
                 if room_key in experiment_rooms_per_type:
                     model += is_lesson_hours_lt_resources_one_week(val, experiment_rooms_per_type[room_key], resource_per_room)
@@ -353,7 +355,7 @@ class Planning:
         union_tutorials_experiments = experiment_rooms_per_type
         for key, val in tutorial_rooms_per_type.items():
             if key not in union_tutorials_experiments:
-                union_tutorials_experiments.update({key:val})
+                union_tutorials_experiments.update({key: val})
             else:
                 if val > union_tutorials_experiments[key]:
                     union_tutorials_experiments[key] = tutorial_rooms_per_type[key]
@@ -402,7 +404,6 @@ class Planning:
         self.lecture_list_per_promo2 = lecture_list_per_promo2
         self.N = N
 
-
         return model
 
     def solve(self, param):
@@ -441,7 +442,6 @@ class Planning:
                 planning_tutorials_per_group2.append(Solution(self.planning_tutorials_group[gp_index]))
                 planning_experiments_per_group2.append(Solution(self.planning_experiments_group[gp_index]))
 
-
             for teacher in self.teacher_list:
                 out += ('\n\n\n' + teacher['name'] + ': \n')
                 total_teacher_hours = []
@@ -463,7 +463,6 @@ class Planning:
                 # + tutorial from planning_tutorials_teacher
                 # + experiment hours from planning_experiment_teacher
                 out += str(total_teacher_hours)
-
 
             # Instantiate lists containing total of lectures/tutorials/experiments hours per week and per group
             total_hours_group_list = []
@@ -592,7 +591,7 @@ class Planning:
         return out
 
 
-default = {'solver': 'Mistral2', 'N': 30, 'var': 'MinDomain',
+default = {'solver': 'Mistral2', 'N': 20, 'var': 'MinDomain',
            'val': 'RandomMinMax', 'restart': 'yes', 'rand': 2, 'verbose': 0, 'cutoff': 20}
 
 if __name__ == '__main__':

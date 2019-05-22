@@ -1,3 +1,4 @@
+# coding=utf-8
 import json
 import group_functions
 # Format
@@ -221,7 +222,6 @@ class DataFileManager:
             return "Teacher " + teacher + " does not have " + course + " course"
 
         tea_cou['lecture_promo'].append(str(promo))
-
 
     def rem_teacher_promo(self, teacher, course, promo):
         # Check if the teacher exists
@@ -544,9 +544,6 @@ class DataFileManager:
         del self.rooms[cpt]
 
 
-
-
-
 def test_json():
     course_1 = {'name': 'math', 'lecture': 40, 'tutorial': 0, 'experiment': 0}
     course_2 = {'name': 'Computer Science', 'lecture': 30, 'tutorial': 10, 'experiment': 15}
@@ -571,11 +568,10 @@ def test_json():
     group_3 = {'name': '4IR-C', 'course_list': [course_3, course_5, course_4]}
     group_list = [group_1, group_2, group_3]
 
-
-
     jfile = [course_list, teacher_list, group_list]
     f = open("test.json", "w")
     f.write(json.dumps(jfile))
+
 
 if __name__ == '__main__':
     f = DataFileManager("plop.txt")
