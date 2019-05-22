@@ -84,6 +84,8 @@ class Planning:
         # Get a data set from Test.py
         course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room, teacher_absence_list = Test.data_set(2)
 
+        course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room, teacher_absence_list, spe_cst_list = Test.data_set(3)
+
         # ----------------------------------- Course initialization ------------------------------------ #
 
         # Create lecture/tutorial/experiment list
@@ -189,25 +191,15 @@ class Planning:
 
         # Specific constraints #
         # Tutorials start after X lectures #
-        promo_index = 0
-        for promo in promo_list:
-            for group in promo_list[promo]:
-                for course in group['course_list']:
-                    if course['tutorial'] > 0:
-                        nbr_group = group_list.index(group)
-                        (x, id_lec, id_exe, nb_lec) = exercises_only_after_x_lectures(course, lecture_list_per_promo[promo_index],
-                                                                                      tutorial_list_per_group[nbr_group],
-                                                                                      course['lecture'], 10)
-                        if len(planning_tutorials_per_group[nbr_group]) > 0:
-                            if (x < nb_lec):
-                                limit_lesson = int(x/limit_hours_course_for_lectures)+1
-                                for i in range(limit_lesson):
-                                    model += (planning_tutorials_per_group[nbr_group][id_exe][i] == 0)
-                                for i in range(limit_lesson, number_of_weeks):
-                                    # TODO: change specific constraint to work with new planning lectures per promo
-                                    # model += (planning_lectures[id_lec][i] <= int((nb_lec - x) / limit_lesson))
-                                    pass
-            promo_index += 1
+        for spe_cst in spe_cst_list:
+            cst_specific_tut(spe_cst,lecture_list_per_promo, tutorial_list_per_group, promo_list, group_list,
+                         planning_tutorials_per_group,
+                         planning_lectures_per_promo, limit_hours_course_for_lectures, number_of_weeks, model)
+
+            # cst_specific_exp(spe_cst,lecture_list_per_promo, experiment_list_per_group, promo_list, group_list,
+            #              planning_experiments_per_group,
+            #              planning_lectures_per_promo, limit_hours_course_for_lectures, number_of_weeks, model)
+
 
         # ---------------------------------------- Group constraints ------------------------------------------- #
 
@@ -284,46 +276,44 @@ class Planning:
             promo_index += 1
 
         # -------------------------------------- Teacher constraints -------------------------------------- #
-
-        teacher_max_hours = 12  # maximum slot number for a teacher per week
-
-        for teacher in teacher_list:
-            for week in range(number_of_weeks):
-                hours = get_teacher_hours(teacher,
-                                          group_list,
-                                          promo_list2,
-                                          week,
-                                          planning_lectures_per_promo,
-                                          planning_tutorials_per_group,
-                                          planning_experiments_per_group,
-                                          lecture_list_per_promo2,
-                                          tutorial_list_per_group2,
-                                          experiment_list_per_group2)
-                if hours > 0:
-                    model += (hours <= teacher_max_hours)
-
-        # Specific teacher constraints #
-
-        for absence in teacher_absence_list:
-            max_hours = compute_slot_number(absence['absence_day_number'], teacher_max_hours)
-            hours = get_teacher_hours(absence['teacher'],
-                                      group_list,
-                                      promo_list2,
-                                      absence['week'],
-                                      planning_lectures_per_promo,
-                                      planning_tutorials_per_group,
-                                      planning_experiments_per_group,
-                                      lecture_list_per_promo2,
-                                      tutorial_list_per_group2,
-                                      experiment_list_per_group2)
-
-            model += (hours <= max_hours)
-
+        #
+        #         teacher_max_hours = 12  # maximum slot number for a teacher per week
+        #
+        #         for teacher in teacher_list:
+        #             for week in range(number_of_weeks):
+        #                 hours = get_teacher_hours(teacher,
+        #                                           group_list,
+        #                                           promo_list2,
+        #                                           week,
+        #                                           planning_lectures_per_promo,
+        #                                           planning_tutorials_per_group,
+        #                                           planning_experiments_per_group,
+        #                                           lecture_list_per_promo2,
+        #                                           tutorial_list_per_group2,
+        #                                           experiment_list_per_group2)
+        #                 if hours > 0:
+        #                     model += (hours <= teacher_max_hours)
+        #
+        #         # Specific teacher constraints #
+        #
+        #         for absence in teacher_absence_list:
+        #             max_hours = compute_slot_number(absence['absence_day_number'], teacher_max_hours)
+        #             hours = get_teacher_hours(absence['teacher'],
+        #                                       group_list,
+        #                                       promo_list2,
+        #                                       absence['week'],
+        #                                       planning_lectures_per_promo,
+        #                                       planning_tutorials_per_group,
+        #                                       planning_experiments_per_group,
+        #                                       lecture_list_per_promo2,
+        #                                       tutorial_list_per_group2,
+        #                                       experiment_list_per_group2)
+        #
+        # model += (hours <= max_hours)
         # ---------------------------------------- Room constraints --------------------------------------- #
 
         # Instantiate lists to know what rooms could be use for lecture/tutorial/experiment
         rooms_lectures, rooms_tutorials, rooms_experiments = get_list_rooms_according_type_hours(rooms_list)
-
         # Instantiate lists containing total of lectures/tutorials/experiments hours per week
         total_hours_lecture = get_total_hours_week(total_lecture_hours_group_list_undup)
         total_hours_tutorial_per_room = get_total_hours_week_per_type_room(total_tutorial_hours_group_list_per_room, number_of_weeks)
@@ -363,7 +353,7 @@ class Planning:
         union_tutorials_experiments = experiment_rooms_per_type
         for key, val in tutorial_rooms_per_type.items():
             if key not in union_tutorials_experiments:
-                union_tutorials_experiments.update({key, val})
+                union_tutorials_experiments.update({key:val})
             else:
                 if val > union_tutorials_experiments[key]:
                     union_tutorials_experiments[key] = tutorial_rooms_per_type[key]
@@ -602,7 +592,7 @@ class Planning:
         return out
 
 
-default = {'solver': 'Mistral2', 'N': 10, 'var': 'MinDomain',
+default = {'solver': 'Mistral2', 'N': 30, 'var': 'MinDomain',
            'val': 'RandomMinMax', 'restart': 'yes', 'rand': 2, 'verbose': 0, 'cutoff': 20}
 
 if __name__ == '__main__':
