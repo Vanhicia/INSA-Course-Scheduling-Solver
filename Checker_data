@@ -1,0 +1,4 @@
+Ce que doit faire le checker
+
+promo_1 contient les groupes dont la clé est bien promo_1
+les groupes qui ont un cours, il faut qu'il y ait un prof pour ce cours
