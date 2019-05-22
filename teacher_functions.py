@@ -1,17 +1,15 @@
 
 
 # get teacher hours for a specific week
-# Format : get_teacher_hours( teacher id, list of teachers by id, week, plannings * 3 )
-# TODO : add parameters for planning lecture
-def get_teacher_hours(teacher, group_list, promo_list, week, list_planning_tutorials_per_group, list_planning_experiments_per_group,
-                      tutorial_list_per_group2, experiment_list_per_group2):
+def get_teacher_hours(teacher, group_list, promo_list, week, list_planning_lectures_per_promo, list_planning_tutorials_per_group, list_planning_experiments_per_group,
+                      lecture_list_per_promo2, tutorial_list_per_group2, experiment_list_per_group2):
     hours = 0
     for course in teacher['course_list']:
 
-        # for promo in course['lecture_promo']:
-        #     promo_index = promo_list.index(promo)
-        #     lect_index = lecture_list_per_promo2[promo_index].index(course)
-        #     hours += (list_planning_lectures_per_promo[promo_index])[lect_index][week]
+        for promo in course['lecture_promo']:
+            promo_index = promo_list.index(promo)
+            lect_index = lecture_list_per_promo2[promo_index].index(course['course'])
+            hours += (list_planning_lectures_per_promo[promo_index])[lect_index][week]
 
         for group in course['tutorial_gp']:
             gp_index = group_list.index(group)

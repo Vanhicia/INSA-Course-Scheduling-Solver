@@ -24,12 +24,13 @@ class Planning:
         self.teacher_list = None
         self.group_list = None
         self.promo_list = None
+        self.promo_list2 = None
         self.tutorial_list_per_group = None
         self.experiment_list_per_group = None
+        self.lecture_list_per_promo2 = None
         self.tutorial_list_per_group2 = None
         self.experiment_list_per_group2 = None
         self.N = None
-
 
     def print_csv(self, filename):
         file = open(filename, "w")
@@ -81,7 +82,7 @@ class Planning:
         limit_hours_course_for_experiments = 2  # leveling factor
 
         # Get a data set from Test.py
-        course_list, teacher_list, group_list, promo_list, rooms_list, value_type_room, teacher_absence_list = Test.data_set(2)
+        course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room, teacher_absence_list = Test.data_set(2)
 
         # ----------------------------------- Course initialization ------------------------------------ #
 
@@ -93,6 +94,7 @@ class Planning:
 
         # These lists contain the course variables followed by the students
         # They are useful to define teacher constraints
+        lecture_list_per_promo2 = []
         tutorial_list_per_group2 = []
         experiment_list_per_group2 = []
 
@@ -115,6 +117,7 @@ class Planning:
 
         for promo in promo_list:
             lecture_list_one_promo = []
+            lecture_list_one_promo2 = []
             for group in promo_list[promo]:
                 tutorial_list_one_group = []
                 experiment_list_one_group = []
@@ -123,6 +126,7 @@ class Planning:
                 for course in group['course_list']:
                     if course['lecture'] > 0 and ([[course['name'], course['lecture']]] not in lecture_list_one_promo):
                         lecture_list_one_promo += [[course['name'], course['lecture']]]
+                        lecture_list_one_promo2 += [course]
                     if course['tutorial'] > 0:  # The current group has tutorials' current course
                         tutorial_list_one_group += [[course['name'], course['tutorial']]]
                         tutorial_list_one_group2 += [course]
@@ -152,9 +156,9 @@ class Planning:
 
             # Lectures
             lecture_list_per_promo.append(lecture_list_one_promo)
+            lecture_list_per_promo2.append(lecture_list_one_promo2)
             planning_lectures_per_promo.append(
                 Matrix(len(lecture_list_one_promo), number_of_weeks, 0, limit_hours_course_for_lectures))
-
 
         # ----------------------------------- Additional group initialization -------------------------------------- #
 
@@ -287,12 +291,12 @@ class Planning:
             for week in range(number_of_weeks):
                 hours = get_teacher_hours(teacher,
                                           group_list,
-                                          promo_list,
+                                          promo_list2,
                                           week,
-                                          # planning_lessons_per_promo,
+                                          planning_lectures_per_promo,
                                           planning_tutorials_per_group,
                                           planning_experiments_per_group,
-                                          # lesson_list_per_promo2,
+                                          lecture_list_per_promo2,
                                           tutorial_list_per_group2,
                                           experiment_list_per_group2)
                 if hours > 0:
@@ -300,17 +304,16 @@ class Planning:
 
         # Specific teacher constraints #
 
-
         for absence in teacher_absence_list:
             max_hours = compute_slot_number(absence['absence_day_number'], teacher_max_hours)
             hours = get_teacher_hours(absence['teacher'],
                                       group_list,
-                                      promo_list,
+                                      promo_list2,
                                       absence['week'],
-                                      # planning_lessons_per_promo,
+                                      planning_lectures_per_promo,
                                       planning_tutorials_per_group,
                                       planning_experiments_per_group,
-                                      # lesson_list_per_promo2,
+                                      lecture_list_per_promo2,
                                       tutorial_list_per_group2,
                                       experiment_list_per_group2)
 
@@ -401,12 +404,14 @@ class Planning:
         self.teacher_list = teacher_list
         self.group_list = group_list
         self.promo_list = promo_list
+        self.promo_list2 = promo_list2
         self.tutorial_list_per_group = tutorial_list_per_group
         self.experiment_list_per_group = experiment_list_per_group
         self.tutorial_list_per_group2 = tutorial_list_per_group2
         self.experiment_list_per_group2 = experiment_list_per_group2
+        self.lecture_list_per_promo2 = lecture_list_per_promo2
         self.N = N
-        self.lecture_list_per_promo = lecture_list_per_promo
+
 
         return model
 
@@ -434,6 +439,11 @@ class Planning:
             out += "\n\n        # ----- Teacher Test ------ #"
             out += "\n\n        # ------------------------- #"
 
+            planning_lectures_per_promo2 = []
+            for promo in self.promo_list2:
+                promo_index = self.promo_list2.index(promo)
+                planning_lectures_per_promo2.append(Solution(self.planning_lectures_per_promo[promo_index]))
+
             planning_tutorials_per_group2 = []
             planning_experiments_per_group2 = []
             for group in self.group_list:
@@ -448,12 +458,12 @@ class Planning:
                 for week in range(self.N):
                     hours = get_teacher_hours(teacher,
                                           self.group_list,
-                                          self.promo_list,
+                                          self.promo_list2,
                                           week,
-                                          # planning_lectures_per_promo,
+                                          planning_lectures_per_promo2,
                                           planning_tutorials_per_group2,
                                           planning_experiments_per_group2,
-                                          # self.lecture_list_per_promo2,
+                                          self.lecture_list_per_promo2,
                                           self.tutorial_list_per_group2,
                                           self.experiment_list_per_group2)
                     total_teacher_hours.append(hours)

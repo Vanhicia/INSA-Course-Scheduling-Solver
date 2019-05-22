@@ -46,6 +46,7 @@ def data_set(n):
         promo_1 = [group_1, group_2]
         promo_2 = [group_3, group_4]
         promo_list = group_functions.get_promos(group_list)
+        promo_list2 = [promo_1, promo_2]
 
         # Teachers #
         teacher_1 = {'name': "Michel Dumont", 'course_list': [
@@ -83,7 +84,7 @@ def data_set(n):
 
         teacher_absence_list = [absence_1, absence_2, absence_3]
 
-        return course_list, teacher_list, group_list, promo_list, rooms_list, value_type_room, teacher_absence_list
+        return course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room, teacher_absence_list
     elif n == 3:
         pass
 
