@@ -1,3 +1,4 @@
+# coding=utf-8
 import Test
 
 from group_functions import *
@@ -35,29 +36,44 @@ class Planning:
     def print_csv(self, filename):
         file = open(filename, "w")
         cpt = 0
+        promo_lec = {}
+        group_tut = {}
+        group_exp = {}
+
         for grp in self.index_group_list:
             file.write(self.group_list[cpt]['name']+"\n")
 
-            total = [0]*self.N
+            group_tut[self.group_list[cpt]['name']] = {}
+            group_exp[self.group_list[cpt]['name']] = {}
 
+            total = [0]*self.N
             for week in range(self.N):
                 file.write(";Semaine "+str(week+1))
 
             for cs in grp['index_lecture_list']:
                 file.write("\n CM : "+cs['name'])
+                if grp['promo'] not in promo_lec:
+                    promo_lec[grp['promo']]= {}
+                promo_lec[grp['promo']][cs['name']]=[]
                 for wk in range(self.N):
+                    promo_lec[grp['promo']][cs['name']].append(int(str(self.planning_lectures_per_promo[int(grp['promo'])-1][cs['index']][wk])))
                     total[wk] += int(str(self.planning_lectures_per_promo[int(grp['promo'])-1][cs['index']][wk]))
                     file.write(";"+str(self.planning_lectures_per_promo[int(grp['promo'])-1][cs['index']][wk]))
 
             for cs in grp['index_tutorial_list']:
-                file.write("\n TD : "+self.tutorial_list_per_group[cpt][cs['index']][0])
+                file.write("\n TD : "+cs['name'])
+                group_tut[self.group_list[cpt]['name']][cs['name']] = []
+
                 for wk in range(self.N):
+                    group_tut[self.group_list[cpt]['name']][cs['name']].append(int(str(self.planning_tutorials_group[cpt][cs['index']][wk])))
                     total[wk] += int(str(self.planning_tutorials_group[cpt][cs['index']][wk]))
                     file.write(";"+str(self.planning_tutorials_group[cpt][cs['index']][wk]))
 
             for cs in grp['index_experiment_list']:
-                file.write("\n TP : "+self.experiment_list_per_group[cpt][cs['index']][0])
+                file.write("\n TP : "+cs['name'])
+                group_exp[self.group_list[cpt]['name']][cs['name']] = []
                 for wk in range(self.N):
+                    group_exp[self.group_list[cpt]['name']][cs['name']].append(int(str(self.planning_experiments_group[cpt][cs['index']][wk]))*2)
                     total[wk] += (int(str(self.planning_experiments_group[cpt][cs['index']][wk]))*2)
                     file.write(";"+str(int(str(self.planning_experiments_group[cpt][cs['index']][wk]))*2))
 
@@ -66,7 +82,50 @@ class Planning:
                 file.write(";"+str(tot))
             file.write("\n\n")
             cpt += 1
+
         # TODO csv for teacher part
+        print(group_tut)
+        print(group_exp)
+        print(promo_lec)
+        # print(self.teacher_list)
+        for tea in self.teacher_list:
+            file.write("\n\n" + tea["name"] + "\n")
+
+            for week in range(self.N):
+                file.write(";Semaine " + str(week + 1))
+
+            for cs in tea['course_list']:
+
+
+                # Lectures
+                if cs['lecture_promo']:
+                    file.write("\n CM : " + cs['course']['name'])
+                    for wk in range(self.N):
+                        tot = 0
+                        print(cs)
+                        for promo in cs['lecture_promo']:
+                            print(promo)
+                            tot += promo_lec[promo[0]['promo']][cs['course']['name']][wk]
+                        file.write(";"+str(tot))
+
+                # Tutorials
+                if cs['tutorial_gp']:
+                    file.write("\n TD : " + cs['course']['name'])
+                    for wk in range(self.N):
+                        tot = 0
+                        for grp in cs['tutorial_gp']:
+                            tot += group_tut[grp['name']][cs['course']['name']][wk]
+                        file.write(";"+str(tot))
+
+                # Experiments
+                if cs['experiment_gp']:
+                    file.write("\n TP : " + cs['course']['name'])
+                    for wk in range(self.N):
+                        tot = 0
+                        for grp in cs['experiment_gp']:
+                            tot += group_exp[grp['name']][cs['course']['name']][wk]
+                        file.write(";"+str(tot))
+
         file.close()
 
     def get_model(self, N):
