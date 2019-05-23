@@ -74,17 +74,21 @@ class Planning:
         # ------------------------------------------ Initialization ----------------------------------------- #
         # --------------------------------------------------------------------------------------------------- #
 
-        slots = 17              # Max number of hours per week
-        number_of_weeks = N     # Number of weeks in a year, for our test we put 10 weeks
-        resource_per_room = 7   # Number of slots per week a room could contained
-        limit_hours_course_for_lectures = 5  # leveling factor
-        limit_hours_course_for_tutorials = 5  # leveling factor
-        limit_hours_course_for_experiments = 2  # leveling factor
+        # slots = 17              # Max number of hours per week
+        # number_of_weeks = N     # Number of weeks in a year, for our test we put 10 weeks
+        # resource_per_room = 7   # Number of slots per week a room could contained
+
+
+        # max_hours_per_course{'math': {'lec': 5, 'tut': 5, 'exp': 3}}
+        limit_hours_course_for_lectures = 10  # leveling factor
+        limit_hours_course_for_tutorials = 10  # leveling factor
+        limit_hours_course_for_experiments = 10  # leveling factor
 
         # Get a data set from Test.py
         course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room, \
-            teacher_absence_list = Test.data_set(3)
+            teacher_absence_list,slots,number_of_weeks,resource_per_room, max_hours_per_course = Test.data_set(2)
             #, spe_cst_list
+        N = number_of_weeks
 
         # ----------------------------------- Course initialization ------------------------------------ #
 
@@ -384,6 +388,33 @@ class Planning:
 
         # Constraint : There should not be more lectures,tutorials and experiments than available rooms
         model += is_lesson_hours_lt_resources(get_total_hours_week(total_hours_group_list), len(rooms_list), resource_per_room)
+
+        # ---------------------------------------- Leveling factor constraints --------------------------------------- #
+        c_promo = 0
+        for promo in promo_list:
+            c_cs = 0
+            for grp in promo_list[promo]:
+                for cs in grp['course_list']:
+                    if cs['lecture'] != 0:
+                        for wk in range(number_of_weeks):
+                            model += (planning_lectures_per_promo[c_promo][c_cs][wk] <=
+                                      max_hours_per_course[cs['name']]["lec"])
+                        c_cs += 1
+            c_promo += 1
+
+        c_grp = 0
+        for grp in group_list:
+            c_cs = 0
+            for cs in grp['course_list']:
+                for wk in range(number_of_weeks):
+                    if cs['tutorial'] != 0:
+                        model += (planning_tutorials_per_group[c_grp][c_cs][wk] <= max_hours_per_course[cs['name']][
+                            "tut"])
+                    if cs['experiment'] != 0:
+                        model += (planning_experiments_per_group[c_grp][c_cs][wk] <= max_hours_per_course[cs['name']][
+                            "exp"])
+                c_cs += 1
+            c_grp += 1
 
         self.planning_lectures_per_promo = planning_lectures_per_promo
         self.planning_tutorials_group = planning_tutorials_per_group

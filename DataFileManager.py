@@ -1,4 +1,4 @@
-# coding=utf-8
+
 import json
 import group_functions
 # Format
@@ -40,6 +40,11 @@ class DataFileManager:
     promos = []
     teacher_absence_list = []
 
+    slots = 30
+    number_of_weeks = 0
+    resource_per_room = 7
+    limit_hours_per_course = {}
+
     filename = ""
 
     def __init__(self, filename):
@@ -55,21 +60,34 @@ class DataFileManager:
         self.rooms = data[3]
         self.room_types = data[4]
         self.teacher_absence_list = data[5]
+        self.slots = data[6]
+        self.number_of_weeks = data[7]
+        self.resource_per_room = data[8]
+        self.limit_hours_per_course = data[9]
 
     # Generating file with object's data
     def store_file(self):
-        py_object = [self.courses, self.teachers, self.groups,self.rooms, self.room_types, self.teacher_absence_list]
+        py_object = [self.courses, self.teachers, self.groups,self.rooms, self.room_types, self.teacher_absence_list, self.slots, self.number_of_weeks, self.resource_per_room,self.limit_hours_per_course]
         JSON_file = open(self.filename, "w")
         JSON_file.write(json.dumps(py_object))
 
     def get_data(self):
         promos = group_functions.get_promos(self.groups)
-        return self.courses, self.teachers, self.groups, promos, self.rooms, self.room_types, self.teacher_absence_list
+        return self.courses, self.teachers, self.groups, promos, self.rooms, self.room_types, self.teacher_absence_list, self.slots, self.number_of_weeks, self.resource_per_room,self.limit_hours_per_course
+
+    def set_slots(self, nb):
+        self.slots = nb
+
+    def set_nb_weeks(self, nb):
+        self.number_of_weeks = nb
+
+    def set_ressource_room(self, nb):
+        self.resource_per_room = nb
 
     ##################
     # Course manager #
     ##################
-    def add_course(self, name, lect, tut, exp, room_type):
+    def add_course(self, name,room_type, lect, tut, exp, max_lec = 5, max_tut = 5, max_exp = 3):
 
         if any(i['name'].casefold() == name.casefold() for i in self.courses):
             return name+" already exists"
@@ -77,6 +95,7 @@ class DataFileManager:
         if room_type not in self.room_types:
             return room_type+" doesn't exist"
 
+        self.limit_hours_per_course[name]={"lec":max_lec,"tut":max_tut,"exp":max_exp}
         self.courses.append({'name': name, 'lecture': lect, 'tutorial': tut, 'experiment': exp, 'type_room': room_type})
 
     def rem_course(self, name):
@@ -102,6 +121,7 @@ class DataFileManager:
                 if crs == cs:
                     return "Group " + grp['name'] + " has the course " + name
 
+        del self.limit_hours_per_course[name]
         del self.courses[self.courses.index(cs)]
 
     ###################
@@ -385,8 +405,11 @@ class DataFileManager:
 
         tea_cou[course_type + "_gp"].remove(elem)
 
-    # TODO Add week check
     def add_teacher_absence(self, name, week ,days):
+
+        if  week > self.number_of_weeks:
+            return "Week "+str(week)+ " is greater than number of weeks("+str(self.number_of_weeks)+")"
+
         # Check if the teacher exists
         i = 0
         elem = {}
@@ -588,11 +611,11 @@ if __name__ == '__main__':
     print(f.add_room("GEI 101", False, True, True, "Security"))
     print(f.add_room("GEI 213", True, True, False, "Automate"))
 
-    print(f.add_course('math', 40,5,5,"Automate"))
-    print(f.add_course('Computer Science', 30, 10, 0, "CS"))
-    print(f.add_course('Security', 10, 0, 10, "Security"))
-    print(f.add_course('English', 20, 0, 0, "IOT"))
-    print(f.add_course('PPI', 10, 0, 0, "IOT"))
+    print(f.add_course('math',"Automate", 40,5,5))
+    print(f.add_course('Computer Science', "CS", 30, 10, 0))
+    print(f.add_course('Security', "Security", 10, 0, 10))
+    print(f.add_course('English', "IOT", 20, 0, 0))
+    print(f.add_course('PPI', "IOT", 10, 0, 0))
 
     print(f.add_group("4IR-A", 1))
     print(f.add_group("4IR-B", 1))
@@ -656,8 +679,10 @@ if __name__ == '__main__':
     print(f.add_teacher_promo("Christiane Colin", "math", "2"))
 
     # Teacher absences #
-    print(f.add_teacher_absence("Michel Dumont",0,5))
-    print(f.add_teacher_absence("Hélène Michou", 0, 5))
+    f.set_nb_weeks(10)
+    print(f.add_teacher_absence("Michel Dumont", 0,5))
+    print(f.add_teacher_absence("Hélène Michou", 9, 5))
     print(f.add_teacher_absence("Michel Dumont", 4, 2))
 
+    print(f.limit_hours_per_course)
     f.store_file()

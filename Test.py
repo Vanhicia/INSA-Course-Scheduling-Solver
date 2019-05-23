@@ -38,6 +38,8 @@ def data_set(n):
         course_5 = {'name': 'PPI', 'lecture': 10, 'tutorial': 0, 'experiment': 0, 'type_room': value_type_room[2]}
         course_list = [course_1, course_2, course_3, course_4, course_5]
 
+
+
         # Groups #
         group_1 = {'name': "4IR-A", 'course_list': [course_1, course_2], 'promo': "1"}
         group_2 = {'name': "4IR-B", 'course_list': [course_1, course_2, course_5], 'promo': "1"}
@@ -87,7 +89,13 @@ def data_set(n):
 
         teacher_absence_list = [absence_1, absence_2, absence_3]
 
-        return course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room, teacher_absence_list
+
+        weeks = 10
+        slots = 17
+        max_hours_course = {'math': {'lec': 5, 'tut': 5, 'exp': 3}, 'Computer Science': {'lec': 5, 'tut': 5, 'exp': 3}, 'Security': {'lec': 5, 'tut': 5, 'exp': 3}, 'English': {'lec': 5, 'tut': 5, 'exp': 3}, 'PPI': {'lec': 5, 'tut': 5, 'exp': 3}}
+        resource_per_room = 7
+
+        return course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room, teacher_absence_list,slots,weeks,resource_per_room,max_hours_course
 
     elif n == 3:
 
