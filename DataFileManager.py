@@ -84,6 +84,70 @@ class DataFileManager:
     def set_ressource_room(self, nb):
         self.resource_per_room = nb
 
+    @staticmethod
+    def check_teacher_group( teacher_list, group_list):
+        grp_lec = {}
+        grp_tut = {}
+        grp_exp = {}
+
+        # Make group lists of courses by groups
+        for grp in group_list:
+            for cs in grp['course_list']:
+                #Lecture
+                if cs["lecture"]!=0:
+                    if cs['name'] not in grp_lec:
+                        grp_lec[cs['name']]=[]
+                    grp_lec[cs['name']].append(grp['name'])
+
+                #Tutorial
+                if cs["tutorial"]!=0:
+                    if cs['name'] not in grp_tut:
+                        grp_tut[cs['name']]=[]
+                    grp_tut[cs['name']].append(grp['name'])
+
+                #Experiments
+                if cs["experiment"]!=0:
+                    if cs['name'] not in grp_exp:
+                        grp_exp[cs['name']]=[]
+                    grp_exp[cs['name']].append(grp['name'])
+
+        # Make group lists of courses by teachers
+        tea_lec = {}
+        tea_tut = {}
+        tea_exp = {}
+        promo_list = group_functions.get_promos(group_list)
+        for tea in teacher_list:
+            for cs in tea["course_list"]:
+
+                if cs["lecture_promo"]:
+                    if cs["course"]['name'] not in tea_lec:
+                        tea_lec[cs["course"]['name']]=[]
+
+                    for promo in cs['lecture_promo']:
+                        for grp in promo_list[str(promo)]:
+                            if cs['course'] in grp["course_list"]:
+                                tea_lec[cs["course"]['name']].append(grp["name"])
+
+                if cs["tutorial_gp"]:
+                    if cs["course"]['name'] not in tea_tut:
+                        tea_tut[cs["course"]['name']]=[]
+                    for grp in cs['tutorial_gp']:
+                        tea_tut[cs["course"]['name']].append(grp["name"])
+
+                if cs["experiment_gp"]:
+                    if cs["course"]['name'] not in tea_exp:
+                        tea_exp[cs["course"]['name']]=[]
+                    for grp in cs['experiment_gp']:
+                        tea_exp[cs["course"]['name']].append(grp["name"])
+
+        if grp_lec != tea_lec:
+            return "Error in lectures",grp_lec,tea_lec
+        if grp_tut != tea_tut:
+            return "Error in tutorials",grp_tut, tea_tut
+        if grp_exp != tea_exp:
+            return "Error in experiments",grp_exp, tea_exp
+
+
     ##################
     # Course manager #
     ##################
@@ -684,5 +748,7 @@ if __name__ == '__main__':
     print(f.add_teacher_absence("Hélène Michou", 9, 5))
     print(f.add_teacher_absence("Michel Dumont", 4, 2))
 
-    print(f.limit_hours_per_course)
+    #print(f.limit_hours_per_course)
+
+    print(DataFileManager.check_teacher_group(f.teachers,f.groups))
     f.store_file()
