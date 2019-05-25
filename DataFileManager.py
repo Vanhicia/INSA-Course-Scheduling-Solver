@@ -147,6 +147,34 @@ class DataFileManager:
         if grp_exp != tea_exp:
             return "Error in experiments",grp_exp, tea_exp
 
+    ############
+    # Checkers #
+    ############
+
+    def check_course_exists(self,course):
+        cs = None
+        for cou in self.courses:
+            if cou['name'].casefold() == course.casefold():
+                cs = cou
+                break
+        return cs
+
+    def check_teacher_exists(self,teacher):
+        t = None
+        for tea in self.teachers:
+            if tea['name'].casefold() == teacher.casefold():
+                t = tea
+                break
+        return t
+
+    def check_group_exists(self, group):
+        g = None
+        for grp in self.groups:
+            if grp['name'].casefold() == group.casefold():
+                g = grp
+                break
+        return g
+
 
     ##################
     # Course manager #
@@ -164,13 +192,8 @@ class DataFileManager:
 
     def rem_course(self, name):
         # Check if the course exists
-        i = 0
-        cs = {}
-        for cou in self.courses:
-            if cou['name'].casefold() == name.casefold():
-                i = 1
-                cs = cou
-        if i == 0:
+        cs = self.check_course_exists(name)
+        if not cs:
             return "Course " + name + " does not exists"
 
         # Check if a teacher has this course
@@ -179,7 +202,7 @@ class DataFileManager:
                 if j['course'] == cs:
                     return "Teacher " + i['name'] + " has the course " + name
 
-        # Check if the group exists
+        # Check if a group has the course
         for grp in self.groups:
             for crs in grp['course_list']:
                 if crs == cs:
@@ -199,67 +222,39 @@ class DataFileManager:
 
     def rem_teacher(self, name):
         # Check if the teacher exists
-        i = 0
-        elem = {}
-        for tea in self.teachers:
-            if tea['name'].casefold() == name.casefold():
-                i = 1
-                elem = tea
-
-        if i == 0:
+        elem = self.check_teacher_exists(name)
+        if not elem:
             return "Teacher " + name + " does not exist"
 
         del self.teachers[self.teachers.index(elem)]
 
-    def add_teacher_course(self, name, course_name):
+    def add_teacher_course(self, name, course):
         # Check if the teacher exists
-        i = 0
-        elem ={}
-        for tea in self.teachers:
-            if tea['name'].casefold() == name.casefold():
-                i = 1
-                elem = tea
-
-        if i == 0:
-            return "Teacher "+name+" does not exists"
+        elem = self.check_teacher_exists(name)
+        if not elem:
+            return "Teacher " + name + " does not exist"
 
         # Check if the course exists
-        i = 0
-        cs = {}
-        for cou in self.courses:
-            if cou['name'].casefold() == course_name.casefold():
-                i = 1
-                cs = cou
-        if i == 0:
-            return "Course "+course_name+" does not exists"
+        cs = self.check_course_exists(course)
+        if not cs:
+            return "Course " + course + " does not exists"
 
         # Check the teacher already has this course
         if any(i['course'] == cs for i in elem['course_list']):
-            return "Teacher "+name+" already has "+course_name+" course"
+            return "Teacher "+name+" already has "+course+" course"
 
         elem['course_list'].append({'course': cs, 'lecture_promo': [], 'tutorial_gp': [], 'experiment_gp': []})
 
     def rem_teacher_course(self, teacher, course):
         # Check if the teacher exists
-        i = 0
-        elem = {}
-        for tea in self.teachers:
-            if tea['name'].casefold() == teacher.casefold():
-                i = 1
-                elem = tea
-
-        if i == 0:
+        elem = self.check_teacher_exists(teacher)
+        if not elem:
             return "Teacher " + teacher + " does not exist"
 
         # Check if the course exists
-        i = 0
-        cs = {}
-        for cou in self.courses:
-            if cou['name'].casefold() == course.casefold():
-                i = 1
-                cs = cou
-        if i == 0:
-            return "Course " + course + " does not exist"
+        cs = self.check_course_exists(course)
+        if not cs:
+            return "Course " + course + " does not exists"
 
         # Check the teacher has this course
         i = 0
@@ -275,25 +270,14 @@ class DataFileManager:
 
     def add_teacher_promo(self, teacher, course, promo):
         # Check if the teacher exists
-        i = 0
-        elem = {}
-        for tea in self.teachers:
-            if tea['name'].casefold() == teacher.casefold():
-                i = 1
-                elem = tea
-
-        if i == 0:
+        elem = self.check_teacher_exists(teacher)
+        if not elem:
             return "Teacher " + teacher + " does not exist"
 
         # Check if the course exists
-        i = 0
-        cs = {}
-        for cou in self.courses:
-            if cou['name'].casefold() == course.casefold():
-                i = 1
-                cs = cou
-        if i == 0:
-            return "Course " + course + " does not exist"
+        cs = self.check_course_exists(course)
+        if not cs:
+            return "Course " + course + " does not exists"
 
         # Check the teacher has this course
         i = 0
@@ -309,25 +293,14 @@ class DataFileManager:
 
     def rem_teacher_promo(self, teacher, course, promo):
         # Check if the teacher exists
-        i = 0
-        elem = {}
-        for tea in self.teachers:
-            if tea['name'].casefold() == teacher.casefold():
-                i = 1
-                elem = tea
-
-        if i == 0:
+        elem = self.check_teacher_exists(teacher)
+        if not elem:
             return "Teacher " + teacher + " does not exist"
 
         # Check if the course exists
-        i = 0
-        cs = {}
-        for cou in self.courses:
-            if cou['name'].casefold() == course.casefold():
-                i = 1
-                cs = cou
-        if i == 0:
-            return "Course " + course + " does not exist"
+        cs = self.check_course_exists(course)
+        if not cs:
+            return "Course " + course + " does not exists"
 
         # Check the teacher has this course
         i = 0
@@ -347,25 +320,14 @@ class DataFileManager:
 
     def add_teacher_group(self, teacher, group, course, course_type):
         # Check if the teacher exists
-        i = 0
-        elem = {}
-        for tea in self.teachers:
-            if tea['name'].casefold() == teacher.casefold():
-                i = 1
-                elem = tea
-
-        if i == 0:
+        elem = self.check_teacher_exists(teacher)
+        if not elem:
             return "Teacher " + teacher + " does not exist"
 
         # Check if the course exists
-        i = 0
-        cs = {}
-        for cou in self.courses:
-            if cou['name'].casefold() == course.casefold():
-                i = 1
-                cs = cou
-        if i == 0:
-            return "Course " + course + " does not exist"
+        cs = self.check_course_exists(course)
+        if not cs:
+            return "Course " + course + " does not exists"
 
         # Check the teacher has this course
         i = 0
@@ -378,14 +340,8 @@ class DataFileManager:
             return "Teacher " + teacher + " does not have " + course + " course"
 
         # Check if the group exists
-        i = 0
-        elem = {}
-        for grp in self.groups:
-            if grp['name'].casefold() == group.casefold():
-                i = 1
-                elem = grp
-
-        if i == 0:
+        elem = self.check_group_exists(group)
+        if not elem:
             return "Group " + group + " does not exist"
 
         # Check if the group has the course
@@ -409,25 +365,14 @@ class DataFileManager:
 
     def rem_teacher_group(self, teacher, group, course, course_type):
         # Check if the teacher exists
-        i = 0
-        elem = {}
-        for tea in self.teachers:
-            if tea['name'].casefold() == teacher.casefold():
-                i = 1
-                elem = tea
-
-        if i == 0:
+        elem = self.check_teacher_exists(teacher)
+        if not elem:
             return "Teacher " + teacher + " does not exist"
 
         # Check if the course exists
-        i = 0
-        cs = {}
-        for cou in self.courses:
-            if cou['name'].casefold() == course.casefold():
-                i = 1
-                cs = cou
-        if i == 0:
-            return "Course " + course + " does not exist"
+        cs = self.check_course_exists(course)
+        if not cs:
+            return "Course " + course + " does not exists"
 
         # Check the teacher has this course
         i = 0
@@ -440,14 +385,8 @@ class DataFileManager:
             return "Teacher " + teacher + " does not have " + course + " course"
 
         # Check if the group exists
-        i = 0
-        elem = {}
-        for grp in self.groups:
-            if grp['name'].casefold() == group.casefold():
-                i = 1
-                elem = grp
-
-        if i == 0:
+        elem = self.check_group_exists(group)
+        if not elem:
             return "Group " + group + " does not exist"
 
         # Check if the group has the course
@@ -469,25 +408,20 @@ class DataFileManager:
 
         tea_cou[course_type + "_gp"].remove(elem)
 
-    def add_teacher_absence(self, name, week ,days):
+    def add_teacher_absence(self, teacher, week ,days):
 
         if  week > self.number_of_weeks:
             return "Week "+str(week)+ " is greater than number of weeks("+str(self.number_of_weeks)+")"
 
         # Check if the teacher exists
-        i = 0
-        elem = {}
-        for tea in self.teachers:
-            if tea['name'].casefold() == name.casefold():
-                i = 1
-                elem = tea
-
-        if i == 0:
-            return "Teacher " + name + " does not exists"
+        elem = self.check_teacher_exists(teacher)
+        if not elem:
+            return "Teacher " + teacher + " does not exist"
 
         self.teacher_absence_list.append({'teacher': elem, 'week': week, 'absence_day_number': days})
 
     def rem_teacher_absence(self, name, week):
+        # Check if the teacher exists
         i = 0
         for tea in self.teachers:
             if tea['name'].casefold() == name.casefold():
@@ -612,6 +546,7 @@ class DataFileManager:
         if room_type not in self.room_types:
             return room_type+" doesn't exist"
 
+        # Check room exists
         for room in self.rooms:
             if name.casefold() == room["name"].casefold():
                 return name+" room already exists"
@@ -619,6 +554,7 @@ class DataFileManager:
         self.rooms.append({'name': name, 'is_for_lecture': lect, 'is_for_tutorial': tut, 'is_for_experiment': exp,'type_room': room_type})
 
     def rem_room(self, name):
+        # Check room exists
         c=0
         cpt = 0
         for room in self.rooms:
@@ -630,38 +566,8 @@ class DataFileManager:
             return name+" room doesn't exist"
         del self.rooms[cpt]
 
-
-def test_json():
-    course_1 = {'name': 'math', 'lecture': 40, 'tutorial': 0, 'experiment': 0}
-    course_2 = {'name': 'Computer Science', 'lecture': 30, 'tutorial': 10, 'experiment': 15}
-    course_3 = {'name': 'Chemistry', 'lecture': 10, 'tutorial': 0, 'experiment': 0}
-    course_4 = {'name': 'English', 'lecture': 20, 'tutorial': 0, 'experiment': 0}
-    course_5 = {'name': 'PPI', 'lecture': 10, 'tutorial': 0, 'experiment': 0}
-
-    course_list = [course_1, course_2, course_3, course_4, course_5]
-
-    teacher_1 = {'name': "Bob Dylan", 'course_list': [{'course': course_1, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0},
-                 {'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 1}]}
-    teacher_2 = {'name': "Miley Cyrus", 'course_list': [{'course': course_2, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 0}]}
-    teacher_3 = {'name': "Axl Rose", 'course_list': [{'course': course_2, 'lecture_gp_nb': 0, 'tutorial_gp_nb': 1, 'experiment_gp_nb': 2}]}
-    teacher_4 = {'name': "Brian Johnson", 'course_list': [{'course': course_3, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]}
-    teacher_5 = {'name': "Mick Jagger", 'course_list': [{'course': course_4, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]}
-    teacher_6 = {'name': "Rick Astley", 'course_list': [{'course': course_5, 'lecture_gp_nb': 1, 'tutorial_gp_nb': 0, 'experiment_gp_nb': 0}]}
-
-    teacher_list = [teacher_1, teacher_2, teacher_3, teacher_4, teacher_5, teacher_6]
-
-    group_1 = {'name': '4IR-A', 'course_list': [course_1, course_2]}
-    group_2 = {'name': '4IR-B', 'course_list': [course_1, course_3, course_5]}
-    group_3 = {'name': '4IR-C', 'course_list': [course_3, course_5, course_4]}
-    group_list = [group_1, group_2, group_3]
-
-    jfile = [course_list, teacher_list, group_list]
-    f = open("test.json", "w")
-    f.write(json.dumps(jfile))
-
-
 if __name__ == '__main__':
-    f = DataFileManager("plop.txt")
+    f = DataFileManager("test.json")
     # Rooms #
     print(f.add_room_type("Automate"))
     print(f.add_room_type("CS"))
@@ -747,6 +653,7 @@ if __name__ == '__main__':
     print(f.add_teacher_absence("Michel Dumont", 0,5))
     print(f.add_teacher_absence("Hélène Michou", 9, 5))
     print(f.add_teacher_absence("Michel Dumont", 4, 2))
+    print(f.rem_course("matsqdf"))
 
     #print(f.limit_hours_per_course)
 
