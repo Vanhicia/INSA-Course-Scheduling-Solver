@@ -40,6 +40,7 @@ class Planning:
         group_tut = {}
         group_exp = {}
 
+        #Writing for groups
         for grp in self.index_group_list:
             file.write(self.group_list[cpt]['name']+"\n")
 
@@ -83,29 +84,26 @@ class Planning:
             file.write("\n\n")
             cpt += 1
 
-        # TODO csv for teacher part
-        print(group_tut)
-        print(group_exp)
-        print(promo_lec)
-        # print(self.teacher_list)
+        #Writing for teachers
+
         for tea in self.teacher_list:
             file.write("\n\n" + tea["name"] + "\n")
 
             for week in range(self.N):
                 file.write(";Semaine " + str(week + 1))
 
-            for cs in tea['course_list']:
+            total = [0] * self.N
 
+            for cs in tea['course_list']:
 
                 # Lectures
                 if cs['lecture_promo']:
                     file.write("\n CM : " + cs['course']['name'])
                     for wk in range(self.N):
                         tot = 0
-                        print(cs)
                         for promo in cs['lecture_promo']:
-                            print(promo)
                             tot += promo_lec[promo[0]['promo']][cs['course']['name']][wk]
+                        total[wk] += tot
                         file.write(";"+str(tot))
 
                 # Tutorials
@@ -115,6 +113,7 @@ class Planning:
                         tot = 0
                         for grp in cs['tutorial_gp']:
                             tot += group_tut[grp['name']][cs['course']['name']][wk]
+                        total[wk] += tot
                         file.write(";"+str(tot))
 
                 # Experiments
@@ -124,7 +123,13 @@ class Planning:
                         tot = 0
                         for grp in cs['experiment_gp']:
                             tot += group_exp[grp['name']][cs['course']['name']][wk]
+                        total[wk] += tot
                         file.write(";"+str(tot))
+
+            file.write("\n Total ")
+            for tot in total:
+                file.write(";" + str(tot))
+            file.write("\n\n")
 
         file.close()
 
