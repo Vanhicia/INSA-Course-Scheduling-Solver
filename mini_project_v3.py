@@ -5,6 +5,7 @@ from group_functions import *
 from room_functions import *
 from teacher_functions import *
 from course_functions import *
+from DataFileManager import *
 
 
 class Planning:
@@ -133,7 +134,7 @@ class Planning:
 
         file.close()
 
-    def get_model(self, N):
+    def get_model(self):
         # --------------------------------------------------------------------------------------------------- #
         # ------------------------------------------ Initialization ----------------------------------------- #
         # --------------------------------------------------------------------------------------------------- #
@@ -150,7 +151,7 @@ class Planning:
 
         # Get a data set from Test.py
         course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room, \
-            teacher_absence_list,slots,number_of_weeks,resource_per_room, max_hours_per_course = Test.data_set(2)
+            teacher_absence_list,slots,number_of_weeks,resource_per_room, max_hours_per_course = Test.data_set(3)
             #, spe_cst_list
         N = number_of_weeks
 
@@ -468,17 +469,25 @@ class Planning:
 
         c_grp = 0
         for grp in group_list:
-            c_cs = 0
+            c_exp = 0
+            c_tut = 0
             for cs in grp['course_list']:
+                up_tut = False
+                up_exp = False
                 for wk in range(number_of_weeks):
                     if cs['tutorial'] != 0:
-                        model += (planning_tutorials_per_group[c_grp][c_cs][wk] <= max_hours_per_course[cs['name']][
-                            "tut"])
+                        model += (planning_tutorials_per_group[c_grp][c_tut][wk] <= 5)
+                        up_tut = True
                     if cs['experiment'] != 0:
-                        model += (planning_experiments_per_group[c_grp][c_cs][wk] <= max_hours_per_course[cs['name']][
-                            "exp"])
-                c_cs += 1
+                        model += (planning_experiments_per_group[c_grp][c_exp][wk] <= 3)
+                        up_exp = True
+                if (up_tut):
+                    c_tut +=1
+                if (up_exp):
+                    c_exp +=1
             c_grp += 1
+
+        # check_teacher_group( teacher_list, group_list)
 
         self.planning_lectures_per_promo = planning_lectures_per_promo
         self.planning_tutorials_group = planning_tutorials_per_group
@@ -502,7 +511,7 @@ class Planning:
         return model
 
     def solve(self, param):
-        model = self.get_model(param['N'])
+        model = self.get_model()
         solver = model.load(param['solver'])
         solver.setVerbosity(param['verbose'])
         solver.setHeuristic(param['var'], param['val'], param['rand'])
@@ -686,7 +695,7 @@ class Planning:
         return out
 
 
-default = {'solver': 'Mistral2', 'N': 20, 'var': 'MinDomain',
+default = {'solver': 'Mistral2', 'var': 'MinDomain',
            'val': 'RandomMinMax', 'restart': 'yes', 'rand': 2, 'verbose': 0, 'cutoff': 20}
 
 if __name__ == '__main__':
