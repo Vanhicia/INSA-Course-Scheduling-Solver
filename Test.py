@@ -153,7 +153,7 @@ def data_set(n):
                     'type_room': value_type_room[1]}
         course_2 = {'name': 'Programmation Orientee Objets', 'lecture': 16, 'tutorial': 7, 'experiment': 12,
                     'type_room': value_type_room[1]}
-        course_3 = {'name': 'Interconnexion de réseaux', 'lecture': 12, 'tutorial': 1, 'experiment': 3,
+        course_3 = {'name': 'Interconnexion de reseaux', 'lecture': 12, 'tutorial': 1, 'experiment': 3,
                     'type_room': value_type_room[3]}
         course_4 = {'name': 'Algorithmique Repartie', 'lecture': 8, 'tutorial': 0, 'experiment': 0,
                     'type_room': value_type_room[0]}
@@ -162,7 +162,7 @@ def data_set(n):
         course_6 = {'name': 'Activite physique et sportive', 'lecture': 0, 'tutorial': 13, 'experiment': 0,
                     'type_room': value_type_room[7]}
 
-        course_7 = {'name': 'Développer ses aptitudes manageriales (finance, marketing, droit)', 'lecture': 36,
+        course_7 = {'name': 'Developper ses aptitudes manageriales (finance marketing droit)', 'lecture': 36,
                     'tutorial': 0,
                     'experiment': 0, 'type_room': value_type_room[6]}
         course_8 = {'name': 'Formation à la recherche documentaire', 'lecture': 0, 'tutorial': 2, 'experiment': 0,
@@ -364,8 +364,34 @@ def data_set(n):
         #                 # ,spe_cst_22
         #                 ]
 
+        weeks = 20
+        slots = 20
+        max_hours_course = {'Conception Orientee Objets': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Programmation Orientee Objets': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Interconnexion de reseaux': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Algorithmique Repartie': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Securite informatique et dans l internet': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Activite physique et sportive': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Developper ses aptitudes manageriales (finance marketing droit)': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Formation à la recherche documentaire': {'lec': 5, 'tut': 5, 'exp': 3},
+        'LV2/ Anglais renforce': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Programmation fonctionnelle': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Logique et programmation logique': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Algorithmique avancee': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Direction des systemes d information': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Modeles de Donnees et Systemes d information': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Informatique materielle: microcontroleurs': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Reseaux sans fil': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Reseaux de mobiles': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Energie pour les systemes mobiles': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Codage voix et image pour réseaux mobiles': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Canaux bruites et codes correcteurs': {'lec': 5, 'tut': 5, 'exp': 3},
+        'BE Transmission': {'lec': 5, 'tut': 5, 'exp': 3},
+        'Antennes et modeles pour la transmission': {'lec': 5, 'tut': 5, 'exp': 3}}
+        resource_per_room = 7
+
         return course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room,\
-               teacher_absence_list #, spe_cst_list
+               teacher_absence_list, slots, weeks, resource_per_room, max_hours_course, #, spe_cst_list
 
 
 if __name__ == '__main__':
