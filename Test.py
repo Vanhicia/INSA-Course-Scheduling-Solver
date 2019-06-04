@@ -331,67 +331,69 @@ def data_set(n):
 
         teacher_absence_list = [absence_1, absence_2, absence_3]
 
-        # spe_cst_1 = {'course': course_1, 'nb_min': 8}
-        # spe_cst_2 = {'course': course_2, 'nb_min': 8}
-        # spe_cst_3 = {'course': course_3, 'nb_min': 6}
-        # spe_cst_4 = {'course': course_4, 'nb_min': 8}
-        # spe_cst_5 = {'course': course_5, 'nb_min': 8}
+        spe_cst_1 = {'course': course_1, 'nb_min': 4}
+        spe_cst_2 = {'course': course_2, 'nb_min': 4}
+        spe_cst_3 = {'course': course_3, 'nb_min': 3}
+        spe_cst_4 = {'course': course_4, 'nb_min': 4}
+        spe_cst_5 = {'course': course_5, 'nb_min': 4}
 
-        # spe_cst_10 = {'course': course_10, 'nb_min': 5}
-        # spe_cst_11 = {'course': course_11, 'nb_min': 5}
-        # spe_cst_12 = {'course': course_12, 'nb_min': 5}
-        # spe_cst_13 = {'course': course_13, 'nb_min': 5}
-        # spe_cst_14 = {'course': course_14, 'nb_min': 5}
-        #
-        # spe_cst_16 = {'course': course_16, 'nb_min': 5}
-        # spe_cst_17 = {'course': course_17, 'nb_min': 5}
-        # spe_cst_18 = {'course': course_18, 'nb_min': 4}
-        # spe_cst_19 = {'course': course_19, 'nb_min': 2}
-        # spe_cst_20 = {'course': course_20, 'nb_min': 5}
-        # spe_cst_21 = {'course': course_21, 'nb_min': 2}
-        # spe_cst_22 = {'course': course_22, 'nb_min': 5}
-        #
-        # spe_cst_list = [spe_cst_1,spe_cst_2,spe_cst_3,spe_cst_4,spe_cst_5
-        #                 ,spe_cst_10,spe_cst_12, spe_cst_13
-        #                 # ,spe_cst_11
-        #                 # ,spe_cst_14
-        #                 # ,spe_cst_16
-        #                 # ,spe_cst_17
-        #                 ,spe_cst_18
-        #                 ,spe_cst_19
-        #                 # ,spe_cst_20
-        #                 ,spe_cst_21
-        #                 # ,spe_cst_22
-        #                 ]
+        spe_cst_10 = {'course': course_10, 'nb_min': 5}
+        spe_cst_11 = {'course': course_11, 'nb_min': 5}
+        spe_cst_12 = {'course': course_12, 'nb_min': 5}
+        spe_cst_13 = {'course': course_13, 'nb_min': 5}
+        spe_cst_14 = {'course': course_14, 'nb_min': 5}
 
-        weeks = 20
-        slots = 20
-        max_hours_course = {'Conception Orientee Objets': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Programmation Orientee Objets': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Interconnexion de reseaux': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Algorithmique Repartie': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Securite informatique et dans l internet': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Activite physique et sportive': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Developper ses aptitudes manageriales (finance marketing droit)': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Formation à la recherche documentaire': {'lec': 5, 'tut': 5, 'exp': 3},
-        'LV2/ Anglais renforce': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Programmation fonctionnelle': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Logique et programmation logique': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Algorithmique avancee': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Direction des systemes d information': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Modeles de Donnees et Systemes d information': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Informatique materielle: microcontroleurs': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Reseaux sans fil': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Reseaux de mobiles': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Energie pour les systemes mobiles': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Codage voix et image pour réseaux mobiles': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Canaux bruites et codes correcteurs': {'lec': 5, 'tut': 5, 'exp': 3},
-        'BE Transmission': {'lec': 5, 'tut': 5, 'exp': 3},
-        'Antennes et modeles pour la transmission': {'lec': 5, 'tut': 5, 'exp': 3}}
+        spe_cst_16 = {'course': course_16, 'nb_min': 5}
+        spe_cst_17 = {'course': course_17, 'nb_min': 5}
+        spe_cst_18 = {'course': course_18, 'nb_min': 4}
+        spe_cst_19 = {'course': course_19, 'nb_min': 2}
+        spe_cst_20 = {'course': course_20, 'nb_min': 5}
+        spe_cst_21 = {'course': course_21, 'nb_min': 2}
+        spe_cst_22 = {'course': course_22, 'nb_min': 5}
+
+        spe_cst_list = [
+                        # spe_cst_1
+                        # ,spe_cst_2,spe_cst_3,spe_cst_4,spe_cst_5
+                        # ,spe_cst_10,spe_cst_12, spe_cst_13
+                        # ,spe_cst_11
+                        # ,spe_cst_14
+                        spe_cst_16
+                        ,spe_cst_17
+                        ,spe_cst_18
+                        ,spe_cst_19
+                        ,spe_cst_20
+                        ,spe_cst_21
+                        ,spe_cst_22
+                        ]
+
+        weeks = 50
+        slots = 50
+        max_hours_course = {'Conception Orientee Objets': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Programmation Orientee Objets': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Interconnexion de reseaux': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Algorithmique Repartie': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Securite informatique et dans l internet': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Activite physique et sportive': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Developper ses aptitudes manageriales (finance marketing droit)': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Formation à la recherche documentaire': {'lec': 15, 'tut': 5, 'exp': 3},
+        'LV2/ Anglais renforce': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Programmation fonctionnelle': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Logique et programmation logique': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Algorithmique avancee': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Direction des systemes d information': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Modeles de Donnees et Systemes d information': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Informatique materielle: microcontroleurs': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Reseaux sans fil': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Reseaux de mobiles': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Energie pour les systemes mobiles': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Codage voix et image pour réseaux mobiles': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Canaux bruites et codes correcteurs': {'lec': 15, 'tut': 5, 'exp': 3},
+        'BE Transmission': {'lec': 15, 'tut': 5, 'exp': 3},
+        'Antennes et modeles pour la transmission': {'lec': 15, 'tut': 5, 'exp': 3}}
         resource_per_room = 7
 
         return course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room,\
-               teacher_absence_list, slots, weeks, resource_per_room, max_hours_course, #, spe_cst_list
+               teacher_absence_list, slots, weeks, resource_per_room, max_hours_course, spe_cst_list
 
 
 if __name__ == '__main__':

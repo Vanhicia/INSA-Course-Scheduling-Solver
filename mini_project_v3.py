@@ -259,15 +259,14 @@ class Planning:
 
         # Specific constraints #
         # Tutorials start after X lectures #
-        # for spe_cst in spe_cst_list:
-        #     cst_specific_tut(spe_cst,lecture_list_per_promo, tutorial_list_per_group, promo_list, group_list,
-        #                  planning_tutorials_per_group,
-        #                  planning_lectures_per_promo, limit_hours_course_for_lectures, number_of_weeks, model)
-        #
-        #     cst_specific_exp(spe_cst,lecture_list_per_promo, experiment_list_per_group, promo_list, group_list,
-        #                  planning_experiments_per_group,
-        #                  planning_lectures_per_promo, limit_hours_course_for_lectures, number_of_weeks, model)
+        for spe_cst in spe_cst_list:
+            cst_specific_tut(spe_cst,lecture_list_per_promo, tutorial_list_per_group, promo_list2, group_list,
+                         planning_tutorials_per_group,
+                         planning_lectures_per_promo, limit_hours_course_for_lectures, model)
 
+            cst_specific_exp(spe_cst,lecture_list_per_promo, experiment_list_per_group, promo_list2, group_list,
+                         planning_experiments_per_group,
+                         planning_lectures_per_promo, limit_hours_course_for_lectures, model)
 
         # ---------------------------------------- Group constraints ------------------------------------------- #
 
