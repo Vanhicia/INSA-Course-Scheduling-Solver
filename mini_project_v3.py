@@ -151,8 +151,7 @@ class Planning:
 
         # Get a data set from Test.py
         course_list, teacher_list, group_list, promo_list, promo_list2, rooms_list, value_type_room, \
-            teacher_absence_list,slots,number_of_weeks,resource_per_room, max_hours_per_course = Test.data_set(3)
-            #, spe_cst_list
+            teacher_absence_list,slots,number_of_weeks,resource_per_room, max_hours_per_course, spe_cst_list = Test.data_set(3)
         N = number_of_weeks
 
         # ----------------------------------- Course initialization ------------------------------------ #
@@ -264,10 +263,10 @@ class Planning:
         #     cst_specific_tut(spe_cst,lecture_list_per_promo, tutorial_list_per_group, promo_list, group_list,
         #                  planning_tutorials_per_group,
         #                  planning_lectures_per_promo, limit_hours_course_for_lectures, number_of_weeks, model)
-
-            # cst_specific_exp(spe_cst,lecture_list_per_promo, experiment_list_per_group, promo_list, group_list,
-            #              planning_experiments_per_group,
-            #              planning_lectures_per_promo, limit_hours_course_for_lectures, number_of_weeks, model)
+        #
+        #     cst_specific_exp(spe_cst,lecture_list_per_promo, experiment_list_per_group, promo_list, group_list,
+        #                  planning_experiments_per_group,
+        #                  planning_lectures_per_promo, limit_hours_course_for_lectures, number_of_weeks, model)
 
 
         # ---------------------------------------- Group constraints ------------------------------------------- #
@@ -476,10 +475,10 @@ class Planning:
                 up_exp = False
                 for wk in range(number_of_weeks):
                     if cs['tutorial'] != 0:
-                        model += (planning_tutorials_per_group[c_grp][c_tut][wk] <= 5)
+                        model += (planning_tutorials_per_group[c_grp][c_tut][wk] <= max_hours_per_course[cs['name']]["tut"])
                         up_tut = True
                     if cs['experiment'] != 0:
-                        model += (planning_experiments_per_group[c_grp][c_exp][wk] <= 3)
+                        model += (planning_experiments_per_group[c_grp][c_exp][wk] <= max_hours_per_course[cs['name']]["exp"])
                         up_exp = True
                 if (up_tut):
                     c_tut +=1
