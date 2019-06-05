@@ -1,363 +1,363 @@
 4IR-A
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Conception Orientee Objets;0;0;7;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;0
- CM : Programmation Orientee Objets;3;0;0;6;1;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- CM : Interconnexion de reseaux;0;0;0;0;0;0;0;0;0;0;0;2;0;0;0;0;0;0;0;10
- CM : Algorithmique Repartie;0;0;0;0;0;0;0;0;0;0;0;8;0;0;0;0;0;0;0;0
- CM : Securite informatique et dans l internet;0;0;9;0;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0
- CM : Developper ses aptitudes manageriales (finance marketing droit);0;0;0;0;0;0;10;0;0;6;0;0;10;0;0;10;0;0;0;0
- CM : Programmation fonctionnelle;0;0;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0
- CM : Logique et programmation logique;0;0;0;0;7;0;0;0;0;0;0;0;6;0;0;0;0;0;0;0
- CM : Algorithmique avancee;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0;0;0
- CM : Direction des systemes d information;0;0;0;0;0;0;8;0;0;0;0;0;0;0;0;0;0;0;0;0
- CM : Modeles de Donnees et Systemes d information;8;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Conception Orientee Objets;0;0;0;0;0;0;0;4;4;0;0;0;0;0;0;0;0;0;0;0
+ CM : Programmation Orientee Objets;0;0;0;0;0;1;0;0;0;0;0;5;5;0;0;1;0;0;0;4
+ CM : Interconnexion de reseaux;0;0;0;0;0;2;0;0;0;0;0;0;0;0;0;5;0;0;0;5
+ CM : Algorithmique Repartie;0;4;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Securite informatique et dans l internet;0;0;0;0;0;0;5;0;0;0;5;0;0;0;0;4;0;0;0;0
+ CM : Developper ses aptitudes manageriales (finance marketing droit);3;0;0;0;0;5;0;0;0;0;0;0;5;5;5;0;5;3;5;0
+ CM : Programmation fonctionnelle;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0;0;0;0;0
+ CM : Logique et programmation logique;0;0;0;0;0;0;0;0;0;0;0;0;0;3;5;0;0;5;0;0
+ CM : Algorithmique avancee;0;0;0;0;0;0;2;0;0;0;0;0;3;0;0;0;0;0;0;0
+ CM : Direction des systemes d information;0;0;0;0;0;0;0;0;0;3;5;0;0;0;0;0;0;0;0;0
+ CM : Modeles de Donnees et Systemes d information;0;0;0;0;0;0;0;5;0;5;0;0;0;1;0;0;0;0;0;0
  CM : Informatique materielle: microcontroleurs;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Conception Orientee Objets;0;5;5;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Programmation Orientee Objets;0;0;0;0;0;0;0;5;0;0;0;0;0;0;2;0;0;0;0;0
+ TD : Conception Orientee Objets;0;0;0;0;0;0;0;0;5;0;5;0;3;0;0;0;0;0;0;0
+ TD : Programmation Orientee Objets;0;1;0;0;0;0;0;0;0;0;0;0;1;0;0;0;0;0;0;5
  TD : Interconnexion de reseaux;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
  TD : Securite informatique et dans l internet;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Activite physique et sportive;0;3;0;0;2;0;2;0;0;0;0;0;0;0;0;0;0;0;2;4
+ TD : Activite physique et sportive;0;0;0;0;3;0;0;0;0;1;0;4;0;0;0;0;5;0;0;0
  TD : Formation à la recherche documentaire;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : LV2/ Anglais renforce;0;0;0;5;0;0;0;5;0;5;0;0;5;0;0;0;0;0;0;0
- TD : Programmation fonctionnelle;0;3;0;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0
- TD : Logique et programmation logique;0;0;0;0;0;5;0;0;1;0;0;0;0;0;0;0;0;0;0;0
- TD : Algorithmique avancee;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Modeles de Donnees et Systemes d information;0;5;0;0;0;2;0;0;0;0;0;0;0;0;0;5;0;5;0;0
- TD : Informatique materielle: microcontroleurs;0;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Programmation Orientee Objets;0;0;6;6;0;0;0;0;0;0;6;6;0;0;0;0;0;0;0;0
- TP : Interconnexion de reseaux;0;0;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Securite informatique et dans l internet;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Programmation fonctionnelle;6;0;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Logique et programmation logique;6;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Informatique materielle: microcontroleurs;0;0;6;0;0;6;0;6;4;0;0;0;0;0;0;0;0;0;0;0
- Total ;31;26;35;28;10;23;20;16;5;11;11;16;26;5;7;15;0;5;3;14
+ TD : LV2/ Anglais renforce;0;0;0;0;0;0;5;0;0;0;0;5;0;5;5;0;0;0;0;0
+ TD : Programmation fonctionnelle;0;0;0;0;0;5;0;0;0;0;0;0;3;0;0;0;0;0;0;0
+ TD : Logique et programmation logique;0;0;0;0;5;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Algorithmique avancee;0;0;0;0;0;0;0;3;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Modeles de Donnees et Systemes d information;0;0;0;0;0;0;0;0;0;5;0;0;0;2;0;0;0;5;0;5
+ TD : Informatique materielle: microcontroleurs;0;0;0;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Programmation Orientee Objets;6;0;0;6;6;0;0;0;0;0;0;6;0;0;0;0;0;0;0;0
+ TP : Interconnexion de reseaux;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Securite informatique et dans l internet;0;0;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Programmation fonctionnelle;6;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Logique et programmation logique;0;6;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Informatique materielle: microcontroleurs;0;0;0;6;6;6;0;4;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;20;20;0;20;20;20;16;20;14;14;15;20;20;16;15;10;10;13;5;19
 
 4IR-B
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Conception Orientee Objets;0;0;7;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;0
- CM : Programmation Orientee Objets;3;0;0;6;1;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- CM : Interconnexion de reseaux;0;0;0;0;0;0;0;0;0;0;0;2;0;0;0;0;0;0;0;10
- CM : Algorithmique Repartie;0;0;0;0;0;0;0;0;0;0;0;8;0;0;0;0;0;0;0;0
- CM : Securite informatique et dans l internet;0;0;9;0;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0
- CM : Developper ses aptitudes manageriales (finance marketing droit);0;0;0;0;0;0;10;0;0;6;0;0;10;0;0;10;0;0;0;0
- CM : Programmation fonctionnelle;0;0;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0
- CM : Logique et programmation logique;0;0;0;0;7;0;0;0;0;0;0;0;6;0;0;0;0;0;0;0
- CM : Algorithmique avancee;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0;0;0
- CM : Direction des systemes d information;0;0;0;0;0;0;8;0;0;0;0;0;0;0;0;0;0;0;0;0
- CM : Modeles de Donnees et Systemes d information;8;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Conception Orientee Objets;0;0;0;0;0;0;0;4;4;0;0;0;0;0;0;0;0;0;0;0
+ CM : Programmation Orientee Objets;0;0;0;0;0;1;0;0;0;0;0;5;5;0;0;1;0;0;0;4
+ CM : Interconnexion de reseaux;0;0;0;0;0;2;0;0;0;0;0;0;0;0;0;5;0;0;0;5
+ CM : Algorithmique Repartie;0;4;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Securite informatique et dans l internet;0;0;0;0;0;0;5;0;0;0;5;0;0;0;0;4;0;0;0;0
+ CM : Developper ses aptitudes manageriales (finance marketing droit);3;0;0;0;0;5;0;0;0;0;0;0;5;5;5;0;5;3;5;0
+ CM : Programmation fonctionnelle;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0;0;0;0;0
+ CM : Logique et programmation logique;0;0;0;0;0;0;0;0;0;0;0;0;0;3;5;0;0;5;0;0
+ CM : Algorithmique avancee;0;0;0;0;0;0;2;0;0;0;0;0;3;0;0;0;0;0;0;0
+ CM : Direction des systemes d information;0;0;0;0;0;0;0;0;0;3;5;0;0;0;0;0;0;0;0;0
+ CM : Modeles de Donnees et Systemes d information;0;0;0;0;0;0;0;5;0;5;0;0;0;1;0;0;0;0;0;0
  CM : Informatique materielle: microcontroleurs;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Conception Orientee Objets;1;0;0;5;0;0;0;5;0;2;0;0;0;0;0;0;0;0;0;0
- TD : Programmation Orientee Objets;3;0;0;0;0;0;0;0;0;0;0;4;0;0;0;0;0;0;0;0
+ TD : Conception Orientee Objets;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;5;0;5;0;2
+ TD : Programmation Orientee Objets;0;0;0;5;0;0;0;0;0;0;0;0;0;2;0;0;0;0;0;0
  TD : Interconnexion de reseaux;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
  TD : Securite informatique et dans l internet;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Activite physique et sportive;0;0;3;5;0;0;0;5;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Formation à la recherche documentaire;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : LV2/ Anglais renforce;0;0;5;0;0;5;5;0;5;0;0;0;0;0;0;0;0;0;0;0
- TD : Programmation fonctionnelle;5;0;0;0;0;0;0;0;3;0;0;0;0;0;0;0;0;0;0;0
- TD : Logique et programmation logique;0;0;0;0;5;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0
+ TD : Activite physique et sportive;0;0;0;0;0;0;0;1;1;0;0;0;0;0;5;0;2;0;0;4
+ TD : Formation à la recherche documentaire;0;0;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : LV2/ Anglais renforce;0;0;0;0;0;0;0;5;0;5;0;0;0;5;0;5;0;0;0;0
+ TD : Programmation fonctionnelle;3;0;0;3;0;0;0;0;0;0;2;0;0;0;0;0;0;0;0;0
+ TD : Logique et programmation logique;0;0;0;0;0;0;0;0;0;0;5;1;0;0;0;0;0;0;0;0
  TD : Algorithmique avancee;0;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Modeles de Donnees et Systemes d information;4;0;0;0;0;0;0;0;0;0;0;3;5;0;0;5;0;0;0;0
- TD : Informatique materielle: microcontroleurs;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Programmation Orientee Objets;6;0;6;0;6;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Interconnexion de reseaux;0;0;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Modeles de Donnees et Systemes d information;4;0;0;0;0;0;5;0;0;3;0;0;0;0;0;0;0;0;5;0
+ TD : Informatique materielle: microcontroleurs;0;0;0;0;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0
+ TP : Programmation Orientee Objets;0;6;6;0;6;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Interconnexion de reseaux;0;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
  TP : Securite informatique et dans l internet;0;2;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Programmation fonctionnelle;0;6;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Logique et programmation logique;0;6;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Informatique materielle: microcontroleurs;0;0;0;0;6;6;6;4;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;39;21;38;22;25;17;35;14;9;8;5;17;26;0;5;15;0;0;1;10
+ TP : Programmation fonctionnelle;0;0;4;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Logique et programmation logique;0;4;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Informatique materielle: microcontroleurs;6;0;0;6;0;0;0;0;6;4;0;0;0;0;0;0;0;0;0;0
+ Total ;20;20;20;20;6;14;20;15;20;20;17;6;13;16;15;20;7;13;10;15
 
 4IR-C
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Conception Orientee Objets;0;0;7;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;0
- CM : Programmation Orientee Objets;3;0;0;6;1;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- CM : Interconnexion de reseaux;0;0;0;0;0;0;0;0;0;0;0;2;0;0;0;0;0;0;0;10
- CM : Algorithmique Repartie;0;0;0;0;0;0;0;0;0;0;0;8;0;0;0;0;0;0;0;0
- CM : Securite informatique et dans l internet;0;0;9;0;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0
- CM : Developper ses aptitudes manageriales (finance marketing droit);0;0;0;0;0;0;10;0;0;6;0;0;10;0;0;10;0;0;0;0
- CM : Programmation fonctionnelle;0;0;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0
- CM : Logique et programmation logique;0;0;0;0;7;0;0;0;0;0;0;0;6;0;0;0;0;0;0;0
- CM : Algorithmique avancee;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0;0;0
- CM : Direction des systemes d information;0;0;0;0;0;0;8;0;0;0;0;0;0;0;0;0;0;0;0;0
- CM : Modeles de Donnees et Systemes d information;8;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Conception Orientee Objets;0;0;0;0;0;0;0;4;4;0;0;0;0;0;0;0;0;0;0;0
+ CM : Programmation Orientee Objets;0;0;0;0;0;1;0;0;0;0;0;5;5;0;0;1;0;0;0;4
+ CM : Interconnexion de reseaux;0;0;0;0;0;2;0;0;0;0;0;0;0;0;0;5;0;0;0;5
+ CM : Algorithmique Repartie;0;4;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Securite informatique et dans l internet;0;0;0;0;0;0;5;0;0;0;5;0;0;0;0;4;0;0;0;0
+ CM : Developper ses aptitudes manageriales (finance marketing droit);3;0;0;0;0;5;0;0;0;0;0;0;5;5;5;0;5;3;5;0
+ CM : Programmation fonctionnelle;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0;0;0;0;0
+ CM : Logique et programmation logique;0;0;0;0;0;0;0;0;0;0;0;0;0;3;5;0;0;5;0;0
+ CM : Algorithmique avancee;0;0;0;0;0;0;2;0;0;0;0;0;3;0;0;0;0;0;0;0
+ CM : Direction des systemes d information;0;0;0;0;0;0;0;0;0;3;5;0;0;0;0;0;0;0;0;0
+ CM : Modeles de Donnees et Systemes d information;0;0;0;0;0;0;0;5;0;5;0;0;0;1;0;0;0;0;0;0
  CM : Informatique materielle: microcontroleurs;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Conception Orientee Objets;0;0;0;0;0;0;3;0;0;0;0;0;0;0;5;0;0;5;0;0
- TD : Programmation Orientee Objets;0;0;0;0;5;0;0;0;0;0;0;2;0;0;0;0;0;0;0;0
+ TD : Conception Orientee Objets;0;0;0;2;0;0;0;5;0;0;0;0;0;5;0;0;0;1;0;0
+ TD : Programmation Orientee Objets;0;0;1;0;0;0;0;0;0;0;2;1;0;0;0;0;0;0;0;3
  TD : Interconnexion de reseaux;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Securite informatique et dans l internet;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Activite physique et sportive;0;0;0;0;5;0;5;0;0;0;0;0;0;0;0;0;0;0;0;3
+ TD : Securite informatique et dans l internet;1;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Activite physique et sportive;0;4;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;5;0;3
  TD : Formation à la recherche documentaire;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : LV2/ Anglais renforce;5;0;5;0;0;0;0;5;5;0;0;0;0;0;0;0;0;0;0;0
- TD : Programmation fonctionnelle;0;0;5;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Logique et programmation logique;0;0;0;0;0;0;0;0;0;0;0;0;0;5;1;0;0;0;0;0
- TD : Algorithmique avancee;0;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Modeles de Donnees et Systemes d information;0;0;0;0;0;0;0;0;0;0;0;0;0;5;5;0;5;0;0;2
- TD : Informatique materielle: microcontroleurs;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Programmation Orientee Objets;6;0;0;0;0;6;6;6;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Interconnexion de reseaux;0;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Securite informatique et dans l internet;0;0;0;0;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : LV2/ Anglais renforce;1;0;0;0;0;0;0;0;0;0;0;4;5;0;5;0;0;0;0;5
+ TD : Programmation fonctionnelle;4;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Logique et programmation logique;0;4;0;0;0;0;0;0;0;0;0;0;2;0;0;0;0;0;0;0
+ TD : Algorithmique avancee;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Modeles de Donnees et Systemes d information;0;0;0;0;0;2;0;0;5;0;5;5;0;0;0;0;0;0;0;0
+ TD : Informatique materielle: microcontroleurs;0;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Programmation Orientee Objets;6;6;6;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Interconnexion de reseaux;0;0;2;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Securite informatique et dans l internet;0;0;0;4;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
  TP : Programmation fonctionnelle;0;0;6;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
  TP : Logique et programmation logique;0;0;0;0;6;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Informatique materielle: microcontroleurs;0;6;0;6;6;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;24;20;38;15;32;18;38;11;5;6;5;12;21;10;16;10;5;5;1;15
+ TP : Informatique materielle: microcontroleurs;0;0;4;6;4;6;2;0;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;20;20;20;20;20;20;15;14;15;8;17;15;20;14;15;10;5;14;5;20
 
 4IR-SC
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Conception Orientee Objets;0;0;0;0;7;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1
- CM : Programmation Orientee Objets;0;6;0;0;0;0;0;0;0;0;0;0;0;0;10;0;0;0;0;0
- CM : Interconnexion de reseaux;0;0;0;0;0;0;0;0;0;0;0;0;10;0;2;0;0;0;0;0
- CM : Algorithmique Repartie;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;8;0;0;0;0
- CM : Securite informatique et dans l internet;0;0;0;0;0;0;4;0;0;0;0;10;0;0;0;0;0;0;0;0
- CM : Developper ses aptitudes manageriales (finance marketing droit);0;0;0;0;0;0;0;0;0;0;0;10;0;0;10;10;0;6;0;0
- CM : Reseaux sans fil;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- CM : Reseaux de mobiles;5;6;5;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- CM : Energie pour les systemes mobiles;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- CM : Codage voix et image pour réseaux mobiles;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- CM : Canaux bruites et codes correcteurs;5;0;3;0;0;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- CM : BE Transmission;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- CM : Antennes et modeles pour la transmission;7;0;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Conception Orientee Objets;0;0;0;0;0;0;5;0;0;0;0;5;3;0;0;0;0;0;0;0
- TD : Programmation Orientee Objets;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;5;0;2
- TD : Interconnexion de reseaux;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Securite informatique et dans l internet;1;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Activite physique et sportive;0;4;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;5;0
+ CM : Conception Orientee Objets;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;5;3;0;0
+ CM : Programmation Orientee Objets;0;0;0;0;2;0;0;4;0;0;5;0;0;5;0;0;0;0;0;0
+ CM : Interconnexion de reseaux;0;0;0;0;0;0;0;0;5;5;0;2;0;0;0;0;0;0;0;0
+ CM : Algorithmique Repartie;0;0;0;0;0;0;5;3;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Securite informatique et dans l internet;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0;4;5
+ CM : Developper ses aptitudes manageriales (finance marketing droit);0;0;4;0;0;5;0;0;0;5;0;0;0;5;0;5;0;5;5;2
+ CM : Reseaux sans fil;5;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Reseaux de mobiles;5;0;1;0;0;0;0;0;0;0;0;0;0;0;0;5;0;0;5;0
+ CM : Energie pour les systemes mobiles;0;0;0;0;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0
+ CM : Codage voix et image pour réseaux mobiles;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Canaux bruites et codes correcteurs;5;0;0;0;5;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : BE Transmission;0;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Antennes et modeles pour la transmission;5;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;5;0;0
+ TD : Conception Orientee Objets;0;0;0;4;0;0;0;0;0;0;4;0;0;0;0;0;0;5;0;0
+ TD : Programmation Orientee Objets;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;5;2;0;0;0
+ TD : Interconnexion de reseaux;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Securite informatique et dans l internet;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Activite physique et sportive;0;0;0;0;0;0;0;1;5;0;0;3;2;0;0;0;0;2;0;0
  TD : Formation à la recherche documentaire;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : LV2/ Anglais renforce;5;0;0;5;0;5;0;5;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : LV2/ Anglais renforce;0;0;0;0;0;0;0;0;0;5;0;5;0;5;5;0;0;0;0;0
  TD : Reseaux sans fil;0;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Reseaux de mobiles;0;0;0;0;0;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Canaux bruites et codes correcteurs;0;0;0;0;0;3;0;0;1;0;0;0;0;0;0;0;0;0;0;0
+ TD : Reseaux de mobiles;0;0;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Canaux bruites et codes correcteurs;0;0;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0
  TD : Antennes et modeles pour la transmission;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Programmation Orientee Objets;0;6;6;0;6;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Interconnexion de reseaux;0;0;0;0;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Securite informatique et dans l internet;0;0;0;0;0;0;0;0;6;0;0;0;0;0;0;0;0;0;0;0
- TP : Reseaux sans fil;0;4;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Reseaux de mobiles;0;6;0;0;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Programmation Orientee Objets;0;0;0;6;0;6;0;6;0;0;0;0;6;0;0;0;0;0;0;0
+ TP : Interconnexion de reseaux;0;0;0;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Securite informatique et dans l internet;0;0;0;0;0;0;0;6;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Reseaux sans fil;0;0;0;6;0;0;0;0;2;0;0;0;0;0;0;0;0;0;0;0
+ TP : Reseaux de mobiles;0;6;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
  TP : Energie pour les systemes mobiles;0;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Codage voix et image pour réseaux mobiles;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : BE Transmission;0;6;0;0;6;0;0;6;2;0;0;0;0;0;0;0;0;0;0;0
- TP : Antennes et modeles pour la transmission;0;0;0;0;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0
- Total ;37;41;29;10;20;22;15;11;13;0;0;25;13;0;22;18;0;11;5;3
+ TP : Codage voix et image pour réseaux mobiles;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : BE Transmission;0;6;0;0;6;6;2;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Antennes et modeles pour la transmission;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;20;20;20;20;20;17;12;20;16;15;14;10;8;15;5;15;7;20;14;7
 
 
 
 Nicolas Van Wambeke
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Conception Orientee Objets;0;0;7;0;7;0;0;0;0;0;0;0;0;0;0;0;0;0;1;1
- TD : Conception Orientee Objets;0;5;5;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;0;5;12;3;7;0;0;0;0;0;0;0;0;0;0;0;0;0;1;1
+ CM : Conception Orientee Objets;0;0;0;0;0;0;0;4;4;0;0;0;0;0;0;0;5;3;0;0
+ TD : Conception Orientee Objets;0;0;0;0;0;0;0;0;5;0;5;0;3;0;0;0;0;0;0;0
+ Total ;0;0;0;0;0;0;0;4;9;0;5;0;3;0;0;0;5;3;0;0
 
 
 
 Sami Yangui
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Programmation Orientee Objets;3;0;0;6;1;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Programmation Orientee Objets;3;0;0;0;5;0;0;5;0;0;0;6;0;0;2;0;0;0;0;0
- TP : Programmation Orientee Objets;6;0;12;6;6;0;6;0;0;0;6;6;0;0;0;0;0;0;0;0
- Total ;12;0;12;12;12;6;6;5;0;0;6;12;0;0;2;0;0;0;0;0
+ CM : Programmation Orientee Objets;0;0;0;0;0;1;0;0;0;0;0;5;5;0;0;1;0;0;0;4
+ TD : Programmation Orientee Objets;0;1;1;5;0;0;0;0;0;0;2;1;1;2;0;0;0;0;0;8
+ TP : Programmation Orientee Objets;6;6;6;6;12;6;0;0;0;0;0;6;0;0;0;0;0;0;0;0
+ Total ;6;7;7;11;12;7;0;0;0;0;2;12;6;2;0;1;0;0;0;12
 
 
 
 Christophe Chassot
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Interconnexion de reseaux;0;0;0;0;0;0;0;0;0;0;0;2;0;0;0;0;0;0;0;10
+ CM : Interconnexion de reseaux;0;0;0;0;0;2;0;0;0;0;0;0;0;0;0;5;0;0;0;5
  TD : Interconnexion de reseaux;2;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Interconnexion de reseaux;0;0;0;12;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;2;1;0;12;0;0;0;0;0;0;0;2;0;0;0;0;0;0;0;10
+ TP : Interconnexion de reseaux;0;6;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;2;7;6;0;0;2;0;0;0;0;0;0;0;0;0;5;0;0;0;5
 
 
 
 Francois Vernadat
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Algorithmique Repartie;0;0;0;0;0;0;0;0;0;0;0;8;0;0;0;0;0;0;0;0
- Total ;0;0;0;0;0;0;0;0;0;0;0;8;0;0;0;0;0;0;0;0
+ CM : Algorithmique Repartie;0;4;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;0;4;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0
 
 
 
 Vincent Nicomette
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Securite informatique et dans l internet;0;0;9;0;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0
- Total ;0;0;9;0;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0
+ CM : Securite informatique et dans l internet;0;0;0;0;0;0;5;0;0;0;5;0;0;0;0;4;0;0;0;0
+ Total ;0;0;0;0;0;0;5;0;0;0;5;0;0;0;0;4;0;0;0;0
 
 
 
 Sylvie Rossard
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- TD : Activite physique et sportive;0;3;3;5;7;0;7;5;0;0;0;0;0;0;0;0;0;0;2;7
- Total ;0;3;3;5;7;0;7;5;0;0;0;0;0;0;0;0;0;0;2;7
+ TD : Activite physique et sportive;0;4;0;0;3;0;0;1;2;1;0;4;0;0;5;0;7;5;0;7
+ Total ;0;4;0;0;3;0;0;1;2;1;0;4;0;0;5;0;7;5;0;7
 
 
 
 Lucie Leclert
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Developper ses aptitudes manageriales (finance marketing droit);0;0;0;0;0;0;10;0;0;6;0;0;10;0;0;10;0;0;0;0
- Total ;0;0;0;0;0;0;10;0;0;6;0;0;10;0;0;10;0;0;0;0
+ CM : Developper ses aptitudes manageriales (finance marketing droit);3;0;0;0;0;5;0;0;0;0;0;0;5;5;5;0;5;3;5;0
+ Total ;3;0;0;0;0;5;0;0;0;0;0;0;5;5;5;0;5;3;5;0
 
 
 
 Anne-Laure Aymard
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- TD : Formation à la recherche documentaire;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Formation à la recherche documentaire;4;0;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;4;0;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
 
 
 
 Anouk Abadie
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- TD : LV2/ Anglais renforce;0;0;5;5;0;5;5;5;5;5;0;0;5;0;0;0;0;0;0;0
- Total ;0;0;5;5;0;5;5;5;5;5;0;0;5;0;0;0;0;0;0;0
+ TD : LV2/ Anglais renforce;0;0;0;0;0;0;5;5;0;5;0;5;0;10;5;5;0;0;0;0
+ Total ;0;0;0;0;0;0;5;5;0;5;0;5;0;10;5;5;0;0;0;0
 
 
 
 Joseph Shea
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- TD : LV2/ Anglais renforce;10;0;5;5;0;5;0;10;5;0;0;0;0;0;0;0;0;0;0;0
- Total ;10;0;5;5;0;5;0;10;5;0;0;0;0;0;0;0;0;0;0;0
+ TD : LV2/ Anglais renforce;1;0;0;0;0;0;0;0;0;5;0;9;5;5;10;0;0;0;0;5
+ Total ;1;0;0;0;0;0;0;0;0;5;0;9;5;5;10;0;0;0;0;5
 
 
 
 Didier Le Botlan
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Programmation fonctionnelle;0;0;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0
- TD : Programmation fonctionnelle;5;3;5;3;0;0;0;0;3;0;0;0;0;5;0;0;0;0;0;0
- Total ;5;3;5;3;0;0;0;0;3;0;0;0;5;5;0;0;0;0;0;0
+ CM : Programmation fonctionnelle;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0;0;0;0;0
+ TD : Programmation fonctionnelle;7;0;0;7;0;5;0;0;0;0;2;0;3;0;0;0;0;0;0;0
+ Total ;7;0;0;7;0;5;0;0;5;0;2;0;3;0;0;0;0;0;0;0
 
 
 
 Yannick Pencolé
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Logique et programmation logique;0;0;0;0;7;0;0;0;0;0;0;0;6;0;0;0;0;0;0;0
- TD : Logique et programmation logique;0;0;0;0;5;5;0;0;2;0;0;0;0;5;1;0;0;0;0;0
- Total ;0;0;0;0;12;5;0;0;2;0;0;0;6;5;1;0;0;0;0;0
+ CM : Logique et programmation logique;0;0;0;0;0;0;0;0;0;0;0;0;0;3;5;0;0;5;0;0
+ TD : Logique et programmation logique;0;4;0;0;5;1;0;0;0;0;5;1;2;0;0;0;0;0;0;0
+ Total ;0;4;0;0;5;1;0;0;0;0;5;1;2;3;5;0;0;5;0;0
 
 
 
 Mohamed Siala
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Algorithmique avancee;0;0;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0;0;0
- TD : Algorithmique avancee;3;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;3;6;0;0;0;0;0;0;0;0;5;0;0;0;0;0;0;0;0;0
+ CM : Algorithmique avancee;0;0;0;0;0;0;2;0;0;0;0;0;3;0;0;0;0;0;0;0
+ TD : Algorithmique avancee;3;3;0;0;0;0;0;3;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;3;3;0;0;0;0;2;3;0;0;0;0;3;0;0;0;0;0;0;0
 
 
 
 Laurent Dairaine
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Direction des systemes d information;0;0;0;0;0;0;8;0;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;0;0;0;0;0;0;8;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Direction des systemes d information;0;0;0;0;0;0;0;0;0;3;5;0;0;0;0;0;0;0;0;0
+ Total ;0;0;0;0;0;0;0;0;0;3;5;0;0;0;0;0;0;0;0;0
 
 
 
 Nawal Guermouche
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Modeles de Donnees et Systemes d information;8;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;8;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Modeles de Donnees et Systemes d information;0;0;0;0;0;0;0;5;0;5;0;0;0;1;0;0;0;0;0;0
+ Total ;0;0;0;0;0;0;0;5;0;5;0;0;0;1;0;0;0;0;0;0
 
 
 
 Vincent Mahout
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
  CM : Informatique materielle: microcontroleurs;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Informatique materielle: microcontroleurs;4;4;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;4;5;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Informatique materielle: microcontroleurs;0;0;0;0;0;4;0;4;4;0;0;0;0;0;0;0;0;0;0;0
+ Total ;0;1;0;0;0;4;0;4;4;0;0;0;0;0;0;0;0;0;0;0
 
 
 
 Slim Abdelatif
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Reseaux sans fil;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Reseaux sans fil;5;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
  TD : Reseaux sans fil;0;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Reseaux sans fil;0;4;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Interconnexion de reseaux;0;0;6;0;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Conception Orientee Objets;0;0;0;0;0;0;3;0;0;0;0;0;0;0;5;0;0;5;0;0
- Total ;6;4;12;0;0;6;3;0;0;0;0;0;0;0;5;0;0;5;0;0
+ TP : Reseaux sans fil;0;0;0;6;0;0;0;0;2;0;0;0;0;0;0;0;0;0;0;0
+ TP : Interconnexion de reseaux;0;0;2;4;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Conception Orientee Objets;0;0;0;2;0;0;0;5;0;0;0;0;0;5;0;0;0;1;0;0
+ Total ;5;1;4;12;6;0;0;5;2;0;0;0;0;5;0;0;0;1;0;0
 
 
 
 Daniela Dragomirescu
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Reseaux de mobiles;5;6;5;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Reseaux de mobiles;0;0;0;0;0;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Reseaux de mobiles;0;6;0;0;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;5;12;5;0;0;5;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Reseaux de mobiles;5;0;1;0;0;0;0;0;0;0;0;0;0;0;0;5;0;0;5;0
+ TD : Reseaux de mobiles;0;0;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Reseaux de mobiles;0;6;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;5;6;6;0;0;0;0;0;0;0;0;0;0;0;0;5;0;0;5;0
 
 
 
 Anne Nicolas
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Energie pour les systemes mobiles;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Energie pour les systemes mobiles;0;0;0;0;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0
  TP : Energie pour les systemes mobiles;0;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;4;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;0;0;2;0;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0
 
 
 
 Jean-Louis Noullet
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Codage voix et image pour réseaux mobiles;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Codage voix et image pour réseaux mobiles;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;2;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Codage voix et image pour réseaux mobiles;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Codage voix et image pour réseaux mobiles;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;0;2;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
 
 
 
 Alexandre Boyer
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Canaux bruites et codes correcteurs;5;0;3;0;0;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Canaux bruites et codes correcteurs;0;0;0;0;0;3;0;0;1;0;0;0;0;0;0;0;0;0;0;0
- CM : Antennes et modeles pour la transmission;7;0;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Canaux bruites et codes correcteurs;5;0;0;0;5;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Canaux bruites et codes correcteurs;0;0;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0
+ CM : Antennes et modeles pour la transmission;5;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;5;0;0
  TD : Antennes et modeles pour la transmission;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Antennes et modeles pour la transmission;0;0;0;0;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0
- Total ;12;1;6;0;0;6;0;0;5;0;0;0;0;0;0;0;0;0;0;0
+ TP : Antennes et modeles pour la transmission;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;10;1;0;4;5;0;5;0;0;0;0;0;0;0;0;0;0;5;0;0
 
 
 
 Pierre Pinel
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : Canaux bruites et codes correcteurs;5;0;3;0;0;3;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TD : Canaux bruites et codes correcteurs;0;0;0;0;0;3;0;0;1;0;0;0;0;0;0;0;0;0;0;0
- TD : Conception Orientee Objets;1;0;0;5;0;0;0;5;0;2;0;0;0;0;0;0;0;0;0;0
- TP : Programmation Orientee Objets;6;6;6;0;6;6;12;6;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;12;6;9;5;6;12;12;11;1;2;0;0;0;0;0;0;0;0;0;0
+ CM : Canaux bruites et codes correcteurs;5;0;0;0;5;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Canaux bruites et codes correcteurs;0;0;0;0;0;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Conception Orientee Objets;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;5;0;5;0;2
+ TP : Programmation Orientee Objets;6;6;6;6;6;6;0;6;0;0;0;0;6;0;0;0;0;0;0;0
+ Total ;12;6;6;6;11;6;5;6;0;0;0;0;6;0;0;5;0;5;0;2
 
 
 
 Pascal Acco
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- CM : BE Transmission;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : BE Transmission;0;6;0;0;6;0;0;6;2;0;0;0;0;0;0;0;0;0;0;0
- Total ;2;6;0;0;6;0;0;6;2;0;0;0;0;0;0;0;0;0;0;0
+ CM : BE Transmission;0;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : BE Transmission;0;6;0;0;6;6;2;0;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;0;6;2;0;6;6;2;0;0;0;0;0;0;0;0;0;0;0;0;0
 
 
 
 Eric Alata
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- TD : Securite informatique et dans l internet;4;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Securite informatique et dans l internet;0;8;4;0;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;4;10;4;0;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TD : Securite informatique et dans l internet;5;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Securite informatique et dans l internet;0;2;4;10;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;5;2;5;10;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
 
 
 
 Doctorant 1
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- TP : Programmation fonctionnelle;6;6;8;2;2;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
- TP : Logique et programmation logique;6;6;4;0;6;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;12;12;12;2;8;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Programmation fonctionnelle;6;2;10;0;2;0;4;0;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Logique et programmation logique;0;10;0;6;6;0;2;0;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;6;12;10;6;8;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0
 
 
 
 Doctorant 2
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- TD : Conception Orientee Objets;0;0;0;0;0;0;5;0;0;0;0;5;3;0;0;0;0;0;0;0
- TD : Modeles de Donnees et Systemes d information;4;5;0;0;0;2;0;0;0;0;0;3;5;5;5;10;5;5;0;2
- Total ;4;5;0;0;0;2;5;0;0;0;0;8;8;5;5;10;5;5;0;2
+ TD : Conception Orientee Objets;0;0;0;4;0;0;0;0;0;0;4;0;0;0;0;0;0;5;0;0
+ TD : Modeles de Donnees et Systemes d information;4;0;0;0;0;2;5;0;5;8;5;5;0;2;0;0;0;5;5;5
+ Total ;4;0;0;4;0;2;5;0;5;8;9;5;0;2;0;0;0;10;5;5
 
 
 
 Doctorant 3
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- TP : Informatique materielle: microcontroleurs;0;6;6;6;6;6;4;6;4;0;0;0;0;0;0;0;0;0;0;0
- Total ;0;6;6;6;6;6;4;6;4;0;0;0;0;0;0;0;0;0;0;0
+ TP : Informatique materielle: microcontroleurs;0;0;4;12;10;12;2;4;0;0;0;0;0;0;0;0;0;0;0;0
+ Total ;0;0;4;12;10;12;2;4;0;0;0;0;0;0;0;0;0;0;0;0
 
 
 
 Doctorant 4
 ;Semaine 1;Semaine 2;Semaine 3;Semaine 4;Semaine 5;Semaine 6;Semaine 7;Semaine 8;Semaine 9;Semaine 10;Semaine 11;Semaine 12;Semaine 13;Semaine 14;Semaine 15;Semaine 16;Semaine 17;Semaine 18;Semaine 19;Semaine 20
- TP : Informatique materielle: microcontroleurs;0;0;0;0;6;6;6;4;0;0;0;0;0;0;0;0;0;0;0;0
- Total ;0;0;0;0;6;6;6;4;0;0;0;0;0;0;0;0;0;0;0;0
+ TP : Informatique materielle: microcontroleurs;6;0;0;6;0;0;0;0;6;4;0;0;0;0;0;0;0;0;0;0
+ Total ;6;0;0;6;0;0;0;0;6;4;0;0;0;0;0;0;0;0;0;0
 
